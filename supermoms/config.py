@@ -6,7 +6,7 @@ from .utils.files import load_json
 from werkzeug.middleware.proxy_fix import ProxyFix 
 
 def configure_app(application):
-  keys = load_json(os.environ['SUPERMOMS_KEYS_FILE'])
+  keys = load_json(os.environ['TALENTMAKER_KEYS_FILE'])
   
   application.secret_key = keys['SECRET_KEY']
   
