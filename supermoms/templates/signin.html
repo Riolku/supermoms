@@ -1,0 +1,23 @@
+{%- extends 'layout.html' -%}
+
+{%- block content -%}
+  <h1>
+    Sign In
+  </h1>
+
+  <form method="post">
+    <div class="material-field-container material-input-container">
+      <input class="form-field standard-input-size" type="email" name="email" id="email" placeholder=" " value="{{ _email }}" required/>
+      <label class="material-field-container-label" for="email">Email</label>
+    </div>
+    <br />
+    <div class="material-field-container material-input-container">
+      <input class="form-field standard-input-size" type="password" name="password" id="password" placeholder=" " required />
+      <label class="material-field-container-label" for="password">Password</label>
+    </div>
+    <br /><br />
+    <input class="contained-button" type="submit" id="submit" value="Sign In" />
+  </form>
+  <br />
+  Don't have an account yet? <a href="/signup">Sign Up</a>
+{%- endblock -%}

@@ -1,0 +1,43 @@
+{%- extends 'layout.html' -%}
+
+{%- block content -%}
+  <h1>
+    Sign Up
+  </h1>
+
+  <form method="post">
+    <div class="material-field-container material-input-container">
+      <input class="form-field standard-input-size" type="text" name="name" id="name" placeholder=" " value="{{ _name }}" pattern=".*\S+.*" required title="This field is required" />
+      <label class="material-field-container-label" for="name">Name</label>
+    </div>
+    <br />
+    <div class="material-field-container material-input-container">
+      <input class="form-field standard-input-size" type="email" name="email" id="email" placeholder=" " value="{{ _email }}" pattern=".*\S+.*" required title="This field is required" />
+      <label class="material-field-container-label" for="email">Email</label>
+    </div>
+    <br />
+    <div class="material-field-container material-input-container">
+      <input class="form-field standard-input-size" type="password" name="password" id="password" placeholder=" " pattern=".{6,}" required title="Password must be at least 6 characters" />
+      <label class="material-field-container-label" for="password">Password</label>
+    </div>
+    <br />
+    <div class="material-field-container material-input-container">
+      <input class="form-field standard-input-size" type="password" name="rpassword" id="rpassword" placeholder=" " pattern=".{6,}" required title="Password must be at least 6 characters and match" />
+      <label class="material-field-container-label" for="rpassword">Repeat Password</label>
+    </div>
+    <br />
+    <div class="material-field-container material-input-container">
+      <input class="form-field standard-input-size" type="text" name="address" id="address" placeholder=" " value="{{ _address }}" pattern=".*\S+.*" required title="This field is required" />
+      <label class="material-field-container-label" for="address">Street Address</label>
+    </div>
+    <br />
+    <div class="material-field-container material-input-container">
+      <input class="form-field standard-input-size" type="text" name="postal" id="postal" placeholder=" " value="{{ _postal }}" pattern="[A-Za-z][0-9][A-Za-z]\s*[0-9][A-Za-z][0-9]" required title="This field is required. A1A1A1 or A1A 1A1." />
+      <label class="material-field-container-label" for="postal">Postal Code</label>
+    </div>
+    <br /><br />
+    <input class="contained-button" type="submit" id="submit" value="Sign Up" />
+  </form>
+  <br />
+  Already have an account? <a href="/signin">Sign In</a>
+{%- endblock -%}

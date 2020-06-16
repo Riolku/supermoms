@@ -1,0 +1,21 @@
+{%- extends 'layout.html' -%}
+
+{%- block content -%}
+
+<div>
+  <p>
+    Welcome to Carriage Crossing Pharmacy's Ordering website! 
+  </p>
+  
+  {%- if not user -%}
+    <p>
+      To start ordering, <a href="/signin">login</a> or <a href="/signup">signup</a>!
+    </p>
+  {%- else -%}
+    <p>
+      Welcome back! Click <a href="/order">here</a> or above in the navbar to start ordering!
+    </p>
+  {%- endif %}
+</div>
+
+{%- endblock -%}

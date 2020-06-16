@@ -1,0 +1,11 @@
+Good day,
+
+You recently asked for a link to login to your account on Carriage Crossing Pharmacy's website. 
+
+To login , click <a href="{url}">this link</a> or copy and paste this link into your browser:
+
+{url}
+
+If you did not request this email, you can safely ignore it.
+
+Have a great day!

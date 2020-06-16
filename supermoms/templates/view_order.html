@@ -1,0 +1,18 @@
+{%- extends 'layout.html' -%}
+
+{%- block content -%}
+  <h1>
+    Order by {{ name(order.uid) }}
+  </h1>
+  <h4>
+    {{ ft(order.time) }}, {{ [0, "In-Store", "Curb-side", "Drop-off"][order.otid] }}
+  </h4>
+  {%- for op, product in products -%}
+    <br />{{ product.name }} (QTY: {{ op.qty }})<br />
+  {%- endfor -%}
+  <hr />
+  <h5>
+    Notes:
+  </h5>
+  {{ order.notes }}
+{%- endblock -%}

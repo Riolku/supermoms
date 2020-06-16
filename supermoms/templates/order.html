@@ -1,0 +1,55 @@
+{%- extends 'layout.html' -%}
+
+{%- block header -%}
+  <script src="/static/js/order.js"></script>
+{%- endblock -%}
+
+{%- block content -%}
+  <h1>
+    Order Online
+  </h1>
+  <form method="post">
+    <table>
+      {%- for product in products -%}
+      <tr>
+        <td hidden><input id="value-{{ product.id }}" name="value-{{ product.id }}" type="number" value=0 /></td>
+        <td id="counter-{{ product.id }}" data-product-type="{{ product.ptid }}">0</td>
+        <td><button type="button" onclick="add({{ product.id }})" class="outlined-button">&nbsp;+&nbsp;</button></td>
+        <td><button type="button" onclick="rm({{ product.id }})" class="outlined-button">&nbsp;-&nbsp;</button></td>
+        <td>&nbsp;&nbsp;{{ product.name }}</td>
+        <td>&nbsp;<span style="color:#aaa">({{ product.desc }})</span>
+        {%- if product.ptid == 1 -%}
+          &nbsp;*
+        {%- endif -%}
+        </td>
+      {%- endfor -%}
+    </table>
+    <br />
+    * Services are only available on-site, and have a maximum value of 1
+    <br /><br />
+    <input type="radio" id="site" name="location" value="1" required />&nbsp;<label for="site">On-Site</label><br />
+    <input type="radio" id="curb" name="location" value="2" required />&nbsp;<label for="curb">Curb-side pickup</label><br />
+    <input type="radio" id="drop" name="location" value="3" required />&nbsp;<label for="drop">Drop-off at address</label><br />
+    <br />
+    <input type="radio" id="card" name="payment" value="card" required />&nbsp;<label for="card">Credit/Debit</label><br />
+    <input type="radio" id="etransfer" name="payment" value="etransfer" required />&nbsp;<label for="etransfer">E-Transfer</label><br />
+    <br />
+    <input id="date" name="date" type="date" required style="height:40px" />
+    <select id="time" name="time" required style="height:40px">
+      <option id="time-blank" value="" selected hidden disabled>Time</option>
+      {%- for x in range(9, 20) -%}
+        <option id="time-{{ x }}.0" value="{{ x }}.0">{{ x }}:00</option>
+        <option id="time-{{ x }}.5" value="{{ x }}.5">{{ x }}:30</option>
+      {%- endfor -%}
+    </select>
+    <br /><br />
+    Business hours are 9AM - 6PM on Monday, Wednesday, and Friday, 9AM - 8PM on Tuesday and Thursday, 9AM - 3PM on Saturday, and closed on Sunday.
+    <br /><br />
+    <div class="material-field-container material-textbox-container">
+      <textarea class="form-field large-textbox" type="text" name="notes" id="notes" placeholder=" "></textarea>
+      <label class="material-field-container-label" for="notes">Notes</label>
+    </div>
+    <br />
+    <input class="contained-button" type="submit" id="submit" value="Order" />
+  </form>
+{%- endblock -%}

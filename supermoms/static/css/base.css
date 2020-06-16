@@ -1,0 +1,445 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
+* {
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+a, a:hover, a:active {
+  text-decoration: none;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin: 0 0 3em 0;
+  background-color: #eee;
+}
+
+header.announcement {
+  text-align: center;
+  background-color: #333;
+  color: #f3f3f3;
+  font-family: 'Baloo Tammudu 2', sans-serif;
+  font-size: 120%;
+  
+  padding-top: 0.5em;
+}
+
+#top-spacing-container {
+  height: 59px;
+}
+
+#container {
+  padding: 10px 25px;
+  background-color: #eee;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 110%;
+  min-height: 100%;
+}
+
+#topcontainer {
+  background-color: #fff8;
+  color: #111;
+}
+
+#navbar {
+  z-index: 1000;
+  position: absolute;
+  overflow: hidden;
+  background-color: #fff8;
+  color: #111;
+  width: 100%;
+}
+
+#navbar.sticky {
+  position: fixed;
+  top: 0;
+  background-color: #f3f3f3;
+  color: #111;
+  
+  transition: background-color 0.2s, color 0.2s;
+}
+
+#navbar a {
+  float: left;
+  display: block;
+  text-align: center;
+  padding: 15px 20px 10px 20px;
+  text-decoration: none;
+  color: inherit;
+  
+  font-size: 120%;
+}
+
+#navbar a.right {
+  float: right;
+}
+
+#navbar a:not(.selected) {
+  padding-bottom: 15px;
+}
+
+#navbar:not(.sticky) a:hover {
+  background-color: #9992;
+}
+
+#navbar.sticky a:hover {
+  background-color: #ccc;
+}
+
+#navbar:not(.sticky) a:active {
+  background-color: #9994;
+}
+
+#navbar.sticky a:active {
+  background-color: #bbb;
+}
+
+#navbar a.selected {
+  border-bottom: 5px solid #999;
+}
+
+#navbar.sticky + #container {
+  padding-top: 60px;
+}
+
+#content-container {
+  padding: 30px 20px;
+}
+
+.vdiv {
+  width: 0;
+  padding-left: 10px;
+}
+
+hr#footer-separator {
+  width: calc(100% - 50px);
+}
+
+div#endnote {
+  font-size: 90%;
+  width: 100%;
+  height: 2em;
+  margin: 0;
+  padding-bottom: 3vh;
+  font-family: 'Roboto Condensed', sans-serif;
+  position: absolute;
+  vertical-align: bottom;
+  bottom: 0;
+}
+
+div#endnote span {
+  margin-left: 25px;
+}
+
+::placeholder {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+input {
+  font-family: 'Roboto Condensed', sans-serif;
+  background-color: #eee;
+}
+
+.flash {
+  margin: 25px;
+  padding-top: 1em;
+  border-radius: 5px;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.flash.error {
+  border: 1px solid red;
+  background-color: #f88;
+}
+
+.flash.info {
+  border: 1px solid #777;
+  background-color: #bbb;
+}
+
+.flash.success {
+  border: 1px solid #0a0;
+  background-color: #8c8;
+}
+
+:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 50px #fff0 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+[readonly] {
+  background-color: #ddd;
+  color: #888;
+}
+
+input,
+select,
+textarea {
+  border-radius: 3px;
+  font-size: 100%;
+  font-family: 'Roboto Condensed', sans-serif;
+  margin: 2px;
+  outline: none;
+  padding: 3px 8px;
+  resize: none;
+  background-color: #eee;
+  border: 1px solid #111;
+  color: #111;
+}
+
+textarea.large-textbox {
+  width: 100%;
+  height: 12em;
+}
+
+textarea.large-textbox:focus:not([readonly]) {
+  border: 1px solid #88f;
+}
+
+.material-field-container>input {
+  border: none;
+  border-bottom: 1px solid #888;
+  border-radius: 5px 5px 0 0;
+  margin-bottom: 1px;
+}
+
+.material-field-container>label {
+  cursor: text;
+}
+
+.material-field-container>input:focus:not([readonly]) {
+  border-bottom: 2px solid #88f;
+  margin-bottom: 0;
+}
+
+.material-field-container {
+  position: relative;
+  display: flex;
+}
+
+.material-input-container {
+  display: inline-block;
+}
+
+.material-field-container>label.material-field-container-label {
+  font-family: 'Roboto Condensed', sans-serif;
+  text-transform: uppercase;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  left: 1em;
+  color: #888;
+}
+
+.material-field-container>:not(label):focus:not([readonly])+label.material-field-container-label {
+  color: #33c;
+}
+
+.material-input-container>label.material-field-container-label {
+  transition: top .25s, font-size .25s;
+  top: 2em;
+  font-size: 80%;
+}
+
+.material-textbox-container>label.material-field-container-label {
+  transition: top .25s, font-size .25s;
+  top: 1.5em;
+  font-size: 80%;
+}
+
+.material-input-container>:not(label):focus:not([readonly])+label.material-field-container-label,
+.material-input-container>:not(label):not(:placeholder-shown)+label.material-field-container-label {
+  transition: top .25s, font-size .25s;
+  top: 1em;
+  font-size: 60%;
+}
+
+.material-textbox-container>:not(label):focus:not([readonly])+label.material-field-container-label,
+.material-textbox-container>:not(label):not(:placeholder-shown)+label.material-field-container-label {
+  transition: top .25s, font-size .25s;
+  top: 1em;
+  font-size: 60%;
+}
+
+.material-field-container>:not(label) {
+  padding-top: 1.5em;
+}
+
+.medium-input-size {
+  width: 10vw;
+}
+
+.small-input-size {
+  width: 6vw;
+}
+
+.standard-input-size {
+  width: 33vw;
+}
+
+a {
+  text-decoration: none;
+  color: #33f;
+}
+
+a[disabled] {
+  pointer-events: none;
+  color: #555;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #00f;
+}
+
+a.page-num {
+  font-size: 90%;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+a.unstyled-link:hover {
+  text-decoration: none;
+}
+
+button,
+.button-link,
+input[type=submit] {
+  border-radius: 5px;
+  border: none;
+  font-size: 80%;
+  font-family: 'Source Code Pro', monospace;
+  margin: 2px;
+  outline: none;
+  padding: 10px;
+  text-align: center;
+}
+
+.button-link:hover {
+  text-decoration: inherit;
+}
+
+button *,
+.button-link * {}
+
+.contained-button {
+  background-color: #33f;
+  color: #fff;
+}
+
+.contained-button[disabled] {
+  background-color: #ccc;
+  color: #888;
+}
+
+.contained-button.shadowed {
+  box-shadow: 1px 1px 3px #333;
+}
+
+.contained-button:not([disabled]):not(.no-hover):hover {
+  background-color: #55f;
+}
+
+.contained-button:not([disabled]):not(.no-active):active {
+  background-color: #66f;
+}
+
+.login-button {
+  padding: 0 10px;
+  margin: 0;
+  font-size: 3em;
+}
+
+.text-button,
+.outlined-button {
+  background: 0 0;
+  color: #33c;
+  font-weight: 700;
+}
+
+.text-button[disabled],
+.outlined-button[disabled] {
+  color: #888;
+}
+
+input.outlined-button,
+button.outlined-button,
+.button-link.outlined-button {
+  border: 1px solid #888;
+}
+
+.text-button:not([disabled]):not(.no-active):hover,
+.outlined-button:not([disabled]):not(.no-active):hover {
+  background-color: #8882;
+}
+
+.text-button:not([disabled]):not(.no-active):active,
+.outlined-button:not([disabled]):not(.no-active):active {
+  background-color: #8883;
+}
+
+.toggle-button {
+  font-size: 80%;
+  font-weight: 400;
+  padding: 5px 12px;
+  background-color: #555;
+  color: #fff;
+}
+
+.toggle-button:hover {
+  background-color: #666;
+  color: #fff;
+}
+
+.toggle-button:active {
+  background-color: #777;
+  color: #fff;
+}
+
+.toggle-button--active,
+.toggle-button--active:hover,
+.toggle-button--active:active {
+  background-color: #77d;
+}
+
+.toggle-button--disabled,
+.toggle-button--disabled:hover,
+.toggle-button--disabled:active {
+  cursor: default;
+  background-color: #555;
+  color: #bbb;
+}
+
+.toggle-button:first-child {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.toggle-button:last-child {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.toggle-button:not(:first-child) {
+  border-left: 1px solid #999;
+}
+
+.card-link, .card-link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-card {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+}

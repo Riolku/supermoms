@@ -1,0 +1,11 @@
+Good day,
+
+You recently asked to signup for an account on Carriage Crossing Pharmacy's website. 
+
+To confirm your registration with this email, click <a href="{url}">this link</a> or copy and paste this link into your browser:
+
+{url}
+
+If you did not request this email, please ignore it.
+
+Have a great day!

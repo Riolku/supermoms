@@ -1,0 +1,20 @@
+{%- extends 'layout.html' -%}
+
+{%- block content -%}
+  <h1>
+    Products &amp; Services
+  </h1>
+  <br />
+
+  {%- for product in products -%}
+    <a href="/product/{{ product.id }}" class="card-link">
+      <div class="product-card">
+        <h3>
+          {{ product.name }}
+        </h3>
+
+        {{ product.desc }}
+      </div>
+    </a>
+  {%- endfor -%}
+{%- endblock -%}
