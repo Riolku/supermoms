@@ -1,18 +1,18 @@
 import threading
 
-from pharmacy import mail_app
+from supermoms import mail_app
 
-from pharmacy.utils.files import load_file
+from supermoms.utils.files import load_file
 
 EMAILS = dict(
   login = dict(
-    subject = "Login link for Carriage Crossing Pharmacy Website",
-    body = load_file("pharmacy/mail/templates/login.txt")
+    subject = "Login link for Super Moms Club Website",
+    body = load_file("supermoms/mail/templates/login.txt")
   ),
   
   signup = dict(
-    subject = "Signup link for Carriage Crossing Pharmacy Website",
-    body = load_file("pharmacy/mail/templates/signup.txt")
+    subject = "Signup link for Super Moms Club Website",
+    body = load_file("supermoms/mail/templates/signup.txt")
   )
 )
 

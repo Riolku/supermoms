@@ -1,4 +1,4 @@
-from pharmacy import db
+from supermoms import db
 
 dbint = db.Integer
 dbfloat = db.Float

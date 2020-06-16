@@ -1,4 +1,4 @@
-from pharmacy import db
+from supermoms import db
 
 from .aliases import *
 from .helper import Helper

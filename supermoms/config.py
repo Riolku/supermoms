@@ -21,7 +21,7 @@ def configure_app(application):
     
     TRAP_BAD_REQUEST_ERRORS = True,
     
-    SERVER_NAME = "supermoms.kgugeler.ca",
+    SERVER_NAME = keys['SERVER_NAME'],
     
     MAIL_SERVER = keys["MAIL_SERVER"],
     MAIL_USE_TLS = True,
@@ -34,7 +34,7 @@ def configure_app(application):
   )
   
   if app_config['ALT_PORT']:
-    app_config['SERVER_NAME'] = "supermoms2.kgugeler.ca"
+    app_config['SERVER_NAME'] = keys['ALT_SERVER_NAME']
   
   application.config.update(app_config)
   

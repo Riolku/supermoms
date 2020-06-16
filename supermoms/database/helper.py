@@ -1,4 +1,4 @@
-from pharmacy import db
+from supermoms import db
 
 # Helper mixin for database classes
 

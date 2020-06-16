@@ -1,7 +1,7 @@
-from pharmacy import app
+from supermoms import app
 
-from pharmacy.database.users import Users
-from pharmacy.utils.time import get_time
+from supermoms.database.users import Users
+from supermoms.utils.time import get_time
 
 from flask import request, session
 

@@ -1,6 +1,6 @@
 import jwt
 
-from pharmacy import app
+from supermoms import app
 
 def make_jwt(payload):
   try:

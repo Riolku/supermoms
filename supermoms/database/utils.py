@@ -1,4 +1,4 @@
-from pharmacy import db
+from supermoms import db
 
 def db_commit():
   db.session.commit()
