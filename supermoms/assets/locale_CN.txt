@@ -1,0 +1,12 @@
+home 主页
+about 信息
+shop 商店
+signin 登入
+signup 注册
+firstname 名字
+lastname 姓
+username 用户名
+email 电子邮件地址
+invalid_email 请输入有效的电子邮件地址
+password 密码
+rpassword 重复输入密码

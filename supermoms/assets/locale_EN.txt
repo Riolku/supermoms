@@ -1,0 +1,12 @@
+home Home
+about About
+shop Shop
+signin Sign In
+signup Sign Up
+firstname First Name
+lastname Last Name
+username Username
+email Email
+invalid_email Please enter a valid email address!
+password Password
+rpassword Repeat Password
