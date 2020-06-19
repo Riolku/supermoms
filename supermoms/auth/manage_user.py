@@ -36,7 +36,7 @@ def resolve_user():
       user_manager.user = u
 
 def is_session_fresh():
-  assert user is not None
+  assert user is not None, "You must have an active user to call is_session_fresh"
   
   if session['user']['time'] + 60 * 60 > get_time():
     return True
@@ -44,7 +44,7 @@ def is_session_fresh():
   return False
 
 def refresh_user(u):
-  assert user is not None
+  assert user is not None, "You must have an active user to call refresh_user"
   
   session['user']['time'] = get_time()
 
