@@ -1,6 +1,6 @@
 from supermoms import app
 
-from supermoms.auth.manage_user import user
+from supermoms.auth.manage_user import user, is_session_fresh
 from supermoms.utils.time import get_time
 
 from flask import request
@@ -21,6 +21,6 @@ def debug():
   
   print(request.headers)
   
-#@app.route("/")
+@app.route("/test")
 def test_index():
-  return "HI"
+  return str(is_session_fresh())

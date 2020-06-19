@@ -44,6 +44,11 @@ def is_session_fresh():
   
   return False
 
+def refresh_user(u):
+  assert user is not None
+  
+  session['user']['time'] = get_time()
+
 def login_user(u):
   user_manager.user = u
   
