@@ -19,11 +19,11 @@ def resolve_user():
   
   user_manager.user = None
   
-  user = session.get("user")
+  user_d = session.get("user")
 
-  if user is None: return
+  if user_d is None: return
 
-  uid = user.get("id")
+  uid = user_d.get("id")
 
   if uid is None: return
 
@@ -32,9 +32,21 @@ def resolve_user():
   if u is None: return
 
   if u:
-    if user['time'] + 60 * 60 * 24 > get_time():
+    if user_d['time'] + 7 * 60 * 60 * 24 > get_time():
       user_manager.user = u
 
+def is_session_fresh():
+  assert user is not None, "You must have an active user to call is_session_fresh"
+  
+  if session['user']['time'] + 60 * 60 > get_time():
+    return True
+  
+  return False
+
+def refresh_user(u):
+  assert user is not None, "You must have an active user to call refresh_user"
+  
+  session['user']['time'] = get_time()
 
 def login_user(u):
   user_manager.user = u
