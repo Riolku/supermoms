@@ -36,8 +36,7 @@ def resolve_user():
       user_manager.user = u
 
 def is_session_fresh():
-  if not user:
-    return None
+  assert user is not None
   
   if session['user']['time'] + 60 * 60 > get_time():
     return True
