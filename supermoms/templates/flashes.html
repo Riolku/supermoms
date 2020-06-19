@@ -1,0 +1,17 @@
+<br />
+
+{%- block flashes -%}
+{%- for category, mtc in [("error", "red lighten-2"), ("info", "grey lighten-1"), ("success", "green lighten-2")] -%}
+{%- with messages = get_flashed_messages(category_filter = [category]) -%}
+{%- if messages -%}
+<div class="{{ mtc }}" style="padding:2px 10px;margin:10px 0;border-radius:5px">
+  <ul>
+    {%- for message in messages -%}
+    <li>{{ message }}</li>
+    {%- endfor -%}
+  </ul>
+</div>
+{%- endif -%}
+{%- endwith -%}
+{%- endfor -%}
+{%- endblock -%}

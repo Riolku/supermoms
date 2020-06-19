@@ -1,0 +1,45 @@
+{%- extends 'layout.html' -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  {%- include 'flashes.html' -%}
+  
+  <h2 class="header pink-text text-darken-1">
+    {{ locale["signin"] }}
+  </h2>
+  
+  <div class="row">
+    <form class="col s12" method="post">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="email" name="email" type="email" class="validate" required value="{{ __field_email }}" />
+          <label for="email">{{ locale["email"] }}</label>
+          <span class="helper-text" data-error="{{ locale['invalid_email'] }}"></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="password" name="password" type="password" class="validate" required minlength=8 />
+          <label for="password">{{ locale["password"] }}</label>
+        </div>
+      </div>
+      
+      <button class="btn pink lighten-2 waves-effect" type="submit" name="action">
+        {{ locale["signin"] }}
+      </button>
+      
+      &nbsp;&nbsp;&nbsp;
+      
+      <span class="pink-text text-darken-1">{{ locale["signup_crosslink_label"] }} <a href="/signup?next={{ query.get('next', '/') }}">{{ locale["signup_crosslink"] }}</a></span>
+    </form>
+  </div>
+</div>
+
+{%- endblock -%}

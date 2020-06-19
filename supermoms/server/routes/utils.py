@@ -1,3 +1,6 @@
+import urllib
+from markupsafe import Markup
+
 from supermoms import app
 
 from supermoms.auth.manage_user import user
@@ -12,6 +15,14 @@ def context_processor():
     user = user,
     get_time = get_time
   )
+
+@app.template_filter("urlencode")
+def urlencode_filter(s):
+  if type(s) == "Markup":
+    s = s.unescape()
+  s = s.encode("utf-8")
+  s = urllib.parse.quote_plus(s)
+  return Markup(s)
 
 #@app.before_request
 def debug():

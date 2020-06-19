@@ -1,3 +1,8 @@
+<ul id="user-dropdown" class="dropdown-content">
+  <li><a href="/edit-profile">{{ locale["edit_profile"] }}</a></li>
+  <li><a href="/signout?next={{ path | urlencode }}">{{ locale["signout"] }}</a></li>
+</ul>
+
 <div class="navbar-fixed">
   <nav class="pink lighten-2">
     <div class="nav-wrapper">
@@ -8,8 +13,12 @@
         <li><a href="#!" onclick="setlang('CN');">中文</a></li>
         {%- endif -%}
         <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-        <li><a href="/signin">{{ locale["signin"] }}</a></li>
-        <li><a href="/signup">{{ locale["signup"] }}</a></li>
+        {%- if user -%}
+        <li><a class="dropdown-trigger" href="#!" data-target="user-dropdown">{{ locale["welcome_back"].replace("_", user.name) }} <i class="material-icons right">arrow_drop_down</i></a></li>
+        {%- else -%}
+        <li><a href="/signin?next={{ path }}">{{ locale["signin"] }}</a></li>
+        <li><a href="/signup?next={{ path }}">{{ locale["signup"] }}</a></li>
+        {%- endif -%}
       </ul>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="hide-on-med-and-down">
@@ -25,8 +34,15 @@
   <li><a href="/">{{ locale["home"] }}</a></li>
   <li><a href="/about">{{ locale["about"] }}</a></li>
   <li><a href="/shop">{{ locale["shop"] }}</a></li>
-  <li><a href="/signin">{{ locale["signin"] }}</a></li>
-  <li><a href="/signup">{{ locale["signup"] }}</a></li>
+  <li class="divider"></li>
+  {%- if user -%}
+  <li><a href="/edit-profile">{{ locale["edit_profile"] }}</a></li>
+  <li><a href="/signout?next={{ path }}">{{ locale["signout"] }}</a></li>
+  {%- else -%}
+  <li><a href="/signin?next={{ path }}">{{ locale["signin"] }}</a></li>
+  <li><a href="/signup?next={{ path }}">{{ locale["signup"] }}</a></li>
+  {%- endif -%}
+  <li class="divider"></li>
   {%- if lang == "CN" -%}
   <li><a href="#!" onclick="setlang('EN');">EN</a></li>
   {%- else -%}

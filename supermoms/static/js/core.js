@@ -18,6 +18,11 @@ function getlang() {
   }
 }
 
-window.onload = function() {
+$(document).ready(function() {
+  M.AutoInit();
   setlang(getlang() || "EN", true);
-}
+  $(".dropdown-trigger").dropdown({
+    hover: false,
+    coverTrigger: false
+  });
+});

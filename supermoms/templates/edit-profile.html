@@ -12,7 +12,7 @@
   {%- include 'flashes.html' -%}
   
   <h2 class="header pink-text text-darken-1">
-    {{ locale["signup"] }}
+    {{ locale["edit_profile"] }}
   </h2>
   
   <div class="row">
@@ -28,11 +28,11 @@
           <span class="helper-text" data-error="{{ locale['invalid_email'] }}"></span>
         </div>
         <div class="input-field col s12 m6 l6">
-          <input id="password" name="password" type="password" class="validate" required minlength=8 />
+          <input id="password" name="password" type="password" class="validate" minlength=8 />
           <label for="password">{{ locale["password"] }}</label>
         </div>
         <div class="input-field col s12 m6 l6">
-          <input id="rpassword" name="rpassword" type="password" class="validate" required minlength=8 />
+          <input id="rpassword" name="rpassword" type="password" class="validate" minlength=8 />
           <label for="rpassword">{{ locale["rpassword"] }}</label>
         </div>
       </div>
@@ -41,7 +41,7 @@
       </h5>
       <div class="row">
         <div class="input-field col s12 m6 l6">
-          <input id="card" name="card" type="number" class="validate" value="{{ __field_card }}" max="9999999999999999" />
+          <input id="card" name="card" type="number" class="validate" max="9999999999999999" />
           <label for="card">{{ locale["card"] }}</label>
         </div>
         <div class="input-field col s6 m3 l3">
@@ -55,12 +55,8 @@
       </div>
       
       <button class="btn pink lighten-2 waves-effect" type="submit" name="action">
-        {{ locale["signup"] }}
+        {{ locale["save"] }}
       </button>
-      
-      &nbsp;&nbsp;&nbsp;
-      
-      <span class="pink-text text-darken-1">{{ locale["signin_crosslink_label"] }} <a href="/signin?next={{ query.get('next', '/') }}">{{ locale["signin_crosslink"] }}</a></span>
     </form>
   </div>
 </div>

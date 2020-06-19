@@ -15,19 +15,20 @@ class Users(dbmodel, Helper):
 
   admin = dbcol(dbbool, nullable = False, default = False)
   
-  card_num = dbcol(dbstr(64), nullable = False)
-  cvv = dbcol(dbstr(16), nullable = False)
+  card_num = dbcol(dbstr(64), nullable = False, default = "")
+  cvv = dbcol(dbstr(16), nullable = False, default = "")
+  postal = dbcol(dbstr(16), nullable = False, default = "")
   
   salt = dbcol(dbbinary, nullable = False)
   pass_hash = dbcol(dbbinary, nullable = False)
   
-  # Create a new user with the specified name, email, password, address & postal_code
-  def create(name, email, password, card_num, cvv):
+  # Create a new user with the specified name, email, password, credit card number, and CVV
+  def create(name, email, password, card_num, cvv, postal):
     s = urandom(16)
     
     ph = argon2.argon2_hash(password, s)
     
-    Users.add(name = name, email = email, salt = s, pass_hash = ph, card_num = card_num, cvv = cvv)
+    return Users.add(name = name, email = email, salt = s, pass_hash = ph, card_num = card_num, cvv = cvv, postal = postal)
     
   # Hash the password with the user's salt
   def hash(self, pword):
