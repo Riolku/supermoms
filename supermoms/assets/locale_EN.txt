@@ -1,10 +1,20 @@
 home Home
 about About
 shop Shop
+tos Terms of Service
+privacy Privacy Policy
 signin Sign In
+forgot_password Forgot your password?
+email_signin Sign in with your email
+send_email Send Email
+sent_email_if_exist If a user exists with this email address, we've sent an email!
+sensitive_info You are about to access sensitive information
 signup_crosslink_label Don't have an account yet?
 signup_crosslink Sign up for an account now!
 signup Sign Up
+signup_email_sent Sent sign-up email!
+agree I agree to the
+and and
 signin_crosslink_label Already have an account?
 signin_crosslink Sign in here!
 signout Sign Out
@@ -16,6 +26,7 @@ name Full Name
 enter_nonempty_name Please enter your name!
 email Email
 password Password
+password_change Password (leave blank to keep current password)
 rpassword Repeat Password
 payment_info Payment Information (Optional)
 card Credit Card Number
@@ -27,3 +38,9 @@ invalid_email Please enter a valid email address!
 email_taken This email address is already in use!
 invalid_postal Please enter a valid postal code (e.g. X5T 7Y4)!
 save Save
+updated_profile Updated profile!
+email_lang_alert Email will be sent in English. 电子邮件会用英文发。
+signin_link_fail Email sign in link failed for unknown reasons; please try again. If this issue persists, please contact the administrators.
+signin_link_exp Email sign in link expired; please try again.
+signin_link_no_user Target user for this sign in link does not exist. This issue should not happen. Please contact the administrators.
+signin_link_email_changed This sign-in link is invalid because the user's email address changed.

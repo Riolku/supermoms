@@ -4,6 +4,7 @@ import argon2
 
 from .aliases import *
 from .helper import Helper
+from .utils import db_commit
 
 from os import urandom
 
@@ -50,7 +51,7 @@ class Users(dbmodel, Helper):
     return u
   
   # Update a user object
-  def update(self, email = None, name = None, password = None, card_num = None, cvv = None):
+  def update(self, email = None, name = None, password = None, card_num = None, cvv = None, postal = None):
     if email is not None:
       self.email = email
       
@@ -65,5 +66,10 @@ class Users(dbmodel, Helper):
       
     if cvv is not None:
       self.cvv = cvv
+      
+    if postal is not None:
+      self.postal = postal
+    
+    db_commit()
   
   __tablename__ = "users"

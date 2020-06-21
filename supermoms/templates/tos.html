@@ -1,0 +1,46 @@
+{%- extends 'layout.html' -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  {%- include 'flashes.html' -%}
+  
+  <h2 class="header pink-text text-darken-1">
+    {{ locale["tos"] }}
+  </h2>
+  
+  <p class="pink-text text-lighten-2">
+    {%- if lang == "CN" -%}
+    通过使用Super Moms Club的网站，您接受和同意尊重这个协议的条款。另外，您同意遵守全部这个网站的服务的规则和指导方针，包括可以随便改的。从而，所有这些规则和指导方针自动包括在这些条款和条件里。
+    {%- else -%}
+    By using any part of Super Moms Club's website, you accept and agree to be bound by the terms of this agreement. Additionally, you agree to obey any and all rules and/or guidelines set when using any services of this website, including those that may be changed arbitrarily. Thus, all such rules and/or guidelines are incorporated into the Terms of Service through this reference.
+    {%- endif -%}
+  </p>
+  
+  <p class="pink-text text-lighten-2">
+    <b>
+    {%- if lang == "CN" -%}
+    全部参与在这个网站上暗示您同意遵守这个文件的条件。如果您不同意遵守这些规则，我们请您不用这个网站的服务。
+    {%- else -%}
+    Any and all participation in this website implies acceptance of the terms of this document. If you do not accept or agree to abide by the rules and guidelines of this document, we ask you to please refrain from using the services of this website.
+    {%- endif -%}
+    </b>
+  </p>
+  
+  <p class="pink-text text-lighten-2">
+    {%- if lang == "CN" -%}
+    我们尊重每个人的知识产权。我们认为每个人的劳工应该只和全归因于它的创作者。我们的政策是全部使用者创造的材料只是用者的然后Super Moms Club的网站只是一个材料平台。如果您认为您的权利没有被尊重，请在alex.yj.liao(at)gmail.com联系我们。
+    {%- else -%}
+    We respect the intellectual property rights of everyone and believe that the products of one's own labor should be solely and entirely attributed to the creator. Our policy is that all content created and posted by users belongs solely to the user and Super Moms Club's website is only a platform for content. If you believe that any of your rights have not been respected, please report it to us at alex.yj.liao(at)gmail.com.
+    {%- endif -%}
+    <br /><br />
+  </p>
+</div>
+
+{%- endblock -%}

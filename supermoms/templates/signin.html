@@ -11,9 +11,17 @@
 <div class="container">
   {%- include 'flashes.html' -%}
   
-  <h2 class="header pink-text text-darken-1">
-    {{ locale["signin"] }}
-  </h2>
+  <div class="row">
+    <div class="col s12">
+      <h2 class="header pink-text text-darken-1">
+        {{ locale["signin"] }}
+      </h2>
+      {%- if query.get("redir") == "no" -%}
+      <span class="pink-text text-lighten-3">{{ locale["sensitive_info"] }}</span>
+      <br /><br />
+      {%- endif -%}
+    </div>
+  </div>
   
   <div class="row">
     <form class="col s12" method="post">
@@ -30,14 +38,22 @@
           <label for="password">{{ locale["password"] }}</label>
         </div>
       </div>
-      
-      <button class="btn pink lighten-2 waves-effect" type="submit" name="action">
-        {{ locale["signin"] }}
-      </button>
-      
-      &nbsp;&nbsp;&nbsp;
-      
-      <span class="pink-text text-darken-1">{{ locale["signup_crosslink_label"] }} <a href="/signup?next={{ query.get('next', '/') }}">{{ locale["signup_crosslink"] }}</a></span>
+      <div class="row">
+        <div class="col s12">
+          <span class="grey-text">{{ locale["forgot_password"] }} <a href="/email-signin">{{ locale["email_signin"] }}</a></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <button class="btn pink lighten-2 waves-effect" type="submit" name="action">
+            {{ locale["signin"] }}
+          </button>
+          {%- if query.get("redir") != "no" -%}
+          &nbsp;&nbsp;&nbsp;
+          <span class="grey-text">{{ locale["signup_crosslink_label"] }} <a href="/signup?next={{ query.get('next', '/') }}" class="pink-text text-darken-2">{{ locale["signup_crosslink"] }}</a></span>
+          {%- endif -%}
+        </div>
+      </div>
     </form>
   </div>
 </div>

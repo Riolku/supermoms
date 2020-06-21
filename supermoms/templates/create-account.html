@@ -11,9 +11,13 @@
 <div class="container">
   {%- include 'flashes.html' -%}
   
-  <h2 class="header pink-text text-darken-1">
-    {{ locale["edit_profile"] }}
-  </h2>
+  <div class="row">
+    <div class="col s12">
+      <h2 class="header pink-text text-darken-1">
+        {{ locale["signup"] }}
+      </h2>
+    </div>
+  </div>
   
   <div class="row">
     <form class="col s12" method="post">
@@ -23,16 +27,16 @@
           <label for="name">{{ locale["name"] }}</label>
         </div>
         <div class="input-field col s12">
-          <input id="email" name="email" type="email" class="validate" required value="{{ __field_email }}" />
+          <input id="email" name="email" type="email" class="validate" required disabled value="{{ __field_email }}" />
           <label for="email">{{ locale["email"] }}</label>
           <span class="helper-text" data-error="{{ locale['invalid_email'] }}"></span>
         </div>
         <div class="input-field col s12 m6 l6">
-          <input id="password" name="password" type="password" class="validate" minlength=8 />
-          <label for="password">{{ locale["password_change"] }}</label>
+          <input id="password" name="password" type="password" class="validate" required minlength=8 />
+          <label for="password">{{ locale["password"] }}</label>
         </div>
         <div class="input-field col s12 m6 l6">
-          <input id="rpassword" name="rpassword" type="password" class="validate" minlength=8 />
+          <input id="rpassword" name="rpassword" type="password" class="validate" required minlength=8 />
           <label for="rpassword">{{ locale["rpassword"] }}</label>
         </div>
       </div>
@@ -41,22 +45,27 @@
       </h5>
       <div class="row">
         <div class="input-field col s12 m6 l6">
-          <input id="card" name="card" type="number" class="validate" max="9999999999999999" value="{{ __field_card }}" />
+          <input id="card" name="card" type="number" class="validate" value="{{ __field_card }}" max="9999999999999999" />
           <label for="card">{{ locale["card"] }}</label>
         </div>
         <div class="input-field col s6 m3 l3">
-          <input id="cvv" name="cvv" type="number" class="validate" max="9999" value="{{ __field_cvv }}" />
+          <input id="cvv" name="cvv" type="number" class="validate" max="9999" />
           <label for="cvv">{{ locale["cvv"] }}</label>
         </div>
         <div class="input-field col s6 m3 l3">
-          <input id="postal" name="postal" type="text" class="validate" pattern="[A-Za-z][0-9][A-Za-z] ?[0-9][A-Za-z][0-9]" title="{{ locale['invalid_postal'] }}" value="{{ __field_postal }}" />
+          <input id="postal" name="postal" type="text" class="validate" pattern="[A-Za-z][0-9][A-Za-z] ?[0-9][A-Za-z][0-9]" title="{{ locale['invalid_postal'] }}" />
           <label for="postal">{{ locale["postal"] }}</label>
         </div>
       </div>
-      
-      <button class="btn pink lighten-2 waves-effect" type="submit" name="action">
-        {{ locale["save"] }}
-      </button>
+      <div class="row">
+        <div class="col s12">
+          <button class="btn pink lighten-2 waves-effect" type="submit" name="action">
+            {{ locale["signup"] }}
+          </button>
+          &nbsp;&nbsp;&nbsp;  
+          <span class="grey-text">{{ locale["signin_crosslink_label"] }} <a href="/signin?next={{ query.get('next', '/') }}" class="pink-text text-darken-2">{{ locale["signin_crosslink"] }}</a></span>
+        </div>
+      </div>
     </form>
   </div>
 </div>

@@ -6,7 +6,7 @@ from supermoms import app
 from supermoms.auth.manage_user import user, is_session_fresh
 from supermoms.utils.time import get_time
 
-from flask import request
+from flask import request, redirect
 
 # Globals in templates
 @app.context_processor
@@ -24,6 +24,23 @@ def urlencode_filter(s):
   s = urllib.parse.quote_plus(s)
   return Markup(s)
 
+def authorize(view):
+  def _inner(*a, **k):
+    if not user:
+      return redirect("/signin?next=%s" % request.path)
+    return view(*a, **k)
+  _inner.__name__ = view.__name__
+  return _inner
+
+def reauthorize(view):
+  def _inner(*a, **k):
+    if not is_session_fresh():
+      return redirect("/signin?next=%s&redir=no" % request.path)
+    return view(*a, **k)
+  _ret = authorize(_inner)
+  _ret.__name__ = view.__name__
+  return _ret
+
 #@app.before_request
 def debug():
   print(request.environ)
@@ -31,7 +48,3 @@ def debug():
   print()
   
   print(request.headers)
-  
-@app.route("/test")
-def test_index():
-  return str(is_session_fresh())

@@ -1,0 +1,11 @@
+Hello,
+<br />
+You requested a link to sign in to your account on Super Moms Club's website.
+<br />
+To sign in, click <a href="{url}">this link</a> or copy-paste this link into your browser:
+<br />
+{url}
+<br />
+This link will work for the next hour. If you did not request this email, you may safely ignore it.
+<br />
+Have a great day!

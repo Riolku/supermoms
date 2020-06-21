@@ -1,0 +1,11 @@
+Hello,
+<br />
+You signed up for an account on Super Moms Club's website.
+<br />
+To confirm your registration with this email address, click <a href="{url}">this link</a> or copy-paste this link into your browser:
+<br />
+{url}
+<br />
+This link will work for the next hour. If you did not sign up, you may safely ignore this email.
+<br />
+Have a great day!

@@ -1,10 +1,20 @@
 home 主页
 about 信息
 shop 商店
+tos 服务条款
+privacy 隐私政策
 signin 登入
+forgot_password 忘记密码？
+email_signin 使用电子邮件登录
+send_email 发电子邮件
+sent_email_if_exist 如果有用户使用此电子邮件地址，我们发了电子邮件！
+sensitive_info 您将要访问敏感信息
 signup_crosslink_label 如果您没有帐户，
 signup_crosslink 在这里创建一个！
 signup 注册
+signup_email_sent 发了注册电子邮件！
+agree 我同意
+and 和
 signin_crosslink_label 如果您有一个帐户，
 signin_crosslink 在这里登录！
 signout 登出
@@ -16,6 +26,7 @@ name 全名
 enter_nonempty_name 请输入您的名字
 email 电子邮件地址
 password 密码
+password_blank 密码 （留空要是不改密码）
 rpassword 重复输入密码
 payment_info 支付信息 （可选的）
 card 信用卡号
@@ -26,3 +37,10 @@ password_mismatch 密码不匹配
 invalid_email 请输入有效的电子邮件地址
 email_taken 该电子邮件地址已被占用
 invalid_postal 请输入有效的邮政编码
+save 保存
+updated_profile 保存了信息
+email_lang_alert 电子邮件会用中文发。Email will be sent in Mandarin.
+signin_link_fail 电子邮件登入链接不管用。请从新试一遍。要是这个问题继续发生，请联系我们。
+signin_link_exp 电子邮件登入链接过期了。请从新试一遍。
+signin_link_no_user 这个用户不存在。这个问题不应该出现。请联系我们。
+signin_link_email_changed 这个链接不可用因为用户的地址改了。请联系我们。
