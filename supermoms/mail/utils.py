@@ -22,12 +22,12 @@ EMAILS_EN = dict(
 
 EMAILS_CN = dict(
   login = dict(
-    subject = "Login link for Super Moms Club Website",
+    subject = "Super Moms Club网站登入链接",
     body = load_file("supermoms/mail/templates/cn/login.txt")
   ),
   
   signup = dict(
-    subject = "Signup link for Super Moms Club Website",
+    subject = "Super Moms Club网站注册链接",
     body = load_file("supermoms/mail/templates/cn/signup.txt")
   )
 )

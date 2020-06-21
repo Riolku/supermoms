@@ -1,0 +1,19 @@
+{%- extends 'layout.html' -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  {%- include 'flashes.html' -%}
+  
+  <h2 class="header pink-text text-darken-1">
+    {{ locale["blog"] }}
+  </h2>
+</div>
+
+{%- endblock -%}

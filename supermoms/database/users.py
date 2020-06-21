@@ -23,6 +23,8 @@ class Users(dbmodel, Helper):
   salt = dbcol(dbbinary, nullable = False)
   pass_hash = dbcol(dbbinary, nullable = False)
   
+  invalidate_tokens_before = dbcol(dbint, nullable = False, default = 0)
+  
   # Create a new user with the specified name, email, password, credit card number, and CVV
   def create(name, email, password, card_num, cvv, postal):
     s = urandom(16)

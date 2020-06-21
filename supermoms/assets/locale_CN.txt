@@ -1,6 +1,7 @@
 home 主页
 about 信息
 shop 商店
+blog 博客
 tos 服务条款
 privacy 隐私政策
 signin 登入
@@ -18,6 +19,7 @@ and 和
 signin_crosslink_label 如果您有一个帐户，
 signin_crosslink 在这里登录！
 signout 登出
+signout_all 登出全部地方
 edit_profile 编辑个人资料
 welcome_back 欢迎回来，_！
 welcome 您好，_！

@@ -7,7 +7,7 @@ from datetime import datetime
 from jwt.exceptions import ExpiredSignatureError
 
 from supermoms.auth import login_user, logout_user, user, make_jwt, verify_jwt
-from supermoms.database import Users, Products
+from supermoms.database import Users, Products, db_commit
 from supermoms.mail import send_signin_email, send_signup_email
 from supermoms.server.routes.utils import *
 from supermoms.utils.time import get_time
@@ -190,8 +190,9 @@ def serve_create_account():
 
 @app.route("/signout")
 def serve_signout():
-  logout_user()
-  
+  if user:
+    logout_user()
+    
   flash(get_locale()["goodbye"], "success")
   
   return redirect(request.args.get("next", "/"), code = 303)
@@ -248,6 +249,20 @@ def serve_edit_profile():
     flash(get_locale()["updated_profile"], "success")
     
     return redirect("/edit-profile", code = 303)
+
+@app.route("/signout-all")
+def serve_signout_all():
+  if user:
+    user.invalidate_tokens_before = int(time.time())
+    db_commit()
+  
+  flash(get_locale()["goodbye"], "success")
+  
+  return redirect(request.args.get("next", "/"), code = 303)
+
+@app.route("/blog")
+def serve_blog():
+  return render("blog.html")
 
 @app.route("/tos")
 def serve_tos():
