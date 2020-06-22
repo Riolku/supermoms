@@ -13,11 +13,11 @@
   
   <div class="row">
     <div class="col s12">
-      <h2 class="header pink-text text-darken-1">
+      <h2 class="header blue-grey-text text-darken-2">
         {{ locale["signin"] }}
       </h2>
       {%- if query.get("redir") == "no" -%}
-      <span class="pink-text text-lighten-3">{{ locale["sensitive_info"] }}</span>
+      <span class="blue-grey-text">{{ locale["sensitive_info"] }}</span>
       <br /><br />
       {%- endif -%}
     </div>
@@ -50,7 +50,7 @@
           </button>
           {%- if query.get("redir") != "no" -%}
           &nbsp;&nbsp;&nbsp;
-          <span class="grey-text">{{ locale["signup_crosslink_label"] }} <a href="/signup?next={{ query.get('next', '/') }}" class="pink-text text-darken-2">{{ locale["signup_crosslink"] }}</a></span>
+          <span class="grey-text">{{ locale["signup_crosslink_label"] }} <a href="/signup?next={{ query.get('next', '/') }}">{{ locale["signup_crosslink"] }}</a></span>
           {%- endif -%}
         </div>
       </div>

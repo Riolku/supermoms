@@ -13,7 +13,7 @@
   
   <div class="row">
     <div class="col s12">
-      <h2 class="header pink-text text-darken-1">
+      <h2 class="header blue-grey-text text-darken-2">
         {{ locale["signup"] }}
       </h2>
     </div>
@@ -31,7 +31,7 @@
         <div class="col s12">
           <label>
             <input type="checkbox" required />
-            <span>{{ locale["agree"] }} <a href="/tos" class="pink-text text-darken-2">{{ locale["tos"] }}</a> and <a href="/privacy" class="pink-text text-darken-2">{{ locale["privacy"] }}</a></span>
+            <span>{{ locale["agree"] }} <a href="/tos">{{ locale["tos"] }}</a> and <a href="/privacy">{{ locale["privacy"] }}</a></span>
           </label>
         </div>
       </div>
@@ -41,7 +41,7 @@
             {{ locale["signup"] }}
           </button>
           &nbsp;&nbsp;&nbsp;
-          <span class="grey-text">{{ locale["signin_crosslink_label"] }} <a href="/signin?next={{ query.get('next', '/') }}" class="pink-text text-darken-2">{{ locale["signin_crosslink"] }}</a></span>
+          <span class="grey-text">{{ locale["signin_crosslink_label"] }} <a href="/signin?next={{ query.get('next', '/') }}">{{ locale["signin_crosslink"] }}</a></span>
         </div>
       </div>
     </form>

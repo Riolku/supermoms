@@ -30,13 +30,15 @@
     {% endblock %}
   </head>
   
-  <body>  
+  <body>
     {%- include 'navbar.html' -%}
     
-    <div id="content-container">
-      {%- block content -%}
-      {%- endblock -%}
-    </div>
+    <main>
+      <div id="content-container">
+        {%- block content -%}
+        {%- endblock -%}
+      </div>
+    </main>
   </body>
   
   <footer class="page-footer pink lighten-3">
