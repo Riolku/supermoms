@@ -1,6 +1,6 @@
 import base64, json, re, time
 
-from flask import redirect, render_template, request, flash, abort, jsonify, session
+from flask import redirect, request, flash, abort, jsonify, session
 
 from datetime import datetime
 
@@ -9,64 +9,8 @@ from jwt.exceptions import ExpiredSignatureError
 from supermoms.auth import login_user, logout_user, user, make_jwt, verify_jwt
 from supermoms.database import BlogPosts, Products, Users, db_commit
 from supermoms.mail import send_signin_email, send_signup_email
-from supermoms.server.routes.utils import *
+from .utils import *
 from supermoms.utils.time import get_time
-
-locale = {}
-
-for lang in ["EN", "CN"]:
-  with open("supermoms/assets/locale_%s.txt" % lang) as f:
-    locale[lang] = {}
-    for line in f.readlines():
-      if line:
-        a, b = line.split(maxsplit = 1)
-        locale[lang][a] = b
-
-def render(*a, **k):
-  return render_template(*a, **k, locale = get_locale(), lang = get_lang(), path = request.path, query = request.args)
-
-def parse_accept_lang():
-  h = request.headers.get('Accept-Language')
-  
-  if h is None: return "EN"
-  
-  h = h.lower()
-  
-  ls = h.split(",")
-  
-  best = [0, "EN"]
-  
-  for x in ls:
-    print(best, h, ls)
-    
-    t = x.split(";")
-    
-    if not t[0].startswith("en") and not t[0].startswith("zh"): continue
-    
-    if len(t) > 1 and t[1].startswith("q="):
-      q = None
-      
-      try: q = float(t[1][2:])
-      except ValueError: best = max(best, [1, t[0]])
-      
-      if q is not None:
-        best = max(best, [q, t[0]])
-    
-    else:
-      best = max(best, [1, t[0]])
-      
-  return "CN" if best[1].startswith("zh") else "EN"
-
-def get_lang():
-  l = request.cookies.get("lang")
-  
-  if l is None:
-    return parse_accept_lang()
-  
-  return "CN" if l == "CN" else "EN"
-
-def get_locale():
-  return locale[get_lang()]
 
 @app.route("/")
 def serve_root():
