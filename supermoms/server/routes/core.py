@@ -23,11 +23,50 @@ for lang in ["EN", "CN"]:
         locale[lang][a] = b
 
 def render(*a, **k):
-  lang = request.cookies.get("lang", "EN")
-  return render_template(*a, **k, locale = get_locale(), lang = lang, path = request.path, query = request.args)
+  return render_template(*a, **k, locale = get_locale(), lang = get_lang(), path = request.path, query = request.args)
+
+def parse_accept_lang():
+  h = request.headers.get('Accept-Language')
+  
+  if h is None: return "EN"
+  
+  h = h.lower()
+  
+  ls = h.split(",")
+  
+  best = [0, "EN"]
+  
+  for x in ls:
+    print(best, h, ls)
+    
+    t = x.split(";")
+    
+    if not t[0].startswith("en") and not t[0].startswith("zh"): continue
+    
+    if len(t) > 1 and t[1].startswith("q="):
+      q = None
+      
+      try: q = float(t[1][2:])
+      except ValueError: best = max(best, [1, t[0]])
+      
+      if q is not None:
+        best = max(best, [q, t[0]])
+    
+    else:
+      best = max(best, [1, t[0]])
+      
+  return "CN" if best[1].startswith("zh") else "EN"
+
+def get_lang():
+  l = request.cookies.get("lang")
+  
+  if l is None:
+    return parse_accept_lang()
+  
+  return "CN" if l == "CN" else "EN"
 
 def get_locale():
-  return locale[request.cookies.get("lang", "EN")]
+  return locale[get_lang()]
 
 @app.route("/")
 def serve_root():
