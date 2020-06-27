@@ -1,1 +1,3 @@
-var stripe = Stripe('pk_test_51Gu1qVKIGGYKoU3OQ5FsFzIY3OBbZyvQTPOfB8ku1aBtUfJ8nbzRHPRKAxP8MYqhRK5esCXcP2fZBPljjzFTIhsf00bPt48iqi');
+var client_id = document.getElementById("payment-form").getAttribute("data-id");
+
+var stripe = Stripe(client_id);

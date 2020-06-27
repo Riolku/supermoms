@@ -1,12 +1,30 @@
-import os
+import os, stripe
 
 from sys import argv
 
 from .utils.files import load_json
 from werkzeug.middleware.proxy_fix import ProxyFix 
 
+stripe_pkey = None
+
+paypal_pkey = None
+paypal_skey = None
+paypal_base_url = None
+
 def configure_app(application):
+  global stripe_pkey, paypal_skey, paypal_pkey, paypal_base_url
+  
   keys = load_json(os.environ['TALENTMAKER_KEYS_FILE'])
+  
+  
+  stripe_pkey = keys['STRIPE_PKEY']
+  stripe.api_key = keys['STRIPE_SKEY']
+  
+  paypal_pkey = keys['PAYPAL_PKEY']
+  paypal_skey = keys['PAYPAL_SKEY']
+  
+  paypal_base_url = keys['PAYPAL_BASE_URL']
+  
   
   application.secret_key = keys['SECRET_KEY']
   

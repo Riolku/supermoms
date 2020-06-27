@@ -257,11 +257,11 @@ def serve_privacy():
 
 @app.errorhandler(404)
 def serve_404(e):
-  return "404"
+  return "404", 404
 
 @app.errorhandler(403)
 def serve_403(e):
-  return "403"
+  return "403", 403
 
 @app.route("/favicon.ico")
 def serve_favicon():

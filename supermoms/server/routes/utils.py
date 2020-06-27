@@ -4,6 +4,8 @@ from markupsafe import Markup
 from supermoms import app
 from flask import render_template
 
+from supermoms.config import stripe_pkey
+
 from supermoms.auth.manage_user import user, is_session_fresh
 from supermoms.utils.time import get_time
 
@@ -14,8 +16,15 @@ from flask import request, redirect
 def context_processor():
   return dict(
     user = user,
-    get_time = get_time
+    get_time = get_time,
+    locale = get_locale(),
+    lang = get_lang(),
+    path = request.path,
+    query = request.args,
+    stripe_pkey = stripe_pkey
   )
+
+render = render_template
 
 @app.template_filter("urlencode")
 def urlencode_filter(s):
@@ -59,9 +68,6 @@ for lang in ["EN", "CN"]:
       if line:
         a, b = line.split(maxsplit = 1)
         locale[lang][a] = b
-
-def render(*a, **k):
-  return render_template(*a, **k, locale = get_locale(), lang = get_lang(), path = request.path, query = request.args)
 
 def parse_accept_lang():
   h = request.headers.get('Accept-Language')

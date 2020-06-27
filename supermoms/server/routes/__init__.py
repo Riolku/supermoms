@@ -3,3 +3,4 @@
 
 import supermoms.server.routes.core
 import supermoms.server.routes.utils
+import supermoms.server.routes.payment
