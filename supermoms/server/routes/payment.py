@@ -19,6 +19,9 @@ def serve_pay_card():
 def serve_pay_paypal():
   return redirect(create_order(10.99))
 
+@app.route("/pay/paypal/cancel")
+def serve_pay_paypal():
+  return "Your order was cancelled."
 
 @app.route("/pay/paypal/confirm/")
 @authorize
@@ -26,3 +29,8 @@ def serve_paypal_confirm():
   confirm_order(request.args['token'])
   
   return redirect("/checkout/confirm")
+
+@app.route("/checkout/confirm/")
+@authorize
+def serve_paypal_confirm():
+  return "Your payment was captured and your order was confirmed. Thank you!"
