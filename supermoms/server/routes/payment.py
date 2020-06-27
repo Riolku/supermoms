@@ -2,9 +2,9 @@ import stripe
 
 from .utils import *
 from supermoms import app
-from supermoms.auth.paypal import create_order
+from supermoms.auth.paypal import create_order, confirm_order
 
-@app.route("/pay/card")
+@app.route("/pay/card/")
 @authorize
 def serve_pay_card():
   intent = stripe.PaymentIntent.create(
@@ -14,7 +14,15 @@ def serve_pay_card():
   
   return render("pay_card.html", client_secret = intent.client_secret)
 
-@app.route("/pay/paypal")
+@app.route("/pay/paypal/")
 @authorize
 def serve_pay_paypal():
   return redirect(create_order(10.99))
+
+
+@app.route("/pay/paypal/confirm/")
+@authorize
+def serve_paypal_confirm():
+  confirm_order(request.args['token'])
+  
+  return redirect("/checkout/confirm")

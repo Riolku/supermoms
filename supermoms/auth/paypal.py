@@ -55,8 +55,6 @@ def create_order(amount, **k):
   
   reqj.update(k)
   
-  print(reqj)
-  
   res = requests.post(paypal_url("/v2/checkout/orders"), headers = dict(
     Authorization = "Bearer " + get_access_token()
   ), json = reqj)
@@ -77,3 +75,14 @@ def create_order(amount, **k):
       return l['href']
     
   raise ValueError("Could not find an appropriate link:" + str(j))
+  
+def confirm_order(id):
+  print(id)
+  
+  res = requests.post(paypal_url("/v2/checkout/orders/{id}/capture".format(id = id)), json = {}, headers = dict(
+    Authorization = "Bearer " + get_access_token()
+  ))
+  
+  print(res, res.status_code)
+  
+  assert res.status_code == 201
