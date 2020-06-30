@@ -4,6 +4,10 @@ var elements = stripe.elements();
 var style = {
   base: {
     color: "#32325d",
+    fontWeight: 500,
+    fontFamily: "Inter UI, Open Sans, Segoe UI, sans-serif",
+    fontSize: "large",
+    fontSmoothing: "antialiased",
   }
 };
 
@@ -25,8 +29,6 @@ var form = document.getElementById('payment-form');
 
 var clientSecret = document.getElementById("payment-form").getAttribute("data-secret");
 
-const payError = document.getElementById('pay-errors');
-
 form.addEventListener('submit', function(ev) {
   ev.preventDefault();
   stripe.confirmCardPayment(clientSecret, {
@@ -36,7 +38,7 @@ form.addEventListener('submit', function(ev) {
   }).then(function(result) {
     if (result.error) {
       // Show error to your customer (e.g., insufficient funds)
-      payError.textContent = result.error.message;
+      displayError.textContent = result.error.message;
     } else {
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {

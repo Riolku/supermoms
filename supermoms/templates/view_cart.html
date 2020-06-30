@@ -1,0 +1,47 @@
+{%- extends 'layout.html' -%}
+
+{%- block title -%}
+Super Moms Club - View Cart
+{%- endblock -%}
+
+{%- block header -%}
+<script src="/static/js/view-cart.js" defer></script>
+{%- endblock -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  {%- include 'flashes.html' -%}
+  
+  <h2 class="header grey-text text-darken-3">
+    View Cart
+  </h2>
+  
+  <form id="form" method="post">
+    <button class="btn pink lighten-2 waves-effect" id="paycard" name="pay_method">
+      Pay with a Credit/Debit Card
+    </button>
+    
+    <button class="btn pink lighten-2 waves-effect" id="paypal" name="pay_method">
+      Pay with PayPal
+    </button>
+    
+    <input id="form_pay_method" name="pay_method" hidden class="hidden"/>
+  </form>
+  
+  <br><br><br>
+</div>
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-3.jpg" width=100vw />
+  </div>
+</div>
+
+{%- endblock -%}

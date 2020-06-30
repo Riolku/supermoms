@@ -83,8 +83,6 @@ def parse_accept_lang():
   for x in ls:
     x = x.strip()
     
-    print(best, h, ls)
-    
     t = x.split(";")
     
     t[0] = t[0].strip()
