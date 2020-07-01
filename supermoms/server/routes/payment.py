@@ -1,11 +1,88 @@
 import stripe
 
-from flask import request
+from flask import request, abort, Response
 
 from .utils import *
 from supermoms import app
+from supermoms.auth.manage_user import user
 from supermoms.auth.paypal import create_order, confirm_order
 from supermoms.auth.payment import create_payment, pop_payment, get_payment
+from supermoms.database.products import Products
+from supermoms.database.cart_items import cart_items
+from supermoms.database.utils import db_commit
+
+@app.route("/shop")
+def serve_shop():
+  products = Products.query.all()
+
+  return render("shop.html", products = products)
+  
+@app.route("/product/<id>", methods = ["GET", "POST"])
+def serve_product(id):
+  product = Products.query.filter_by(id = id).first_or_404()
+  
+  if product.hidden and not user.admin: abort(404)
+    
+  if request.method == "POST":
+    if not user:
+      return redirect("/signin?next=%s" % request.path, code = 303)
+      
+    qty = int(request.form['qty'])
+    
+    ci = CartItems.query.filter_by(uid = user.id, pid = id).first()
+    
+    if ci:
+      if qty == 0:
+        del ci
+      
+      else:
+        ci.count = qty
+        db_commit()
+      
+    else:
+      CartItems.add(uid = user.id, pid = id, count = qty)
+      
+  cur_ci = CartItems.query.filter_by(uid = user.id, pid = id).first()
+  
+  cur_qty = 0
+  
+  if cur_ci: cur_qty = cur_ci.count
+  
+  return render("product.html", product = product, cqty = cur_qty)
+  
+
+@app.route("/product/<id>/image/")
+def serve_product_image(id):
+  product = Products.query.filter_by(id = id).first_or_404();
+  
+  if product.hidden and not user.admin: abort(404)
+
+  return Response(product.image, mimetype = "image/png")
+  
+
+@app.route("/admin/products/", methods = ["GET", "POST"])
+@authorize
+def serve_admin_products():
+  if not user.admin: abort(403)
+  
+  if request.method == "POST":
+    p = Products.add(name = "", desc = "", stock = 0, image = b"", hidden = True)
+    
+    return redirect("/admin/product/%d" % p.id, code = 303)
+  
+  products = Products.query.all()
+  
+  return render("admin/products.html", products = products)
+
+
+@app.route("/admin/product/<id>")
+@authorize
+def serve_admin_product(id):
+  if not user.admin: abort(403)
+  
+  product = Products.query.filter_by(id = id).first_or_404();
+  
+  return render("admin/edit_product.html", product = product)
 
 @app.route("/view-cart/", methods = ["GET", "POST"])
 @authorize

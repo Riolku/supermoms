@@ -7,14 +7,8 @@ class Products(Helper, dbmodel):
   __tablename__ = "products"
   
   id = dbcol(dbint, primary_key = True)
-  name = dbcol(dbstr(64), nullable = False) # The name displayed to the user
-  desc = dbcol(dbstr(1024), nullable = False) # Product description
+  name = dbcol(dbstr(1024), nullable = False) # The name displayed to the user
+  desc = dbcol(dbstr(65536), nullable = False) # Product description
   stock = dbcol(dbint, nullable = False) # Count in stock
-  
-
-class ProductImages(Helper, dbmodel):
-  __tablename__ = "product_images"
-  
-  id = dbcol(dbint, primary_key = True)
-  pid = dbcol(dbint, dbforkey(Products.id), nullable = False)
-  first = dbcol(dbbool, nullable = False, default = 0)
+  image = dbcol(dbbinary, nullable = False)
+  hidden = dbcol(dbbool, nullable = False, default = True)
