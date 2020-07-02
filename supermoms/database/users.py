@@ -15,6 +15,8 @@ class Users(dbmodel, Helper):
   
   name = dbcol(dbstr(256), unique = False, nullable = False)
   email = dbcol(dbstr(256), unique = True, nullable = False)
+  
+  lang = dbcol(dbstr(16), unique = False, nullable = False)
 
   admin = dbcol(dbbool, nullable = False, default = False)
   
@@ -33,13 +35,13 @@ class Users(dbmodel, Helper):
   def extend_premium(self, duration):
     self.premium_end = max(self.premium_end, get_time()) + duration
   
-  # Create a new user with the specified name, email, password, credit card number, and CVV
-  def create(name, email, password):
+  # Create a new user with the specified name, email, password and language
+  def create(name, email, password, lang):
     s = urandom(16)
     
     ph = argon2.argon2_hash(password, s)
     
-    return Users.add(name = name, email = email, salt = s, pass_hash = ph)
+    return Users.add(name = name, email = email, salt = s, pass_hash = ph, lang = lang)
     
   # Hash the password with the user's salt
   def hash(self, pword):

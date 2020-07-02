@@ -5,8 +5,9 @@ from supermoms import app
 from flask import render_template
 
 from supermoms.config import stripe_pkey
+from supermoms.database.utils import db_commit
 
-from supermoms.auth.manage_user import user, is_session_fresh
+from supermoms.auth.manage_user import user, is_session_fresh, ensure_user
 from supermoms.utils.time import get_time
 
 from flask import request, redirect
@@ -106,11 +107,28 @@ def parse_accept_lang():
 
 def get_lang():
   l = request.cookies.get("lang")
-  
+    
   if l is None:
+    if user: return user.lang
+    
     return parse_accept_lang()
   
   return "CN" if l == "CN" else "EN"
+
+@app.after_request
+def set_user_lang(resp):
+  print(user, resp)
+  
+  if user:
+    clang = get_lang()
+    
+    if user.lang == clang: return resp
+    
+    user.lang = clang
+    
+    db_commit()
+    
+  return resp
 
 def get_locale():
   return locale[get_lang()]

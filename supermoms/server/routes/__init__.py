@@ -5,3 +5,4 @@ import supermoms.server.routes.core
 import supermoms.server.routes.utils
 import supermoms.server.routes.payment
 import supermoms.server.routes.errors
+import supermoms.server.routes.forums

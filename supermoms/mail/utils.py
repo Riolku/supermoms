@@ -43,20 +43,30 @@ def get_emails():
     return EMAILS_CN
   else:
     return EMAILS_EN
+  
+def _inner_send_mail(to_addr, subject, content):
+  mail_app.send_message(
+    subject = subject,
+    recipients = [to_addr],
+    html = content
+  )
+  
+def sync_send_mail(to_addr, subject, content):
+  with app.app_context():
+    _inner_send_mail(to_addr, subject, content)
 
 def send_mail(to_addr, subject, content):
-  def inner():
-    with app.app_context():
-      mail_app.send_message(
-        subject = subject,
-        recipients = [to_addr],
-        html = content
-      )
-    
-  threading.Thread(target = inner).start()
+  threading.Thread(target = sync_send_mail, args = (to_addr, subject, content)).start()
   
 def send_signin_email(to_addr, url):
   send_mail(to_addr, get_emails()['login']['subject'], get_emails()['login']['body'].format(url = url))
   
 def send_signup_email(to_addr, url):
   send_mail(to_addr, get_emails()['signup']['subject'], get_emails()['signup']['body'].format(url = url))
+
+"""
+def send_expiry_email(to_addr, days, _inner = False, sync = True):
+  if _inner:
+    _inner_send_mail(to_addr, )
+"""
+

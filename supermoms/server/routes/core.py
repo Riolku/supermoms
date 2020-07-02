@@ -162,7 +162,7 @@ def serve_create_account():
     if fail:
       return render("signup.html", __field_name = name, __field_email = email)
 
-    login_user(Users.create(name, email, password))
+    login_user(Users.create(name, email, password, get_lang()))
 
     flash(get_locale()["welcome"].replace("_", name), "success")
 
