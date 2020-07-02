@@ -13,9 +13,15 @@ from supermoms.database.utils import db_commit
 
 @app.route("/shop")
 def serve_shop():
-  products = Products.query.all()
+  products = Products.query.filter_by(workshop = False).all()
 
   return render("shop.html", products = products)
+  
+@app.route("/workshops")
+def serve_workshops():
+  workshops = Products.query.filter_by(workshop = True).all()
+  
+  return render("shop.html", products = workshops)
   
 @app.route("/product/<id>", methods = ["GET", "POST"])
 def serve_product(id):
@@ -102,13 +108,16 @@ def serve_view_cart():
   
   return render("view_cart.html")
 
-@app.route("/pay/card/")
+@app.route("/pay/card/", methods = ["GET", "POST"])
 @authorize
 def serve_pay_card():
+  if request.method == "POST":
+    return pop_payment()['return_url']
+
   pay_obj = get_payment()
   
   if not pay_obj:
-    return render("error_template.html", code = 400, message = "No payment data was configured when accessing the card payment portal."), 400
+    return render("error_template.html", head = "Bad Request", message = "No payment data was configured when accessing the card payment portal."), 400
   
   intent = stripe.PaymentIntent.create(
     amount = int(pay_obj['amount'] * 100),
@@ -123,13 +132,15 @@ def serve_pay_paypal():
   pay_obj = get_payment()
   
   if not pay_obj:
-    return render("error_template.html", code = 400, message = "No payment data was configured when accessing the paypal payment portal."), 400
+    return render("error_template.html", head = "Bad Request", message = "No payment data was configured when accessing the paypal payment portal."), 400
   
   return redirect(create_order(pay_obj['amount']))
 
 @app.route("/pay/paypal/cancel/")
 def serve_pay_paypal_cancel():
-  return "Your order was cancelled."
+  flash("Your order was cancelled.", "success")
+  
+  return redirect(request.args.get("next", "/"))
 
 @app.route("/pay/paypal/confirm/")
 @authorize
