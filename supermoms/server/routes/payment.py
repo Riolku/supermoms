@@ -8,7 +8,7 @@ from supermoms.auth.manage_user import user
 from supermoms.auth.paypal import create_order, confirm_order
 from supermoms.auth.payment import create_payment, pop_payment, get_payment
 from supermoms.database.products import Products
-from supermoms.database.cart_items import cart_items
+from supermoms.database.cart_items import CartItems
 from supermoms.database.utils import db_commit
 
 @app.route("/shop")

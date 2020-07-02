@@ -1,12 +1,13 @@
 import threading
 
 from supermoms import app, mail_app
-
+from supermoms.server.routes.utils import get_lang
 from supermoms.utils.files import load_file
 
 from flask import request
 
 from flask_mail import Message
+
 
 EMAILS_EN = dict(
   login = dict(
@@ -33,7 +34,7 @@ EMAILS_CN = dict(
 )
 
 def get_emails():
-  if request.args.get("lang") == "CN":
+  if get_lang() == "CN":
     return EMAILS_CN
   else:
     return EMAILS_EN

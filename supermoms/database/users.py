@@ -6,6 +6,8 @@ from .aliases import *
 from .helper import Helper
 from .utils import db_commit
 
+from supermoms.utils.time import get_time
+
 from os import urandom
 
 class Users(dbmodel, Helper):
@@ -16,22 +18,28 @@ class Users(dbmodel, Helper):
 
   admin = dbcol(dbbool, nullable = False, default = False)
   
-  card_num = dbcol(dbstr(64), nullable = False, default = "")
-  cvv = dbcol(dbstr(16), nullable = False, default = "")
-  postal = dbcol(dbstr(16), nullable = False, default = "")
+  premium_end = dbcol(dbint, nullable = False, default = 0)
   
   salt = dbcol(dbbinary, nullable = False)
   pass_hash = dbcol(dbbinary, nullable = False)
   
   invalidate_tokens_before = dbcol(dbint, nullable = False, default = 0)
   
+  @property
+  def premium(self):
+    return self.premium_end > get_time()
+  
+  
+  def extend_premium(self, duration):
+    self.premium_end = max(self.premium_end, get_time()) + duration
+  
   # Create a new user with the specified name, email, password, credit card number, and CVV
-  def create(name, email, password, card_num, cvv, postal):
+  def create(name, email, password):
     s = urandom(16)
     
     ph = argon2.argon2_hash(password, s)
     
-    return Users.add(name = name, email = email, salt = s, pass_hash = ph, card_num = card_num, cvv = cvv, postal = postal)
+    return Users.add(name = name, email = email, salt = s, pass_hash = ph)
     
   # Hash the password with the user's salt
   def hash(self, pword):
@@ -53,7 +61,7 @@ class Users(dbmodel, Helper):
     return u
   
   # Update a user object
-  def update(self, email = None, name = None, password = None, card_num = None, cvv = None, postal = None):
+  def update(self, email = None, name = None, password = None):
     if email is not None:
       self.email = email
       
@@ -62,15 +70,6 @@ class Users(dbmodel, Helper):
       
     if password is not None:
       self.pass_hash = self.hash(password)
-      
-    if card_num is not None:
-      self.card_num = card_num
-      
-    if cvv is not None:
-      self.cvv = cvv
-      
-    if postal is not None:
-      self.postal = postal
     
     db_commit()
   

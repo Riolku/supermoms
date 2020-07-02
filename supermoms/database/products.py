@@ -12,3 +12,4 @@ class Products(Helper, dbmodel):
   stock = dbcol(dbint, nullable = False) # Count in stock
   image = dbcol(dbbinary, nullable = False)
   hidden = dbcol(dbbool, nullable = False, default = True)
+  workshop = dbcol(dbbool, nullable = False)
