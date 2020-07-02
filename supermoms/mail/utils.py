@@ -18,7 +18,12 @@ EMAILS_EN = dict(
   signup = dict(
     subject = "Signup link for Super Moms Club Website",
     body = load_file("supermoms/mail/templates/en/signup.txt")
-  )
+  ),
+  
+  expiry = dict(
+    subject = "Membership Expiry Notification for Super Moms Club Website",
+#    body = load_file("supermoms/mail/templates/en/expiry.txt")
+  ),
 )
 
 EMAILS_CN = dict(
