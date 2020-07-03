@@ -261,8 +261,9 @@ def serve_signout_all():
   return redirect(request.args.get("next", "/"), code = 303)
 
 @app.route("/blog")
-def serve_blog():
-  return render("blog.html", posts = BlogPosts.query.all())
+@app.route("/blog/<int:page>")
+def serve_blog(page = 1):
+  return render("blog.html", posts = BlogPosts.query.all()[(page - 1) * 5:][:5])
 
 @app.route("/tos")
 def serve_tos():
