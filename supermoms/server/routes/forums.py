@@ -72,14 +72,23 @@ def serve_thread(sfid, tid, page = 1):
   
 
 @app.route('/admin/forum/')
-def serve_admin_forums():
+@admin_auth
+def serve_admin_forums():  
   if request.method == "POST":
-    title = request.form['title']
-    
-    if len(title) > 255:
-      flash("The title you have entered is too long!", "error")
+    if 'delete' in request.form:
+      id = request.form['delete']
+      
+      sf = SubForums.query.filter_by(id = id).delete()
       
     else:
-      SubForums.add(title = title)
-  
-  return render("admin/forum.html")
+      title = request.form['title']
+    
+      if len(title) > 255:
+        flash("The title you have entered is too long!", "error")
+
+      else:
+        SubForums.add(title = title)
+
+  sub_fs = SubForums.query.filter_by(lang = get_lang()).all()
+        
+  return render("admin/forum.html", sub_fs = sub_fs)

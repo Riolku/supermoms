@@ -51,7 +51,7 @@ def configure_app(application):
     MAIL_PASSWORD = keys.get('MAIL_PASSWORD'),
     MAIL_DEFAULT_SENDER = tuple(keys['MAIL_SENDER']),
     
-    ALT_PORT = len(argv) > 1 and argv[1] == 'alt'
+    ALT_PORT = 'alt' in argv
   )
   
   if app_config['ALT_PORT']:

@@ -67,7 +67,7 @@ def serve_product_image(id):
   
 
 @app.route("/admin/products/", methods = ["GET", "POST"])
-@authorize
+@admin_auth
 def serve_admin_products():
   if not user.admin: abort(403)
   
@@ -82,7 +82,7 @@ def serve_admin_products():
 
 
 @app.route("/admin/product/<int:id>")
-@authorize
+@admin_auth
 def serve_admin_product(id):
   if not user.admin: abort(403)
   

@@ -46,6 +46,18 @@ def authorize(view):
   _inner.__name__ = view.__name__
   return _inner
 
+def admin_auth(view):
+  def _inner(*a, **k):
+    if not user:
+      return redirect("/signin?next=%s" % request.path)
+    
+    if not user.admin:
+      abort(404)
+    
+    return view(*a, **k)
+  _inner.__name__ = view.__name__
+  return _inner
+
 def reauthorize(view):
   def _inner(*a, **k):
     if not is_session_fresh():
