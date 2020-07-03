@@ -1,4 +1,5 @@
-import urllib
+import misaka, urllib
+
 from markupsafe import Markup
 
 from supermoms import app
@@ -34,6 +35,8 @@ def urlencode_filter(s):
   s = s.encode("utf-8")
   s = urllib.parse.quote_plus(s)
   return Markup(s)
+
+app.template_filter("markdown")(misaka.html)
 
 def authorize(view):
   def _inner(*a, **k):
