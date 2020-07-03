@@ -52,7 +52,7 @@ def admin_auth(view):
       return redirect("/signin?next=%s" % request.path)
     
     if not user.admin:
-      abort(404)
+      abort(403)
     
     return view(*a, **k)
   _inner.__name__ = view.__name__
