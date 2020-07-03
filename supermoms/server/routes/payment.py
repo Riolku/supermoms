@@ -13,13 +13,13 @@ from supermoms.database.utils import db_commit
 
 @app.route("/shop")
 def serve_shop():
-  products = Products.query.filter_by(workshop = False).all()
+  products = Products.query.filter_by(workshop = False, lang = get_lang()).all()
 
   return render("shop.html", products = products)
   
 @app.route("/workshops")
 def serve_workshops():
-  workshops = Products.query.filter_by(workshop = True).all()
+  workshops = Products.query.filter_by(workshop = True, lang = get_lang()).all()
   
   return render("shop.html", products = workshops)
   

@@ -7,7 +7,7 @@ from supermoms.database.forums import SubForums, ForumThreads, ForumPosts
 
 @app.route('/forum/')
 def serve_forum():
-  sub_fs = SubForums.query.all()
+  sub_fs = SubForums.query.filter_by(lang = get_lang()).all()
   
   return render("forum/forum.html", sub_fs = sub_fs)
 

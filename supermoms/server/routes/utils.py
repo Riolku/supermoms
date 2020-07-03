@@ -117,7 +117,8 @@ def get_lang():
 
 @app.after_request
 def set_user_lang(resp):
-  print(user, resp)
+  if request.endpoint == "static":
+    return resp
   
   if user:
     clang = get_lang()

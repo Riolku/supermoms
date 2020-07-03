@@ -10,6 +10,8 @@ class SubForums(dbmodel, Helper):
   
   title = dbcol(dbstr(256), nullable = False)
   
+  lang = dbcol(dbstr(16), nullable = False)
+  
   __tablename__ = "sub_forums"
   
 
