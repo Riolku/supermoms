@@ -28,7 +28,10 @@ def configure_app(application):
   
   application.secret_key = keys['SECRET_KEY']
   
+  application.debug = True
+  
   app_config = dict(
+    
     SQLALCHEMY_DATABASE_URI = keys['DATABASE_URI'],
     SQLALCHEMY_TRACK_MODIFICATIONS = False,
     
