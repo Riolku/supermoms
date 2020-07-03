@@ -29,6 +29,8 @@ class ForumPosts(dbmodel, Helper):
   tid = dbcol(dbint, dbforkey(ForumThreads.id, ondelete = "CASCADE"), nullable = False)
   uid = dbcol(dbint, dbforkey(Users.id), nullable = False)
   
+  deleted = dbcol(dbbool, default = False, nullable = False)
+  
   content = dbcol(dbstr(65536), nullable = False)
   
   time = dbcol(dbint, default = get_time, nullable = False)

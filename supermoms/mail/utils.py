@@ -22,7 +22,7 @@ EMAILS_EN = dict(
   
   expiry = dict(
     subject = "Membership Expiry Notification for Super Moms Club Website",
-#    body = load_file("supermoms/mail/templates/en/expiry.txt")
+    body = load_file("supermoms/mail/templates/en/expiry.txt")
   ),
 )
 
@@ -64,9 +64,19 @@ def send_signin_email(to_addr, url):
 def send_signup_email(to_addr, url):
   send_mail(to_addr, get_emails()['signup']['subject'], get_emails()['signup']['body'].format(url = url))
 
-"""
-def send_expiry_email(to_addr, days, _inner = False, sync = True):
-  if _inner:
-    _inner_send_mail(to_addr, )
-"""
+
+def send_expiry_email(to_addr, days, lang, _inner = False, sync = True):
+  em = (EMAILS_CN if lang == "CN" else EMAILS_EN)['expiry']
+
+
+  daystr = str(days)
+  if lang == "CN":
+    pass # TODO: change to chinese numbers (idk, help)
+    
+  func = send_mail
+  
+  if _inner: func = _inner_send_mail
+  elif sync: func = sync_send_mail
+    
+  func(to_addr, em['subject'], em['body'].format(days = daystr))
 
