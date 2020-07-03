@@ -23,7 +23,7 @@ def serve_workshops():
   
   return render("shop.html", products = workshops)
   
-@app.route("/product/<id>", methods = ["GET", "POST"])
+@app.route("/product/<int:id>", methods = ["GET", "POST"])
 def serve_product(id):
   product = Products.query.filter_by(id = id).first_or_404()
   
@@ -57,7 +57,7 @@ def serve_product(id):
   return render("product.html", product = product, cqty = cur_qty)
   
 
-@app.route("/product/<id>/image/")
+@app.route("/product/<int:id>/image/")
 def serve_product_image(id):
   product = Products.query.filter_by(id = id).first_or_404();
   
@@ -81,7 +81,7 @@ def serve_admin_products():
   return render("admin/products.html", products = products)
 
 
-@app.route("/admin/product/<id>")
+@app.route("/admin/product/<int:id>")
 @authorize
 def serve_admin_product(id):
   if not user.admin: abort(403)
