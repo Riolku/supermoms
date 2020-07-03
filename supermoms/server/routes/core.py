@@ -1,6 +1,6 @@
 import base64, json, re, time
 
-from flask import redirect, render_template, request, flash, abort, jsonify, session
+from flask import redirect, request, flash, abort, jsonify, session
 
 from datetime import datetime
 
@@ -9,35 +9,18 @@ from jwt.exceptions import ExpiredSignatureError
 from supermoms.auth import login_user, logout_user, user, make_jwt, verify_jwt
 from supermoms.database import BlogPosts, Products, Users, db_commit
 from supermoms.mail import send_signin_email, send_signup_email
-from supermoms.server.routes.utils import *
+from .utils import *
 from supermoms.utils.time import get_time
-
-locale = {}
-
-for lang in ["EN", "CN"]:
-  with open("supermoms/assets/locale_%s.txt" % lang) as f:
-    locale[lang] = {}
-    for line in f.readlines():
-      if line:
-        a, b = line.split(maxsplit = 1)
-        locale[lang][a] = b
-
-def render(*a, **k):
-  lang = request.cookies.get("lang", "EN")
-  return render_template(*a, **k, locale = get_locale(), lang = lang, path = request.path, query = request.args)
-
-def get_locale():
-  return locale[request.cookies.get("lang", "EN")]
 
 @app.route("/")
 def serve_root():
   return render("index.html")
 
-@app.route("/about")
+@app.route("/about/")
 def serve_about():
   return render("about.html")
 
-@app.route("/email-signin", methods = ["GET", "POST"])
+@app.route("/email-signin/", methods = ["GET", "POST"])
 def serve_email_signin():
   if request.method == "GET":
     return render("email-signin.html")
@@ -58,7 +41,10 @@ def serve_email_signin():
     u = Users.query.filter_by(email = email).first()
     
     if u:
-      send_signin_email(email, request.url_root + "signin-link?token=%s" % make_jwt({
+      # url_root allows the link to be accessed from anywhere
+      # it should contain the protocol, host and starting `/` 
+        
+      send_signin_email(email, request.url_root + "signin-link/?token=%s" % make_jwt({ 
         "id": u.id,
         "email": email,
         "exp": int(time.time()) + 3600
@@ -66,28 +52,32 @@ def serve_email_signin():
       
     return redirect("/", code = 303)
 
-@app.route("/signin-link")
+@app.route("/signin-link/")
 def serve_signin_link():
   try:
     data = verify_jwt(request.args.get("token", ""))
   except ExpiredSignatureError:
     flash(get_locale()["signin_link_exp"], "error")
-    return redirect("/email-signin", code = 303)
+    return redirect("/email-signin/", code = 303)
+  
   if data is None:
     flash(get_locale()["signin_link_fail"], "error")
-    return redirect("/email-signin", code = 303)
+    return redirect("/email-signin/", code = 303)
+  
   u = Users.query.filter_by(id = data["id"]).first()
   if u.email != data["email"]:
     flash(get_locale()["signin_link_email_changed"], "error")
-    return redirect("/email-signin", code = 303)
+    return redirect("/email-signin/", code = 303)
+  
   if u is None:
     flash(get_locale()["signin_link_no_user"], "error")
-    return redirect("/email-signin", code = 303)
+    return redirect("/email-signin/", code = 303)
+  
   login_user(u)
   flash(get_locale()["welcome_back"].replace("_", u.name), "success")
-  return redirect("/edit-profile", code = 303)
+  return redirect("/edit-profile/", code = 303)
   
-@app.route("/signin", methods = ["GET", "POST"])
+@app.route("/signin/", methods = ["GET", "POST"])
 def serve_signin():
   if user and request.args.get("redir") != "no":
     return redirect(request.args.get("next", "/"), code = 303)
@@ -112,7 +102,7 @@ def serve_signin():
     
     return render("signin.html", __field_email = email)
 
-@app.route("/signup", methods = ["GET", "POST"])
+@app.route("/signup/", methods = ["GET", "POST"])
 def serve_signup():
   if user:
     return redirect(request.args.get("next", "/"), code = 303)
@@ -139,13 +129,14 @@ def serve_signup():
     
     return redirect("/", code = 303)
   
-@app.route("/create-account", methods = ["GET", "POST"])
+@app.route("/create-account/", methods = ["GET", "POST"])
 def serve_create_account():
   try:
     data = verify_jwt(request.args.get("token", ""))
   except ExpiredSignatureError:
     flash(get_locale()["signup_link_exp"], "error")
     return redirect("/signup", code = 303)
+  
   email = data["email"]
   
   if request.method == "GET":
@@ -154,9 +145,6 @@ def serve_create_account():
     name = request.form["name"]
     password = request.form["password"]
     rpassword = request.form["rpassword"]
-    card = request.form["card"]
-    cvv = request.form["cvv"]
-    postal = re.sub(r"\s", "", request.form["postal"])
 
     fail = False
 
@@ -171,24 +159,16 @@ def serve_create_account():
       fail = True
       flash(get_locale()["password_mismatch"], "error")
 
-    if postal and not re.match("([A-Za-z][0-9]){3}", postal):
-      fail = True
-      flash(get_locale()["invalid_postal"], "error")
-
     if fail:
       return render("signup.html", __field_name = name, __field_email = email)
 
-    login_user(Users.create(name, email, password, card, cvv, postal))
+    login_user(Users.create(name, email, password, get_lang()))
 
     flash(get_locale()["welcome"].replace("_", name), "success")
 
-    send_signup_email(email, request.url_root + "create-account?token=%s" % make_jwt({
-
-    }))
-
     return redirect("/", code = 303)
 
-@app.route("/signout")
+@app.route("/signout/")
 def serve_signout():
   if user:
     logout_user()
@@ -197,22 +177,16 @@ def serve_signout():
   
   return redirect(request.args.get("next", "/"), code = 303)
 
-@app.route("/edit-profile", methods = ["GET", "POST"])
+@app.route("/edit-profile/", methods = ["GET", "POST"])
 @reauthorize
 def serve_edit_profile():
-  if not user:
-    return redirect("/signin?next=/edit-profile")
-  
   if request.method == "GET":
-    return render("edit-profile.html", __field_name = user.name, __field_email = user.email, __field_card = user.card_num, __field_cvv = user.cvv, __field_postal = user.postal)
+    return render("edit-profile.html", __field_name = user.name, __field_email = user.email)
   else:
     name = request.form["name"]
     email = request.form["email"]
     password = request.form["password"]
     rpassword = request.form["rpassword"]
-    card = request.form["card"]
-    cvv = request.form["cvv"]
-    postal = re.sub(r"\s", "", request.form["postal"])
     
     fail = False
     
@@ -234,23 +208,19 @@ def serve_edit_profile():
       fail = True
       flash(get_locale()["password_mismatch"], "error")
       
-    if postal and not re.match("([A-Za-z][0-9]){3}", postal):
-      fail = True
-      flash(get_locale()["invalid_postal"], "error")
-      
     if fail:
-      return render("edit-profile.html", __field_name = name, __field_email = email, __field_card = card, __field_cvv = cvv, __field_postal = postal)
+      return render("edit-profile.html", __field_name = name, __field_email = email)
     
     if email != user.email:
       pass # TODO: Send email-change email
     
-    Users.query.filter_by(email = user.email).first().update(None, name, password if password else None, card, cvv, postal)
+    user.update(None, name, password if password else None)
     
     flash(get_locale()["updated_profile"], "success")
     
     return redirect("/edit-profile", code = 303)
 
-@app.route("/signout-all")
+@app.route("/signout-all/")
 def serve_signout_all():
   if user:
     user.invalidate_tokens_before = int(time.time())
@@ -265,21 +235,13 @@ def serve_signout_all():
 def serve_blog(page = 1):
   return render("blog.html", posts = BlogPosts.query.all()[(page - 1) * 5:][:5])
 
-@app.route("/tos")
+@app.route("/tos/")
 def serve_tos():
   return render("tos.html")
 
-@app.route("/privacy")
+@app.route("/privacy/")
 def serve_privacy():
   return render("privacy.html")
-
-@app.errorhandler(404)
-def serve_404(e):
-  return "404"
-
-@app.errorhandler(403)
-def serve_403(e):
-  return "403"
 
 @app.route("/favicon.ico")
 def serve_favicon():

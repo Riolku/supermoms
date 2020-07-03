@@ -1,0 +1,56 @@
+{%- extends 'layout.html' -%}
+
+{%- block title -%}
+Super Moms Club - Card Payment
+{%- endblock -%}
+
+{%- block header -%}
+<script src="/static/js/stripe.js" defer></script>
+<script src="/static/js/checkout.js" defer></script>
+{%- endblock -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  <br><br><br>
+  
+  <h4>
+    Enter your Card Details
+  </h4>
+  
+  <h6>
+     For your payment of ${{ amount }}
+  </h6>
+  
+  <br><br>
+
+  <form id="payment-form" data-secret="{{client_secret}}" data-id="{{stripe_pkey}}">
+    <div id="card-element"></div>
+    
+    <br>
+    
+    <!-- We'll put the error messages in this element -->
+    <div id="card-errors" role="alert"></div>
+
+    <button class="btn pink lighten-2 waves-effect" type="submit">
+      Pay
+    </button>
+  </form>
+
+  <br><br><br><br>
+  
+</div>
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-3.jpg" width=100vw />
+  </div>
+</div>
+
+{%- endblock -%}

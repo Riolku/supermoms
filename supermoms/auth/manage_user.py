@@ -10,9 +10,15 @@ from werkzeug.local import Local
 # Setup a thread proxy object
 user_manager = Local()
 user = user_manager("user")
+has_user = user_manager("has_user")
 
 @app.before_request
+def ensure_user():
+  if not has_user: resolve_user()
+
 def resolve_user():
+  user_manager.has_user = True
+  
   # If the request endpoint is static, don"t resolve the user
   if request.endpoint == "static":
     return
@@ -34,6 +40,12 @@ def resolve_user():
   if u:
     if user_d["time"] + 7 * 60 * 60 * 24 > get_time() and u.invalidate_tokens_before < user_d["time"]:
       user_manager.user = u
+      
+@app.after_request
+def unset_has_user(resp):
+  user_manager.has_user = False
+  
+  return resp
 
 def is_session_fresh():
   assert user is not None, "You must have an active user to call is_session_fresh"

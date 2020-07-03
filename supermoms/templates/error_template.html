@@ -1,0 +1,21 @@
+{%- extends 'layout.html' -%}
+
+{%- block title -%}
+Super Moms Club - {{ head }}
+{%- endblock -%}
+
+{%- block content -%}
+
+<div class="container">
+  {%- include 'flashes.html' -%}
+  
+  <h2 class="header grey-text text-darken-3">
+    {{ head }}
+  </h2>
+  
+  <p>
+    {{ message }}
+  </p>
+</div>
+
+{%- endblock -%}

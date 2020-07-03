@@ -36,28 +36,17 @@
           <label for="rpassword">{{ locale["rpassword"] }}</label>
         </div>
       </div>
-      <h5 class="header grey-text text-darken-3">
-        {{ locale["payment_info"] }}
-      </h5>
-      <div class="row">
-        <div class="input-field col s12 m6 l6">
-          <input id="card" name="card" type="number" class="validate" max="9999999999999999" value="{{ __field_card }}" />
-          <label for="card">{{ locale["card"] }}</label>
-        </div>
-        <div class="input-field col s6 m3 l3">
-          <input id="cvv" name="cvv" type="number" class="validate" max="9999" value="{{ __field_cvv }}" />
-          <label for="cvv">{{ locale["cvv"] }}</label>
-        </div>
-        <div class="input-field col s6 m3 l3">
-          <input id="postal" name="postal" type="text" class="validate" pattern="[A-Za-z][0-9][A-Za-z] ?[0-9][A-Za-z][0-9]" title="{{ locale['invalid_postal'] }}" value="{{ __field_postal }}" />
-          <label for="postal">{{ locale["postal"] }}</label>
-        </div>
-      </div>
       
       <button class="btn pink lighten-2 waves-effect" type="submit" name="action">
         {{ locale["save"] }}
       </button>
     </form>
+  </div>
+</div>
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-3.jpg" width=100vw />
   </div>
 </div>
 
