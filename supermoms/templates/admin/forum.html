@@ -1,7 +1,7 @@
 {%- extends 'layout.html' -%}
 
 {%- block title -%}
-Super Moms Club - Admin - Forums
+Super Moms Club - {{ locale["admin"] }} - {{ locale["forums"] }}
 {%- endblock -%}
 
 {%- block content -%}
@@ -30,12 +30,12 @@ Super Moms Club - Admin - Forums
               <div class="card-action">
                 <div class="row">
                   <div class="col s3">
-                    <a href="/forum/{{ f.id }}" class="btn pink lighten-2 waves-effect">View</a>
+                    <a href="/forum/{{ f.id }}" class="btn pink lighten-2 waves-effect">{{ locale["view"] }}</a>
                   </div>
 
                   <div class="col s3 right">
                     <button type="submit" name="delete" value="{{ f.id }}" class="btn pink lighten-2 waves-effect">
-                      Delete
+                      {{ locale["delete"] }}
                     </button>
                   </div>
                 </div>
@@ -52,7 +52,7 @@ Super Moms Club - Admin - Forums
     <br>
     
     <h4>
-      Create Sub-Forum
+      {{ locale["create_subforum"] }}
     </h4>
     
     <br>
@@ -60,17 +60,17 @@ Super Moms Club - Admin - Forums
     <div class="row">
       <div class="col input-field s12">
         <input type="text" name="title" id="title" class="validate" />
-        <label for="title">Title</label>
+        <label for="title">{{ locale["title"] </label>
       </div>
     </div>
     
     <div class="row">
       <div class="switch col">
         <label>
-          English
+          {{ locale["EN"] }}
           <input type="checkbox" name="lang_cn">
           <span class="lever"></span>
-          Chinese
+          {{ locale["CN"] }}
         </label>
       </div> 
     </div>
@@ -78,7 +78,7 @@ Super Moms Club - Admin - Forums
     <div class="row">
       <div class="col">
         <button type="submit" class="btn pink lighten-2 waves-effect">
-          Create
+          {{ locale["create"] }}
         </button>
       </div>
     </div>

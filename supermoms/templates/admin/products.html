@@ -1,7 +1,7 @@
 {%- extends 'layout.html' -%}
 
 {%- block title -%}
-Super Moms Club - Admin - Products/Workshops
+Super Moms Club - {{ locale["admin"] }} - {{ locale["products"] }}/{{ locale["workshops"] }}
 {%- endblock -%}
 
 {%- block content -%}
@@ -18,7 +18,7 @@ Super Moms Club - Admin - Products/Workshops
   {% include 'flashes.html' %}
   
   <h2>
-    Manage Products/Workshops
+    {{ locale["manage"] }} {{ locale["products"] }}/{{ locale["workshops"] }}
   </h2>
   
   <form method="post">
@@ -38,14 +38,14 @@ Super Moms Club - Admin - Products/Workshops
               <div class="card-action">
                 <div class="row">
                   <div class="col s3">
-                    <a href="/product/{{ p.id }}" class="btn pink lighten-2 waves-effect">View</a>                  
+                    <a href="/product/{{ p.id }}" class="btn pink lighten-2 waves-effect">{{ locale["view"] }}</a>                  
                   </div>
                   <div class="col s2">                
-                    <a href="/admin/product/{{ p.id }}" class="btn pink lighten-2 waves-effect">Edit</a>
+                    <a href="/admin/product/{{ p.id }}" class="btn pink lighten-2 waves-effect">{{ locale["edit"] }}</a>
                   </div>
                   <div class="col right s2">
                     <button name="delete" value="{{p.id}}" type="submit" class="btn pink lighten-2 waves-effect right">
-                      Delete
+                      {{ locale["delete"] }}
                     </button>
                   </div>
                 </div>
@@ -65,16 +65,16 @@ Super Moms Club - Admin - Products/Workshops
     <br>
     
     <h4>
-      Create Product/Workshop
+      {{ locale["create"] }} {{ locale["Product"] }}/{{ locale["Workshop"] }}
     </h4>
     
     <div class="row">
       <div class="switch col">
         <label>
-          Product
+          {{ locale["Product"] }}
           <input type="checkbox" name="workshop">
           <span class="lever"></span>
-          Workshop
+          {{ locale["Workshop"] }}
         </label>
       </div>
     </div>
@@ -82,7 +82,7 @@ Super Moms Club - Admin - Products/Workshops
     <div class="row">
       <div class="col">
         <button type="submit" class="btn pink lighten-2 waves-effect">
-          Create
+          {{ locale["create"] }}
         </button>
       </div>
     </div>

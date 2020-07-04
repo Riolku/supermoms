@@ -78,3 +78,38 @@ cancel Cancel
 confirm Confirm
 admin Admin
 edit Edit
+Product Product
+Workshop Workshop
+stock Stock
+price Price (CAD)
+price_helper The price must be at least 50 cents, or free.
+english_name English Name
+chinese_name Chinese Name
+english_desc English Description
+chinese_desc Chinese Description
+markdown_helper This field is formatted with markdown. For more information, please check the FAQ.
+upload_image Upload Image
+hidden Hidden
+public Public
+back Back
+view View
+create_subforum Create Sub-Forum
+create Create
+manage Manage
+card_payment Card Payment
+enter_card_details Enter your card details
+for_payment_of For your payment of
+pay Pay
+remove_from_cart Remove from cart
+register Register
+current_quantity You have _ of this item in your cart.
+new_quantity New Quantity
+update_cart Update Cart
+quantity Quantity
+out_of_stock Out of stock
+add_to_cart Add to cart
+checkout Checkout
+view_cart View Cart
+your_total_is Your total is
+pay_with_card Pay with credit/debit card
+pay_with_pp Pay with PayPal

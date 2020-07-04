@@ -1,7 +1,7 @@
 {%- extends 'layout.html' -%}
 
 {%- block title -%}
-Super Moms Club - {{ type }}
+Super Moms Club - {{ locale[type] }}
 {%- endblock -%}
 
 {%- block content -%}
@@ -18,7 +18,7 @@ Super Moms Club - {{ type }}
   {% include 'flashes.html' %}
   
   <h2>
-    {{ type }}
+    {{ locale[type] }}
   </h2>
   
   <br><br>
@@ -46,7 +46,7 @@ Super Moms Club - {{ type }}
             <div class="card-action">
               <div class="row">
                 <div class="col s3">
-                  <a href="/product/{{ p.id }}" class="btn pink lighten-2 waves-effect">View</a>
+                  <a href="/product/{{ p.id }}" class="btn pink lighten-2 waves-effect">{{ locale["view"] }}</a>
                 </div>
               </div>
             </div>
@@ -64,7 +64,7 @@ Super Moms Club - {{ type }}
   
   <div class="row">
     <div class="col">
-      <a class="btn pink lighten-2 waves-effect" href="/view-cart/">Checkout<i class="material-icons left">shopping_cart</i></a>
+      <a class="btn pink lighten-2 waves-effect" href="/view-cart/">{{ locale["checkout"] }}<i class="material-icons left">shopping_cart</i></a>
     </div>
   </div>
   

@@ -1,7 +1,7 @@
 {%- extends 'layout.html' -%}
 
 {%- block title -%}
-Super Moms Club - Card Payment
+Super Moms Club - {{ locale["card_payment"] }}
 {%- endblock -%}
 
 {%- block header -%}
@@ -21,11 +21,11 @@ Super Moms Club - Card Payment
   <br><br><br>
   
   <h4>
-    Enter your Card Details
+    {{ locale["enter_card_details"] }}
   </h4>
   
   <h6>
-     For your payment of ${{ "%.2f" % amount }}
+     {{ locale["for_payment_of"] }} ${{ "%.2f" % amount }}
   </h6>
   
   <br><br>
@@ -39,7 +39,7 @@ Super Moms Club - Card Payment
     <div id="card-errors" role="alert"></div>
 
     <button class="btn pink lighten-2 waves-effect" type="submit">
-      Pay
+      {{ locale["pay"] }}
     </button>
   </form>
 

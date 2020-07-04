@@ -1,7 +1,7 @@
 {%- extends 'layout.html' -%}
 
 {%- block title -%}
-Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ p.type }}
+Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ locale[p.type] }}
 {%- endblock -%}
 
 {%- block content -%}
@@ -13,7 +13,7 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ p.type }}
   
   <div class="row">
     <div class="col s3">
-      <a class="btn pink lighten-2 waves-effect" href="/admin/products/">Back</a>
+      <a class="btn pink lighten-2 waves-effect" href="/admin/products/">{{ locale["back"] }}</a>
     </div>
   </div>
   
@@ -21,7 +21,7 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ p.type }}
     
     <div class="col s12">
       <h2>
-        Edit {{ p.type }}
+        {{ locale["edit"] }} {{ locale[p.type] }}
       </h2>
     </div>
   </div>
@@ -32,25 +32,25 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ p.type }}
     <div class="row">
       <div class="input-field s6 col">
         <input id="stock" name="stock" type="number" class="validate" value="{{p.stock}}">
-        <label for="stock">Stock</label>
+        <label for="stock">{{ locale["stock"] }}</label>
       </div>
 
       <div class="input-field col s6">
         <input id="price" type="number" name="price" value="{{p.price}}" step="0.01">  
-        <label for="price">Price (CAD)</label>
-        <span class="helper-text">The price must be at least 50 cents, or free</span>
+        <label for="price">{{ locale["price"] }}</label>
+        <span class="helper-text">{{ locale["price_helper"] }}</span>
       </div>
     </div>
     
     <div class="row">
       <div class="input-field s6 col">
         <input id="en_name" name="en_name" type="text" class="validate" value="{{p.en_name}}">
-        <label for="en_name">English Name</label>
+        <label for="en_name">{{ locale["english_name"] }}</label>
       </div>
       
       <div class="input-field col s6">
         <input id="cn_name" type="text" name="cn_name" value="{{p.cn_name}}" class="validate">  
-        <label for="cn_name">Chinese Name</label>
+        <label for="cn_name">{{ locale["chinese_name"] }}</label>
       </div>
     </div>
     
@@ -59,13 +59,13 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ p.type }}
     <div class="row">
       <div class="input-field s6 col">
         <textarea name="en_desc" id="en_desc" class="materialize-textarea">{{p.en_desc}}</textarea>
-        <label for="en_desc">English Description</label>
-        <span class="helper-text">The description is formatted with markdown. For more information, please check the FAQ.</span>
+        <label for="en_desc">{{ locale["english_desc"] }}</label>
+        <span class="helper-text">{{ locale["markdown_helper"] }}</span>
       </div>
       
       <div class="input-field s6 col">
         <textarea name="cn_desc" id="cn_desc" class="materialize-textarea">{{p.cn_desc}}</textarea>
-        <label for="cn_desc">Chinese Description</label>
+        <label for="cn_desc">{{ locale["chinese_desc"] }}</label>
       </div>
     </div>
     
@@ -74,7 +74,7 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ p.type }}
     <div class="row">
       <div class="file-field input-field col s12">
         <div class="btn">
-          <span>Upload Image</span>
+          <span>{{ locale["upload_image"] }}</span>
           <input type="file" accept="image/*" name="image">
         </div>
         <div class="file-path-wrapper">
@@ -88,14 +88,14 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ p.type }}
     <div class="row">
       <div class="switch col">
         <label>
-          Hidden
+          {{ locale["hidden"] }}
           {% if not p.hidden %}
             <input type="checkbox" name="publish" checked>
           {% else %}
             <input type="checkbox" name="publish">
           {% endif %}
           <span class="lever"></span>
-          Public
+          {{ locale["public"] }}
         </label>
       </div>
     </div>
@@ -105,7 +105,7 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ p.type }}
     <div class="row">
       <div class="col">
         <button type="submit" class="btn pink lighten-2 waves-effect">
-          Update
+          {{ locale["save"] }}
         </button>
       </div>
     </div>

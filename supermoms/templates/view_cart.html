@@ -1,7 +1,7 @@
 {%- extends 'layout.html' -%}
 
 {%- block title -%}
-Super Moms Club - View Cart
+Super Moms Club - {{ locale["view_cart"] }}
 {%- endblock -%}
 
 {%- block content -%}
@@ -16,11 +16,11 @@ Super Moms Club - View Cart
   {%- include 'flashes.html' -%}
   
   <h2 class="header grey-text text-darken-3">
-    View Cart
+    {{ locale["view_cart"] }}
   </h2>
   
   <h6>
-    Your total is ${{ "%.2f" % total }}
+    {{ locale["your_total_is"] }} ${{ "%.2f" % total }}
   </h6>
   
   <div class="divider"></div>
@@ -32,8 +32,8 @@ Super Moms Club - View Cart
       <table class="striped centered">
         <thead>
           <tr>
-            <th>Product</td>
-            <th>Count</td>
+            <th>{{ locale["Product"] }}</td>
+            <th>{{ locale["quantity"] }}</td>
           </tr>
         </thead>
         
@@ -62,11 +62,11 @@ Super Moms Club - View Cart
   
   <form id="form" method="post">
     <button class="btn pink lighten-2 waves-effect" name="pay_method" type="submit" value="card">
-      Pay with a Credit/Debit Card
+      {{ locale["pay_with_card"] }}
     </button>
     
     <button class="btn pink lighten-2 waves-effect" name="pay_method" type="submit" value="paypal">
-      Pay with PayPal
+      {{ locale["pay_with_pp"] }}
     </button>
   </form>
   
