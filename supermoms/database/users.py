@@ -39,12 +39,12 @@ class Users(dbmodel, Helper):
     db_commit()
   
   # Create a new user with the specified name, email, password and language
-  def create(name, email, password, lang):
+  def create(name, username, email, password, lang):
     s = urandom(16)
     
     ph = argon2.argon2_hash(password, s)
     
-    return Users.add(name = name, email = email, salt = s, pass_hash = ph, lang = lang)
+    return Users.add(name = name, username = username, email = email, salt = s, pass_hash = ph, lang = lang)
     
   # Hash the password with the user's salt
   def hash(self, pword):

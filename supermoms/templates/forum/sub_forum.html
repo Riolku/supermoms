@@ -1,0 +1,87 @@
+{%- extends 'layout.html' -%}
+
+{%- block title -%}
+Super Moms Club - Sub-Forum
+{%- endblock -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  <br>
+  
+  <div class="row">
+    <nav>
+      <div class="nav-wrapper pink lighten-2">
+        <div class="col s12">
+          <a href="/forum" class="breadcrumb">Forum</a>
+          <a href="/forum/{{ sub_f.id }}" class="breadcrumb">{{ sub_f.title }}</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+  
+  {% include 'flashes.html' %}
+  
+  <h2>
+    Threads in {{ sub_f.title }}
+  </h2>
+  
+  <div class="row">
+    <div class="col s12">
+      <ul class="collection">
+        {%- for t in threads -%}
+          <a href="/forum/{{ sub_f.id }}/thread/{{ t.id }}" class="collection-item">{{t.title}}</a>
+        {% endfor %}  
+      </ul>
+    </div>    
+  </div>
+    
+  <div class="divider"></div>
+  <br>
+    
+  <h4>
+    Create New Thread
+  </h4>
+
+  <form method="post">
+    <div class="row">
+      <div class="input-field col s12">
+        <input type="text" name="title" id="title" class="validate" />
+        <label for="title">Title</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea name="content" id="content" class="materialize-textarea"></textarea>
+        <label for="content">Content</label>
+        <span class="helper-text">The content is formatted with markdown. For more information, please check the FAQ.</span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn pink lighten-2 waves-effect">
+          Create Thread
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <br><br>
+  
+</div>
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-3.jpg" width=100vw />
+  </div>
+</div>
+
+{%- endblock -%}

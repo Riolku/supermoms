@@ -51,7 +51,7 @@ def serve_subforum(id):
 
         fp = ForumPosts.add(uid = user.id, tid = ft.id, content = content)
 
-        return redirect('/forum/%d/thread/%d' % ft.id)
+        return redirect('/forum/%d/thread/%d' % (ft.id, fp.id))
 
   threads = ForumThreads.query.filter_by(sfid = id).all()
   
@@ -101,7 +101,15 @@ def serve_thread(sfid, tid, page = 1):
   
   filtered_posts = posts[(page - 1) * THREAD_POSTS_PER_PAGE : page * THREAD_POSTS_PER_PAGE]
   
-  return render("forum/thread.html", sub_f = sub_f, thread = thread, posts = filtered_posts)
+  uids = [fp.uid for fp in filtered_posts]
+  
+  users = Users.query.filter(Users.id.in_(uids)).all()
+  
+  u_dict = {u.id : u for u in users}
+      
+  user_list = [u_dict[fp.uid] for fp in filtered_posts]
+  
+  return render("forum/thread.html", sub_f = sub_f, thread = thread, content = zip(user_list, filtered_posts))
   
 
 @app.route('/admin/forum/', methods = ["GET", "POST"])
