@@ -1,7 +1,12 @@
+EN EN
+CN CN
 home Home
 about About
 shop Shop
 blog Blog
+forums Forums
+products Products
+workshops Workshops
 tos Terms of Service
 privacy Privacy Policy
 signin Sign In
@@ -49,6 +54,7 @@ signin_link_exp Email sign in link expired; please try again.
 signin_link_no_user Target user for this sign in link does not exist. This issue should not happen. Please contact the administrators.
 signin_link_email_changed This sign-in link is invalid because the user's email address changed.
 open_action Open
+edit_action Edit
 comments_singular comment
 comments_plural comments
 comments Comments
@@ -56,3 +62,16 @@ comment Comment
 post_comment Post Comment
 post_action Post
 comment_empty Please enter a comment!
+comment_does_not_exist The comment does not exist!
+comment_delete_no_permission You do not have permission to delete this comment!
+comment_deleted Successfully deleted comment!
+deleted_comment [deleted comment]
+post_does_not_exist The post does not exist!
+post_deleted Successfully deleted post!
+hidden_post This post is hidden and can only be seen by admins.
+title Title
+content Content
+saved_blog_post Saved blog post!
+delete Delete
+cancel Cancel
+confirm Confirm

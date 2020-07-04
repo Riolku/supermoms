@@ -40,9 +40,7 @@ def urlencode_filter(s):
   s = urllib.parse.quote_plus(s)
   return Markup(s)
 
-@app.template_filter("markdown")
-def parse_markdown(text):
-  return misaka.html(text.replace("\n", "<br />"))
+app.template_filter("markdown")(misaka.html)
 
 @app.template_filter("format_time")
 def format_time(ts):

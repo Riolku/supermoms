@@ -1,0 +1,55 @@
+{%- extends 'layout.html' -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  {%- include 'flashes.html' -%}
+  
+  <h2 class="header grey-text text-darken-3">
+    {{ locale["edit_blog_post"] }}
+  </h2>
+  
+  <div class="row">
+    <form class="col s12" method="post">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="title" name="title" type="text" class="validate" required value="{{ __field_title }}" />
+          <label for="title">{{ locale["title"] }}</label>
+        </div>
+        <div class="input-field col s12">
+          <textarea id="content" name="content" class="materialize-textarea" required>{{ __field_content }}</textarea>
+          <label for="content">{{ locale["content"] }}</label>
+        </div>
+      </div>
+      
+      <div class="switch">
+        <label>
+          {{ locale["EN"] }}
+          <input type="checkbox" name="lang" {%- if __field_lang == "CN" -%} checked {%- endif -%} />
+          <span class="lever"></span>
+          {{ locale["CN"] }}
+        </label>
+      </div>
+      
+      <br />
+      
+      <button class="btn pink lighten-2 waves-effect" type="submit" name="action">
+        {{ locale["save"] }}
+      </button>
+    </form>
+  </div>
+</div>
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-3.jpg" width=100vw />
+  </div>
+</div>
+
+{%- endblock -%}

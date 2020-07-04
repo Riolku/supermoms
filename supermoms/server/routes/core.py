@@ -243,7 +243,7 @@ def serve_signout_all():
 @app.route("/blog")
 @app.route("/blog/<int:page>")
 def serve_blog(page = 1):
-  return render("blog.html", posts = BlogPosts.query.all()[(page - 1) * 5:][:5])
+  return render("blog.html", posts = BlogPosts.query.filter_by(lang = get_lang()).all()[(page - 1) * 5:][:5])
 
 @app.route("/post/<int:id>", methods = ["GET", "POST"])
 def serve_post(id):
@@ -259,6 +259,59 @@ def serve_post(id):
       db_commit()
     
     return redirect("/post/%d" % id, code = 303)
+
+@app.route("/delete-comment/<int:id>", methods = ["POST"])
+@authorize
+def delete_comment(id):
+  comment = BlogComments.query.filter_by(id = id).first()
+  
+  if comment is None:
+    flash(get_locale()["comment_does_not_exist"], "error")
+  elif not user.admin and comment.author != user.id:
+    flash(get_locale()["comment_delete_no_permission"], "error")
+  else:
+    comment.deleted = True
+    flash(get_locale()["comment_deleted"], "success")
+    db_commit()
+    
+  return redirect("/post/%d" % comment.bid, code = 303)
+
+@app.route("/delete-blog-post/<int:id>", methods = ["POST"])
+@admin_auth
+def delete_blog_post(id):
+  post = BlogPosts.query.filter_by(id = id).first()
+  
+  if post is None:
+    flash(get_locale()["post_does_not_exist"], "error")
+  else:
+    BlogPosts.query.filter_by(id = id).delete()
+    flash(get_locale()["post_deleted"], "success")
+    db_commit()
+  
+  return redirect("/blog", code = 303)
+
+@app.route("/create-blog-post")
+@admin_auth
+def create_blog_post():
+  bp = BlogPosts.add(title = "", content = "", author = user.id, lang = get_lang())
+  db_commit()
+  return redirect("/edit-blog-post/%d" % bp.id)
+
+@app.route("/edit-blog-post/<int:id>", methods = ["GET", "POST"])
+@admin_auth
+def edit_blog_post(id):
+  bp = BlogPosts.query.filter_by(id = id).first_or_404()
+  
+  if request.method == "GET":
+    return render("edit-blog-post.html", __field_title = bp.title, __field_content = bp.content, __field_lang = bp.lang)
+  else:
+    bp.title = request.form["title"]
+    bp.content = request.form["content"]
+    bp.lang = "CN" if "lang" in request.form else "EN"
+    bp.hidden = False
+    db_commit()
+    flash(get_locale()["saved_blog_post"], "success")
+    return redirect("/blog", code = 303)
 
 @app.route("/tos/")
 def serve_tos():

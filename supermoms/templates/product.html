@@ -28,8 +28,8 @@ Super Moms Club - {{ p.type }}
         <img src="/product/{{ p.id }}/image" class="responsive-img"/>      
       </div>
       
-      <div class="col s8">
-        {{ desc | markdown | safe }}
+      <div class="col s8 mdbox">
+        {{ p.desc | markdown | safe }}
       </div>
     </div>
 
