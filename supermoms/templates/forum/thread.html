@@ -40,8 +40,12 @@ Super Moms Club - Sub-Forum
   {% for u, p in content %}
     <div class="row">
       <div class="col s6">
-        {% if u.premium %}
-          <h5 class="yellow-text text-accent-4">
+        {% if u.admin %}
+          <h5 class="grey-text text-darken-4">
+            <strong>{{u.username}}</strong>
+          </h5>
+        {% elif u.premium %}
+          <h5 class="amber-text text-accent-4">
             {{ u.username }}
           </h5>
         {% else %}
@@ -51,8 +55,8 @@ Super Moms Club - Sub-Forum
         {% endif %}
       </div>
       
-      <div class="col s3">
-        
+      <div class="col right">
+        <span class="grey-text">{{ p.time | format_time}}</span>
       </div>
     </div>
   
@@ -61,9 +65,10 @@ Super Moms Club - Sub-Forum
         {{ p.content | markdown | safe }}
       </div>    
     </div>
+  
+    <div class="divider"></div>
   {% endfor %}
   
-  <div class="divider"></div>
   <br>
     
   <h4>
