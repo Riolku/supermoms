@@ -38,35 +38,52 @@ def serve_product(id):
     if not user:
       return redirect("/signin?next=%s" % request.path, code = 303)
     
+    bad = False
+    
     if product.workshop: qty = 1
-    else: qty = int(request.form['qty'])
-      
-    if product.workshop and ci:
-      flash("You cannot register again! Proceed to checkout to confirm your registration.", "error")
-      
-    elif product.workshop and (WorkshopUsers.query.filter_by(uid = user.id, pid = product.id).count() > 0):
-      flash("You have already registered for this workshop!", "error")
-            
     else:
-      if ci:
-        ci.count += qty
+      try:
+        qty = int(request.form['qty'])
+      except ValueError:
+        flash("Please enter a valid integer for the quantity!", "error")
+        
+        bad = True
+     
+    if not bad:
 
-        ci.count = min(ci.count, product.stock)
+      if product.workshop and ci:
+        if 'remove_cart' in request.form:
+          CartItems.remove(ci)
 
-        if ci.count == 0: CartItems.remove(ci)
+          flash("You have been unregistered.", "success")
+        else:        
+          flash("You cannot register again! Proceed to checkout to confirm your registration.", "error")
 
-        else:  
-          db_commit()
+      elif product.workshop and (WorkshopUsers.query.filter_by(uid = user.id, pid = product.id).count() > 0):
+        flash("You have already registered for this workshop!", "error")
 
       else:
-        CartItems.add(uid = user.id, pid = id, count = qty)
-        
-      if product.workshop:
-        flash("You have been registered! You must checkout to confirm your registration.", "success")
-        
-      else:
-        flash("Items added to cart.", "success")
-        
+        if ci:
+          ci.count = min(qty, product.stock)
+
+          if ci.count == 0: 
+            CartItems.remove(ci)
+
+          else:  
+            db_commit()
+
+        else:
+          CartItems.add(uid = user.id, pid = id, count = qty)
+
+        if product.workshop:
+          flash("You have been registered! You must checkout to confirm your registration.", "success")
+
+        else:
+          flash("Items added to cart.", "success")
+      
+    # Get the cart item again cause it mightve been updated
+    ci = CartItems.query.filter_by(uid = user.id, pid = id).first()
+      
   registered = False
   cart = False
   
@@ -79,7 +96,7 @@ def serve_product(id):
   
   if ci: cur_qty = ci.count
   
-  return render("product.html", p = product, cqty = cur_qty, desc = desc, name = name, cart = cart, registered = registered)
+  return render("product.html", p = product, cur_qty = cur_qty, desc = desc, name = name, cart = cart, registered = registered)
   
 
 @app.route("/product/<int:id>/image/")
@@ -129,19 +146,33 @@ def serve_admin_product(id):
     cn_desc = request.form['cn_desc']
     
     
-    stock = int(request.form['stock'])
+    stock = request.form['stock']
     image = request.files['image'].read()
-    price = float(request.form['price'])
+    price = request.form['price']
     hidden = 'publish' not in request.form
     
     bad = False
+    
+    try: 
+      stock = int(stock)
+    except ValueError:
+      flash("Please enter a valid integer for the stock.", "success")
+      
+      bad = True
+      
+    try: 
+      price = float(price)
+    except ValueError:
+      flash("Please enter a valid number for the price.", "success")
+      
+      bad = True
 
     if len(en_name) > 1023 or len(cn_name) > 1023:
       flash("Product name too long!", "error")
 
       bad = True
       
-    if price < 0.5 and price != 0:
+    if type(price) == float and price < 0.5 and price != 0:
       flash("Price must be either at least 50 cents or free!", "error")
       
       bad = True
@@ -159,7 +190,8 @@ def serve_admin_product(id):
     if not bad:
       product.stock = stock
       product.hidden = hidden
-      product.image = image
+      
+      if len(image) > 16: product.image = image
       
       product.en_name = en_name
       product.cn_name = cn_name

@@ -14,6 +14,7 @@ class Helper:
     
     return obj
   
+  @classmethod
   def remove(cls, obj, _flush = True):
     db.session.delete(obj)
     

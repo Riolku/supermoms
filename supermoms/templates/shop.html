@@ -13,20 +13,34 @@ Super Moms Club - {{ type }}
 </div>
 
 <div class="container">
-  <br><br><br>
+  <br>
   
   {% include 'flashes.html' %}
+  
+  <h2>
+    {{ type }}
+  </h2>
+  
+  <br><br>
   
   {%- for i in range((len(products) + 3) // 4) -%}
     <div class="row">
       {% for p in products[i * 4: (i + 1) * 4] %}
+        {% set desc = p.en_desc %}
+        {% set name = p.en_name %}
+      
+        {% if lang == "CN" %}
+          {% set desc = p.cn_desc %}
+          {% set name = p.cn_name %}
+        {% endif %}
+      
         <div class="col s3">
           <div class="card sticky-action">
             <div class="card-image waves-effect waves-block waves-light">
               <img class="activator" src="/product/{{p.id}}/image/">
             </div>
             <div class="card-content">
-              <span class="card-title activator grey-text text-darken-4">{{ p.name }}<i class="material-icons right">more_vert</i></span>
+              <span class="card-title activator grey-text text-darken-4">{{ name }}<i class="material-icons right">more_vert</i></span>
             </div>
 
             <div class="card-action">
@@ -38,8 +52,8 @@ Super Moms Club - {{ type }}
             </div>
 
             <div class="card-reveal">
-              <span class="card-title grey-text text-darken-4">{{p.name}}<i class="material-icons right">close</i></span>
-              <div>{{p.desc[:1000]}}</div>
+              <span class="card-title grey-text text-darken-4">{{name}}<i class="material-icons right">close</i></span>
+              <div>{{desc[:1000]}}</div>
             </div>
           </div>
         </div>
@@ -47,6 +61,12 @@ Super Moms Club - {{ type }}
     </div>
 
   {% endfor %}
+  
+  <div class="row">
+    <div class="col">
+      <a class="btn pink lighten-2 waves-effect" href="/view-cart/">Checkout<i class="material-icons left">shopping_cart</i></a>
+    </div>
+  </div>
   
 </div>
 

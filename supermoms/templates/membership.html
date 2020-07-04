@@ -1,0 +1,74 @@
+{%- extends 'layout.html' -%}
+
+{%- block title -%}
+Super Moms Club - Membership
+{%- endblock -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  {%- include 'flashes.html' -%}
+  
+  <h2 class="header grey-text text-darken-3">
+    Buy Membership
+  </h2>
+  
+  {% set payment = True %}
+  
+  {% if not user %}
+    <p>
+      <a href="/signin/">Log In</a> to purchase a membership.  
+    </p>
+    {% set payment = False %}
+  {% elif user.premium_end == 0 %}
+    <p>
+      Buy Your Membership now  
+    </p>
+  {% elif 0 > user.premium_end - get_time() %}
+    <p>
+      Renew your expired membership.  
+    </p>
+  {% elif user.premium_end - get_time() > 31 * 24 * 60 * 60 %}
+    <p>
+      Your membership is not due for renewal. It has {{ (user.premium_end - get_time()) // (24 * 60 * 60) }} days left.
+    </p>
+  
+    {% set payment = False %}
+  {% else %}
+    <p>
+      Renew your membership. It has {{ (user.premium_end - get_time()) // (24 * 60 * 60) }} days left.
+    </p>
+  {% endif %}
+  
+  {% if payment %}
+    <div class="divider"></div>
+
+    <br>
+
+    <form id="form" method="post">
+      <button class="btn pink lighten-2 waves-effect" name="pay_method" type="submit" value="card">
+        Credit/Debit Card
+      </button>
+
+      <button class="btn pink lighten-2 waves-effect" name="pay_method" type="submit" value="paypal">
+        PayPal
+      </button>
+    </form>
+  {% endif %}
+  
+  <br><br><br>
+</div>
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-3.jpg" width=100vw />
+  </div>
+</div>
+
+{%- endblock -%}

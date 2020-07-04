@@ -1,4 +1,4 @@
-from flask import request, abort, Response
+from flask import request, abort, Response, flash
 
 from .utils import *
 from supermoms import app
@@ -9,7 +9,7 @@ from supermoms.database.cart_items import CartItems
 from supermoms.database.utils import db_commit
 from supermoms.utils.time import get_time, DAY
 
-@app.route('/membership', methods = ['GET', "POST"])
+@app.route('/membership/', methods = ['GET', "POST"])
 def serve_membership():
   # Couple cases for display here
   
@@ -47,7 +47,7 @@ def confirm_membership():
   p = pop_payment()
   
   assert p['amount'] == 99
-  assert p['return_url'] == '/membership/confirm'
+  assert p['return_url'] == '/membership/confirm/'
   
   user.extend_premium(366 * DAY)
   
