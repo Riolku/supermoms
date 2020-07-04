@@ -15,3 +15,7 @@ class Products(Helper, dbmodel):
   workshop = dbcol(dbbool, nullable = False)
   
   lang = dbcol(dbstr(16), nullable = False)
+  
+  @property
+  def type(self):
+    return "Workshop" if self.workshop else "Product"

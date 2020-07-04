@@ -1,7 +1,7 @@
 {%- extends 'layout.html' -%}
 
 {%- block title -%}
-Super Moms Club - Admin - Edit Product
+Super Moms Club - Admin - Edit {{ p.type }}
 {%- endblock -%}
 
 {%- block content -%}
@@ -9,58 +9,88 @@ Super Moms Club - Admin - Edit Product
 <div class="container">
   <br><br><br>
   
-  <h2>
-    Edit Product
-  </h2>
+  {% include 'flashes.html' %}
+  
+  <div class="row">
+    <div class="col s3">
+      <a class="btn pink lighten-2 waves-effect" href="/admin/products/">Back</a>
+    </div>
+  </div>
+  
+  <div class="row">
+    
+    <div class="col s12">
+      <h2>
+        Edit {{ p.type }}
+      </h2>
+    </div>
+  </div>
+  
+  <br>
   
   <form method="post" enctype="multipart/form-data">
-    
-    <div class="input-field s6">
-      <input id="name" name="name" type="text" class="validate" value="{{product.name}}">
-      <label for="name">Name</label>
-    </div>
-    
-    <br>
-    
-    <div class="input-field col s12">
-      <textarea name="desc" id="desc" class="materialize-textarea">{{product.desc}}</textarea>
-      <label for="desc">Description</label>
-    </div>
-    
-    <br>
-    
-    <input type="number" name="stock" value="{{product.stock}}">
-    
-    <div class="file-field input-field">
-      <div class="btn">
-        <span>Image</span>
-        <input type="file" accept="image/*" name="image">
+    <div class="row">
+      <div class="input-field s6 col">
+        <input id="name" name="name" type="text" class="validate" value="{{p.name}}">
+        <label for="name">Name</label>
       </div>
-      <div class="file-path-wrapper">
-        <input class="file-path validate" type="text">
+      
+      <div class="input-field col s6">
+        <input id="stock" type="number" name="stock" value="{{p.stock}}">  
+        <label for="stock">Stock</label>
       </div>
     </div>
     
     <br>
     
-    <div class="switch">
-      <label>
-        Hidden
-        {% if not product.hidden %}
-          <input type="checkbox" name="publish" checked>
-        {% else %}
-          <input type="checkbox" name="publish">
-        {% endif %}
-        <span class="lever"></span>
-        Public
-      </label>
+    <div class="row">
+      <div class="input-field s12 col">
+        <textarea name="desc" id="desc" class="materialize-textarea">{{p.desc}}</textarea>
+        <label for="desc">Description</label>
+        <span class="helper-text">The description is formatted with markdown. For more information, please check the FAQ.</span>
+      </div>
     </div>
     
     <br>
     
-    <button type="submit" class="btn pink lighten-2 waves-effect">
-      Update
-    </button>
+    <div class="row">
+      <div class="file-field input-field col s12">
+        <div class="btn">
+          <span>Upload Image</span>
+          <input type="file" accept="image/*" name="image">
+        </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text">
+        </div>
+      </div>
+    </div>
+    
+    <br>
+    
+    <div class="row">
+      <div class="switch col">
+        <label>
+          Hidden
+          {% if not p.hidden %}
+            <input type="checkbox" name="publish" checked>
+          {% else %}
+            <input type="checkbox" name="publish">
+          {% endif %}
+          <span class="lever"></span>
+          Public
+        </label>
+      </div>
+    </div>
+    
+    <br>
+    
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn pink lighten-2 waves-effect">
+          Update
+        </button>
+      </div>
+    </div>
     
     <br><br>
     

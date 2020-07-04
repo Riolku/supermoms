@@ -1,0 +1,79 @@
+{%- extends 'layout.html' -%}
+
+{%- block title -%}
+Super Moms Club - {{ p.type }}
+{%- endblock -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  <br><br><br>
+  
+  {% include 'flashes.html' %}
+  
+  <h2>
+    {{ p.name }}
+  </h2>
+  
+  <form method="post">
+    
+    <div class="row">
+      <div class="col s4">
+        <img src="/product/{{ p.id }}/image" width="75%"/>      
+      </div>
+      
+      <div class="col s8">
+        {{ p.desc | markdown | safe }}
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    
+    {% if cqty == 1 and p.workshop %}
+      <p>
+        You have already registered for this workshop.
+      </p>    
+    {% elif p.workshop %}
+      <div class="row">
+        <div class="col">
+          <button name="register" class="btn pink lighten-2 waves-effect" type="submit">
+            Register
+          </button>
+        </div>
+      </div>
+    {% else %}
+      <div class="row">
+        <div class="col s2 input-field">
+          <input type="number" id="qty" name="qty" min="0" max="{{p.stock}}"/>
+          <label for="qty">Quantity</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s3">
+          <button name="register" class="btn pink lighten-2 waves-effect" type="submit">
+            Add to cart
+          </button>
+        </div>
+      </div>
+    {% endif %}
+    
+    <br>
+    
+  </form>
+  
+</div>
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-3.jpg" width=100vw />
+  </div>
+</div>
+
+{%- endblock -%}

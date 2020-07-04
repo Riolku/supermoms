@@ -8,17 +8,17 @@ from supermoms.database.products import Products
 from supermoms.database.cart_items import CartItems
 from supermoms.database.utils import db_commit
 
-@app.route("/shop")
+@app.route("/products/")
 def serve_shop():
   products = Products.query.filter_by(workshop = False, lang = get_lang(), hidden = False).all()
 
-  return render("shop.html", products = products)
+  return render("shop.html", products = products, type = "Products")
   
-@app.route("/workshops")
+@app.route("/workshops/")
 def serve_workshops():
   workshops = Products.query.filter_by(workshop = True, lang = get_lang(), hidden = False).all()
   
-  return render("shop.html", products = workshops)
+  return render("shop.html", products = workshops, type = "Workshops")
   
 @app.route("/product/<int:id>", methods = ["GET", "POST"])
 def serve_product(id):
@@ -54,7 +54,7 @@ def serve_product(id):
   
   if cur_ci: cur_qty = cur_ci.count
   
-  return render("product.html", product = product, cqty = cur_qty)
+  return render("product.html", p = product, cqty = cur_qty)
   
 
 @app.route("/product/<int:id>/image/")
@@ -96,11 +96,13 @@ def serve_admin_product(id):
   product = Products.query.filter_by(id = id).first_or_404();
   
   if request.method == "POST":
+    print(request.form)
+    
     name = request.form['name']
     desc = request.form['desc']
     stock = request.form['stock']
     image = request.files['image'].read()
-    hidden = 'publish' in request.form
+    hidden = 'publish' not in request.form
     
     try: 
       if not stock: stock = 0
@@ -140,7 +142,7 @@ def serve_admin_product(id):
         
         flash("Product updated!", "success")
   
-  return render("admin/edit_product.html", product = product)
+  return render("admin/edit_product.html", p = product)
 
 @app.route("/view-cart/", methods = ["GET", "POST"])
 @authorize

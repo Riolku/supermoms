@@ -23,7 +23,8 @@ def context_processor():
     lang = get_lang(),
     path = request.path,
     query = request.args,
-    stripe_pkey = stripe_pkey
+    stripe_pkey = stripe_pkey,
+    len = len
   )
 
 render = render_template
