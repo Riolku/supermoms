@@ -1,0 +1,66 @@
+{%- extends 'layout.html' -%}
+
+{%- block title -%}
+Super Moms Club - Admin - Products
+{%- endblock -%}
+
+{%- block content -%}
+
+<div class="container">
+  <br><br><br>
+  
+  <h2>
+    Manage Products
+  </h2>
+  
+  <form method="post">
+    {%- for p in products -%}
+    
+      <div id="product_{{ p.id }}">
+        
+        <a href="/admin/product/{{ p.id }}">{{p.name}}</a>
+        
+        <button name="delete" value="{{p.id}}" type="submit">
+          Delete
+        </button>
+        
+      </div>
+    
+    {% endfor %}
+    
+    <br>
+    <hr />
+    <br>
+    
+    <h4>
+      Create Product
+    </h4>
+    
+    <div class="switch">
+      <label>
+        Product
+        <input type="checkbox" name="workshop">
+        <span class="lever"></span>
+        Workshop
+      </label>
+    </div>
+    
+    <div class="switch">
+      <label>
+        English
+        <input type="checkbox" name="lang_en">
+        <span class="lever"></span>
+        Chinese
+      </label>
+    </div>
+    
+    <br>
+    
+    <button type="submit" class="btn pink lighten-2 waves-effect">
+      Create
+    </button>
+  </form>
+  
+</div>
+
+{%- endblock -%}

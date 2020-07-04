@@ -1,0 +1,71 @@
+{%- extends 'layout.html' -%}
+
+{%- block title -%}
+Super Moms Club - Admin - Edit Product
+{%- endblock -%}
+
+{%- block content -%}
+
+<div class="container">
+  <br><br><br>
+  
+  <h2>
+    Edit Product
+  </h2>
+  
+  <form method="post" enctype="multipart/form-data">
+    
+    <div class="input-field s6">
+      <input id="name" name="name" type="text" class="validate" value="{{product.name}}">
+      <label for="name">Name</label>
+    </div>
+    
+    <br>
+    
+    <div class="input-field col s12">
+      <textarea name="desc" id="desc" class="materialize-textarea">{{product.desc}}</textarea>
+      <label for="desc">Description</label>
+    </div>
+    
+    <br>
+    
+    <input type="number" name="stock" value="{{product.stock}}">
+    
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>Image</span>
+        <input type="file" accept="image/*" name="image">
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+    
+    <br>
+    
+    <div class="switch">
+      <label>
+        Hidden
+        {% if not product.hidden %}
+          <input type="checkbox" name="publish" checked>
+        {% else %}
+          <input type="checkbox" name="publish">
+        {% endif %}
+        <span class="lever"></span>
+        Public
+      </label>
+    </div>
+    
+    <br>
+    
+    <button type="submit" class="btn pink lighten-2 waves-effect">
+      Update
+    </button>
+    
+    <br><br>
+    
+  </form>
+  
+</div>
+
+{%- endblock -%}

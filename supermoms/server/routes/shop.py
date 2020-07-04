@@ -1,4 +1,4 @@
-from flask import request, abort, Response
+from flask import request, abort, Response, flash
 
 from .utils import *
 from supermoms import app
@@ -35,11 +35,14 @@ def serve_product(id):
     ci = CartItems.query.filter_by(uid = user.id, pid = id).first()
     
     if ci:
-      if qty == 0:
-        del ci
+      ci.count += qty
       
-      else:
-        ci.count = qty
+      ci.count = min(ci.count, product.stock)
+
+      
+      if ci.count == 0: CartItems.remove(ci)
+      
+      else:  
         db_commit()
       
     else:
@@ -67,15 +70,19 @@ def serve_product_image(id):
 @admin_auth
 def serve_admin_products():  
   if request.method == "POST":
-    lang = request.form['lang']
-    workshop = request.form['workshop'] == 'workshop'
-    
-    if lang not in ['EN', 'CN']:
-      flash("Invalid language!", "error");
+    if 'delete' in request.form:
+      id = int(request.form['delete'])
+      
+      Products.query.filter_by(id = id).delete()
+      
+      flash("Product deleted!", "success")
       
     else:
-      p = Products.add(name = "", desc = "", stock = 0, image = b"", lang = lang, workshop = workshop, hidden = True)
-    
+      lang_cn = 'lang_cn' in request.form
+      workshop = 'workshop' in request.form
+
+      p = Products.add(name = "", desc = "", stock = 0, image = b"", lang = "CN" if lang_cn else "EN", workshop = workshop, hidden = True)
+
       return redirect("/admin/product/%d" % p.id, code = 303)
   
   products = Products.query.all()
@@ -92,12 +99,12 @@ def serve_admin_product(id):
     name = request.form['name']
     desc = request.form['desc']
     stock = request.form['stock']
-    image = request.form['image']
-    hidden = request.form['hidden'] == 'hidden'
+    image = request.files['image'].read()
+    hidden = 'publish' in request.form
     
     try: 
-      if not stock: stockdt = 0
-      else: stockdt = int(stock)
+      if not stock: stock = 0
+      else: stock = int(stock)
       
     except ValueError: flash("Stock is not an integer!", "error")
   
@@ -106,11 +113,6 @@ def serve_admin_product(id):
       # Using this weird construct for the first time, actually kind of nice...
       
       bad = False
-      
-      if stockdt < 0 and product.stock < -stockdt:
-        flash("Stock change would make stock negative!", "error")
-        
-        bad = True
         
       if len(name) > 1023:
         flash("Product name too long!", "error")
@@ -128,7 +130,7 @@ def serve_admin_product(id):
         bad = True
         
       if not bad:
-        product.stock += stockdt
+        product.stock = stock
         product.hidden = hidden
         product.image = image
         product.name = name
@@ -157,3 +159,4 @@ def serve_view_cart():
     return redirect('/pay/card', code = 303)
   
   return render("view_cart.html")
+

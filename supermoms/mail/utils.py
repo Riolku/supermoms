@@ -78,5 +78,5 @@ def send_expiry_email(to_addr, days, lang, _inner = False, sync = True):
   if _inner: func = _inner_send_mail
   elif sync: func = sync_send_mail
     
-  func(to_addr, em['subject'], em['body'].format(days = daystr))
+  func(to_addr, em['subject'], em['body'].format(daycount = daystr, domain = app.config['SERVER_NAME']))
 
