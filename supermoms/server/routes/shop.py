@@ -3,8 +3,9 @@ from flask import request, abort, Response, flash
 from .utils import *
 from supermoms import app
 from supermoms.auth.manage_user import user
-from supermoms.auth.payment import create_payment, pop_payment, get_payment, complete_payment
-from supermoms.database.products import Products, WorkshopUsers
+from supermoms.auth.payment import create_payment, pop_payment, get_payment, complete_payment, refund_payment
+from supermoms.auth.cart import *
+from supermoms.database.products import Products, ProductOrders
 from supermoms.database.cart_items import CartItems
 from supermoms.database.utils import db_commit
 
@@ -59,7 +60,7 @@ def serve_product(id):
         else:        
           flash("You cannot register again! Proceed to checkout to confirm your registration.", "error")
 
-      elif product.workshop and (WorkshopUsers.query.filter_by(uid = user.id, pid = product.id).count() > 0):
+      elif product.workshop and (ProductOrders.query.filter_by(uid = user.id, pid = product.id).count() > 0):
         flash("You have already registered for this workshop!", "error")
 
       else:
@@ -90,7 +91,7 @@ def serve_product(id):
   if product.workshop:
     if ci: cart = True
       
-    if user and WorkshopUsers.query.filter_by(uid = user.id, pid = product.id).count() > 0: registered = True
+    if user and ProductOrders.query.filter_by(uid = user.id, pid = product.id).count() > 0: registered = True
         
   cur_qty = 0
   
@@ -223,22 +224,65 @@ def serve_view_cart():
   total = sum(it[0].price * it[1].count for it in items)
   
   if request.method == "POST":
-    # Calculate total amount
-    amt = total
+    if not validate_cart():
+      flash("Some items in your cart have since run out of stock. Your cart has been updated. We are sorry for the inconvenience.")
     
-    create_payment(amt, "/confirm/checkout/")
+      citems = CartItems.query.filter_by(uid = user.id).all()
+  
+      pids = [ci.pid for ci in citems]
+
+      ps = Products.query.filter(Products.id.in_(pids)).all()
+
+      pmap = {p.id : p for p in ps}
+
+      items = [(pmap[ci.pid], ci) for ci in citems]
+
+      total = sum(it[0].price * it[1].count for it in items)
     
-    if amt == 0: 
-      complete_payment()
-      
-      return redirect("/confirm/checkout", code = 303)
-    
-    val = request.form['pay_method']
-    
-    if val == "paypal":
-      return redirect('/pay/paypal', code = 303)
-    
-    return redirect('/pay/card', code = 303)
+    else:
+      # Calculate total amount
+      amt = total
+
+      create_payment(amt, "/confirm/checkout/")
+
+      store_cart()
+
+      if amt == 0: 
+        complete_payment()
+
+        return redirect("/confirm/checkout", code = 303)
+
+      val = request.form['pay_method']
+
+      if val == "paypal":
+        return redirect('/pay/paypal', code = 303)
+
+      return redirect('/pay/card', code = 303)
   
   return render("view_cart.html", items = items, total = total)
 
+
+@app.route('/confirm/checkout/')
+@authorize
+def serve_checkout_confirm():
+  pay_obj = pop_payment()
+  
+  if not check_cart_same():
+    refund_payment(pay_obj)
+    
+    flash("Your cart has been modified since the payment session was initiated. Your payment has been refunded.", "error")
+    
+    return redirect('/view-cart/')
+  
+  if not validate_cart():
+    refund_payment(pay_obj)
+
+    flash("Some items in your cart have since run out of stock. Your cart has been updated. We are sorry for the inconvenience.", "error")
+        
+    return redirect("/view-cart/")
+  
+  process_cart()
+  
+  flash("Your payment was processed and your items have been purchased. Thank you!", "success")
+  
+  return redirect("/")

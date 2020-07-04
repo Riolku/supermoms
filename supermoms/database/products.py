@@ -27,8 +27,9 @@ class Products(Helper, dbmodel):
     return "Workshop" if self.workshop else "Product"
   
   
-class WorkshopUsers(Helper, dbmodel):
-  __tablename__ = "workshop_users"
+class ProductOrders(Helper, dbmodel):
+  __tablename__ = "product_orders"
   
   uid = dbcol(dbint, dbforkey(Users.id), primary_key = True)
   pid = dbcol(dbint, dbforkey(Products.id, ondelete = "CASCADE"), primary_key = True)
+  count = dbcol(dbint, nullable = False)
