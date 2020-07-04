@@ -39,6 +39,9 @@ def serve_product(id):
     if not user:
       return redirect("/signin?next=%s" % request.path, code = 303)
     
+    if product.members_only and not user.premium:
+      flash(get_locale()['member_required'])
+    
     bad = False
     
     if product.workshop: qty = 1
@@ -87,6 +90,10 @@ def serve_product(id):
       
   registered = False
   cart = False
+  not_member = False
+  
+  if product.members_only and (not user or not user.premium):
+    not_member = True
   
   if product.workshop:
     if ci: cart = True
@@ -97,7 +104,8 @@ def serve_product(id):
   
   if ci: cur_qty = ci.count
   
-  return render("product.html", p = product, cur_qty = cur_qty, desc = desc, name = name, cart = cart, registered = registered)
+  return render("product.html", p = product, cur_qty = cur_qty, desc = desc, name = name, cart = cart, 
+                registered = registered, not_member = not_member)
   
 
 @app.route("/product/<int:id>/image/")
@@ -125,7 +133,8 @@ def serve_admin_products():
     else:
       workshop = 'workshop' in request.form
 
-      p = Products.add(en_name = "", cn_name = "", en_desc = "", cn_desc = "", stock = 0, image = b"", price = 0.0, workshop = workshop, hidden = True)
+      p = Products.add(en_name = "", cn_name = "", en_desc = "", cn_desc = "", 
+                       stock = 0, image = b"", member_price = 0.0, price = 0.0, workshop = workshop, hidden = True)
 
       return redirect("/admin/product/%d" % p.id, code = 303)
   
@@ -139,27 +148,6 @@ def serve_admin_products():
 def serve_admin_product(id):  
   product = Products.query.filter_by(id = id).first_or_404();
   
-<<<<<<< HEAD
-  if request.method == "POST":    
-    en_name = request.form['en_name']
-    cn_name = request.form['cn_name']
-    
-    en_desc = request.form['en_desc']
-    cn_desc = request.form['cn_desc']
-    
-    
-    stock = request.form['stock']
-    image = request.files['image'].read()
-    price = request.form['price']
-    hidden = 'publish' not in request.form
-    
-    bad = False
-    
-    try: 
-      stock = int(stock)
-    except ValueError:
-      flash("Please enter a valid integer for the stock." if en() else "请输入一个整数。", "success")
-=======
   product_orders = ProductOrders.query.filter_by(pid = id).all()
         
   uids = [po.uid for po in product_orders]
@@ -173,28 +161,11 @@ def serve_admin_product(id):
   if request.method == "POST": 
     if "delete" in request.form:
       id = request.form['delete']
->>>>>>> 524082f4f5ec570e8a6a15e967317bf716e7399d
       
       product_orders.query.filter_by(id = id).delete()
       
-<<<<<<< HEAD
-    try: 
-      price = float(price)
-    except ValueError:
-      flash("Please enter a valid number for the price." if en() else "请输入有效的价钱。", "success")
-      
-      bad = True
-
-    if len(en_name) > 1023 or len(cn_name) > 1023:
-      flash("Product name too long!" if en() else "货品名字太长了！", "error")
-
-      bad = True
-      
-    if type(price) == float and price < 0.5 and price != 0:
-      flash("Price must be either at least 50 cents or free!" if en() else "价钱必须至少5毛或者免费！", "error")
-=======
       db_commit()
-      
+            
       if p.workshop:
         flash(get_locale()['workshop_order_deleted'], "success")
       else:
@@ -203,72 +174,67 @@ def serve_admin_product(id):
       product_orders = ProductOrders.query.filter_by(pid = id).all()
       
       uids = [po.uid for po in product_orders]
->>>>>>> 524082f4f5ec570e8a6a15e967317bf716e7399d
       
       users = Users.query.filter(Users.id.in_(uids)).all()
       
       umap = {u.id : u for u in users}
       
       items = [(umap[po.uid], po) for po in product_orders]
-
-<<<<<<< HEAD
-    if len(en_desc) > 65535 or len(cn_desc) > 65535:
-      flash("Product description too long!" if en() else "货品描述太长了！", "error")
-=======
+      
     else:
       en_name = request.form['en_name']
       cn_name = request.form['cn_name']
->>>>>>> 524082f4f5ec570e8a6a15e967317bf716e7399d
-
+    
       en_desc = request.form['en_desc']
       cn_desc = request.form['cn_desc']
 
-<<<<<<< HEAD
-    if len(image) > 2 ** 22:
-      flash("Image too large! Maximum size is 4 MB!" if en() else "图片不能超过4MB！", "error")
-=======
->>>>>>> 524082f4f5ec570e8a6a15e967317bf716e7399d
 
       stock = request.form['stock']
       image = request.files['image'].read()
+      
       price = request.form['price']
+      member_price = request.form['member_price']
+      
       hidden = 'publish' not in request.form
-
+      members_only = 'members_only' in request.form
+    
       bad = False
-
+    
       try: 
         stock = int(stock)
       except ValueError:
-        flash("Please enter a valid integer for the stock.", "success")
-
+        flash("Please enter a valid integer for the stock." if en() else "请输入一个整数。", "error")
+  
         bad = True
-
+      
       try: 
         price = float(price)
       except ValueError:
-        flash("Please enter a valid number for the price.", "success")
+        flash("Please enter a valid number for the price." if en() else "请输入有效的价钱。", "error")
+
+        bad = True
+        
+      try: 
+        member_price = float(member_price)
+      except ValueError:
+        flash("Please enter a valid number for the price." if en() else "请输入有效的价钱。", "error")
 
         bad = True
 
       if len(en_name) > 1023 or len(cn_name) > 1023:
-        flash("Product name too long!", "error")
+        flash("Product name too long!" if en() else "货品名字太长了！", "error")
 
         bad = True
-
+      
       if type(price) == float and price < 0.5 and price != 0:
-        flash("Price must be either at least 50 cents or free!", "error")
+        flash("Price must be either at least 50 cents or free!" if en() else "价钱必须至少5毛或者免费！", "error")
 
-        bad = True
 
       if len(en_desc) > 65535 or len(cn_desc) > 65535:
-        flash("Product description too long!", "error")
-
-        bad = True
+        flash("Product description too long!" if en() else "货品描述太长了！", "error")
 
       if len(image) > 2 ** 22:
-        flash("Image too large! Maximum size is 4 MB!", "error")
-
-        bad = True
+        flash("Image too large! Maximum size is 4 MB!" if en() else "图片不能超过4MB！", "error")
 
       if not bad:
         product.stock = stock
@@ -283,14 +249,13 @@ def serve_admin_product(id):
         product.cn_desc = cn_desc
 
         product.price = price
+        product.member_price = member_price
+        
+        product.members_only = members_only
 
         db_commit()
 
-<<<<<<< HEAD
-      flash("Product updated!" if en() else "货品已更新！", "success")
-=======
-        flash("Product updated!", "success")
->>>>>>> 524082f4f5ec570e8a6a15e967317bf716e7399d
+        flash("Product updated!" if en() else "货品已更新！", "success")
   
   return render("admin/edit_product.html", p = product, orders = items)
 
@@ -307,7 +272,10 @@ def serve_view_cart():
   
   items = [(pmap[ci.pid], ci) for ci in citems]
   
-  total = sum(it[0].price * it[1].count for it in items)
+  if user.premium:
+    total = sum(it[0].member_price * it[1].count for it in items)
+  else:
+    total = sum(it[0].price * it[1].count for it in items)
   
   if request.method == "POST":
     if not validate_cart():

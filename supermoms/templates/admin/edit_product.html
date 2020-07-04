@@ -30,14 +30,20 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ locale[p.type]
   
   <form method="post" enctype="multipart/form-data">
     <div class="row">
-      <div class="input-field s6 col">
+      <div class="input-field s4 col">
         <input id="stock" name="stock" type="number" class="validate" value="{{p.stock}}">
         <label for="stock">{{ locale["stock"] }}</label>
       </div>
 
-      <div class="input-field col s6">
+      <div class="input-field col s4">
         <input id="price" type="number" name="price" value="{{p.price}}" step="0.01">  
         <label for="price">{{ locale["price"] }}</label>
+        <span class="helper-text">{{ locale["price_helper"] }}</span>
+      </div>
+      
+      <div class="input-field col s4">
+        <input id="member_price" type="number" name="member_price" value="{{p.member_price}}" step="0.01">  
+        <label for="member_price">{{ locale["member_price"] }}</label>
         <span class="helper-text">{{ locale["price_helper"] }}</span>
       </div>
     </div>
@@ -96,6 +102,21 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ locale[p.type]
           {% endif %}
           <span class="lever"></span>
           {{ locale["public"] }}
+        </label>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="switch col">
+        <label>
+          {{ locale["anyone"] }}
+          {% if p.members_only %}
+            <input type="checkbox" name="members_only" checked>
+          {% else %}
+            <input type="checkbox" name="members_only">
+          {% endif %}
+          <span class="lever"></span>
+          {{ locale["members"] }}
         </label>
       </div>
     </div>

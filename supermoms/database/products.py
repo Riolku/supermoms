@@ -19,8 +19,12 @@ class Products(Helper, dbmodel):
   stock = dbcol(dbint, nullable = False) # Count in stock
   image = dbcol(dbbinary, nullable = False)
   hidden = dbcol(dbbool, nullable = False, default = True)
+  
   workshop = dbcol(dbbool, nullable = False)
+  members_only = dbcol(dbbool, nullable = False, default = False)
+  
   price = dbcol(dbfloat, nullable = False)
+  member_price = dbcol(dbfloat, nullable = False)
   
   @property
   def type(self):

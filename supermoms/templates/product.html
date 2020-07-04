@@ -21,6 +21,22 @@ Super Moms Club - {{ locale[p.type] }}
     {{ name }}
   </h2>
   
+  {% if not p.members_only %}
+    <h6>
+      {{ locale['regular_price'] }} ${{ "%.2f" % p.price }}
+    </h6>
+  {% endif %}
+  
+  <h6>
+    {{ locale['member_price'] }} ${{ "%.2f" % p.member_price }}
+  </h6>
+  
+  <br>
+  <div class="divider"></div>
+  <br>
+  
+  
+  
   <form method="post">
     
     <div class="row">
@@ -37,7 +53,15 @@ Super Moms Club - {{ locale[p.type] }}
     
     <br>
     
-    {% if registered %}
+    {% if not_member %}
+      <p>
+      {% if p.workshop %}
+        You must be a member to register.
+      {% else %}
+        You must be a member to purchase this product.
+      {% endif %}
+      </p>
+    {% elif registered %}
       <p>
         {%- if lang == "CN" -%}
         您已经注册了该培训班
@@ -57,6 +81,7 @@ Super Moms Club - {{ locale[p.type] }}
       <button name="remove_cart" class="btn pink lighten-2 waves-effect" type="submit">
         {{ locale["remove_from_cart"] }}
       </button>
+    
     {% elif p.workshop %}
       <div class="row">
         <div class="col">

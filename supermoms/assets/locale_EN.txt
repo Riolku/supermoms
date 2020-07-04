@@ -111,3 +111,9 @@ pay_with_card Pay with credit/debit card
 pay_with_pp Pay with PayPal
 workshop_order_deleted Workshop registration deleted!
 product_order_deleted Product order deleted!
+members Members
+anyone Anyone
+member_price Member Price
+member_required You must be a member!
+regular_price The regular price is:
+member_price The member price is:
