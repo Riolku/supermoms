@@ -32,12 +32,24 @@ Super Moms Club - Admin - Edit {{ p.type }}
     <div class="row">
       <div class="input-field s6 col">
         <input id="name" name="name" type="text" class="validate" value="{{p.name}}">
-        <label for="name">Name</label>
+        <label for="name">English Name</label>
+      </div>
+      
+      <div class="input-field col s6">
+        <input id="stock" type="text" name="stock" value="{{p.stock}}" class="validate">  
+        <label for="stock">Chinese Name</label>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="input-field s6 col">
+        <input id="name" name="name" type="text" class="validate" value="{{p.name}}">
+        <label for="name">Stock</label>
       </div>
       
       <div class="input-field col s6">
         <input id="stock" type="number" name="stock" value="{{p.stock}}">  
-        <label for="stock">Stock</label>
+        <label for="stock">Price</label>
       </div>
     </div>
     
