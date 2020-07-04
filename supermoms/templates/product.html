@@ -18,7 +18,7 @@ Super Moms Club - {{ p.type }}
   {% include 'flashes.html' %}
   
   <h2>
-    {{ p.name }}
+    {{ name }}
   </h2>
   
   <form method="post">
@@ -29,16 +29,22 @@ Super Moms Club - {{ p.type }}
       </div>
       
       <div class="col s8">
-        {{ p.desc | markdown | safe }}
+        {{ desc | markdown | safe }}
       </div>
     </div>
 
     <div class="divider"></div>
     
-    {% if cqty == 1 and p.workshop %}
+    <br>
+    
+    {% if registered %}
       <p>
         You have already registered for this workshop.
       </p>    
+    {% elif cart %}
+      <p>
+        You have added this workshop to your cart, and should proceed to <a href="/view-cart/">checkout</a> to confirm your registration.  
+      </p>
     {% elif p.workshop %}
       <div class="row">
         <div class="col">

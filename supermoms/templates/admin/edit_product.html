@@ -28,19 +28,20 @@ Super Moms Club - Admin - Edit {{ p.type }}
   
   <br>
   
-  <div class="row">
-    <div class="input-field s6 col">
-      <input id="name" name="name" type="text" class="validate" value="{{p.name}}">
-      <label for="name">Stock</label>
-    </div>
-
-    <div class="input-field col s6">
-      <input id="stock" type="number" name="stock" value="{{p.stock}}">  
-      <label for="stock">Price</label>
-    </div>
-  </div>
-  
   <form method="post" enctype="multipart/form-data">
+    <div class="row">
+      <div class="input-field s6 col">
+        <input id="stock" name="stock" type="number" class="validate" value="{{p.stock}}">
+        <label for="stock">Stock</label>
+      </div>
+
+      <div class="input-field col s6">
+        <input id="price" type="number" name="price" value="{{p.price}}" step="0.01">  
+        <label for="price">Price (CAD)</label>
+        <span class="helper-text">The price must be at least 50 cents, or free</span>
+      </div>
+    </div>
+    
     <div class="row">
       <div class="input-field s6 col">
         <input id="en_name" name="en_name" type="text" class="validate" value="{{p.en_name}}">
