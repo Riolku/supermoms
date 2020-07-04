@@ -6,3 +6,5 @@ import supermoms.server.routes.utils
 import supermoms.server.routes.payment
 import supermoms.server.routes.errors
 import supermoms.server.routes.forums
+import supermoms.server.routes.membership
+import supermoms.server.routes.shop

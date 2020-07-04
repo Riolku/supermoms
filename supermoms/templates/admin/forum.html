@@ -1,0 +1,98 @@
+{%- extends 'layout.html' -%}
+
+{%- block title -%}
+Super Moms Club - Admin - Forums
+{%- endblock -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  <br><br><br>
+  
+  {% include 'flashes.html' %}
+  
+  <form method="post">
+    {%- for i in range((len(sub_fs) + 1) // 2) -%}
+      <div class="row">
+        {% for f in sub_fs[i * 2: (i + 1) * 2] %}
+          <div class="col s6">
+            <div class="card sticky-action">
+              <div class="card-content">
+                <span class="card-title grey-text text-darken-4">{{ f.title }}</span>
+              </div>
+
+              <div class="card-action">
+                <div class="row">
+                  <div class="col s3">
+                    <a href="/forum/{{ f.id }}" class="btn pink lighten-2 waves-effect">View</a>
+                  </div>
+
+                  <div class="col s3 right">
+                    <button type="submit" name="delete" value="{{ f.id }}" class="btn pink lighten-2 waves-effect">
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+    {% endfor %}  
+    
+    <div class="divider"></div>
+    
+    <br>
+    
+    <h4>
+      Create Sub-Forum
+    </h4>
+    
+    <br>
+    
+    <div class="row">
+      <div class="col input-field s12">
+        <input type="text" name="title" id="title" class="validate" />
+        <label for="title">Title</label>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="switch col">
+        <label>
+          English
+          <input type="checkbox" name="lang_cn">
+          <span class="lever"></span>
+          Chinese
+        </label>
+      </div> 
+    </div>
+        
+    <div class="row">
+      <div class="col">
+        <button type="submit" class="btn pink lighten-2 waves-effect">
+          Create
+        </button>
+      </div>
+    </div>
+    
+    <br><br>
+  </form>
+  
+  
+</div>
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-3.jpg" width=100vw />
+  </div>
+</div>
+
+{%- endblock -%}

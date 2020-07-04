@@ -15,6 +15,6 @@ class Helper:
     return obj
   
   def remove(cls, obj, _flush = True):
-    db.session.delete()
+    db.session.delete(obj)
     
     if _flush: db.session.commit()

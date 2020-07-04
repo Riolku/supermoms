@@ -13,3 +13,9 @@ class Products(Helper, dbmodel):
   image = dbcol(dbbinary, nullable = False)
   hidden = dbcol(dbbool, nullable = False, default = True)
   workshop = dbcol(dbbool, nullable = False)
+  
+  lang = dbcol(dbstr(16), nullable = False)
+  
+  @property
+  def type(self):
+    return "Workshop" if self.workshop else "Product"

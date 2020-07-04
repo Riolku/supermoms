@@ -55,9 +55,7 @@ def create_order(amount, **k):
   
   reqj.update(k)
   
-  res = requests.post(paypal_url("/v2/checkout/orders"), headers = dict(
-    Authorization = "Bearer " + get_access_token()
-  ), json = reqj)
+  res = requests.post(paypal_url("/v2/checkout/orders"), auth = (paypal_pkey, paypal_skey), json = reqj)
   
   
   assert res.status_code == 201
@@ -72,17 +70,18 @@ def create_order(amount, **k):
     if l['rel'] == 'approve':
       assert l['method'] == 'GET'
       
-      return l['href']
+      return l['href'], j['id']
     
   raise ValueError("Could not find an appropriate link:" + str(j))
   
 def confirm_order(id):
-  print(id)
+  res = requests.post(paypal_url("/v2/checkout/orders/{id}/capture".format(id = id)), json = {}, auth = (paypal_pkey, paypal_skey))
   
-  res = requests.post(paypal_url("/v2/checkout/orders/{id}/capture".format(id = id)), json = {}, headers = dict(
-    Authorization = "Bearer " + get_access_token()
-  ))
+  assert res.status_code == 201
   
-  print(res, res.status_code)
+  return res.json()['purchase_units'][0]['payments']['captures'][0]['id']
+  
+def refund_order(id):
+  res = requests.post(paypal_url("/v2/payments/captures/{id}/refund".format(id = id)), json = {}, auth = (paypal_pkey, paypal_skey))
   
   assert res.status_code == 201

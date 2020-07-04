@@ -35,6 +35,8 @@ class Users(dbmodel, Helper):
   
   def extend_premium(self, duration):
     self.premium_end = max(self.premium_end, get_time()) + duration
+    
+    db_commit()
   
   # Create a new user with the specified name, email, password and language
   def create(name, email, password, lang):

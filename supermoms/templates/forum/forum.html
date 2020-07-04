@@ -1,0 +1,51 @@
+{%- extends 'layout.html' -%}
+
+{%- block title -%}
+Super Moms Club - Forum
+{%- endblock -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  <br><br><br>
+  
+  {% include 'flashes.html' %}
+  
+  {%- for i in range((len(sub_fs) + 3) // 4) -%}
+    <div class="row">
+      {% for f in sub_fs[i * 4: (i + 1) * 4] %}
+        <div class="col s3">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title grey-text text-darken-4">{{ f.title }}</span>
+            </div>
+
+            <div class="card-action">
+              <div class="row">
+                <div class="col s3">
+                  <a href="/forum/{{ f.id }}" class="btn pink lighten-2 waves-effect">View</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  {% endfor %}
+  
+</div>
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-3.jpg" width=100vw />
+  </div>
+</div>
+
+{%- endblock -%}

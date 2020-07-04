@@ -10,8 +10,9 @@ d30_list = Users.query.filter(30 * DAY <= Users.premium_end - ct, Users.premium_
 
 d7_list = Users.query.filter(7 * DAY <= Users.premium_end - ct, Users.premium_end - ct <= 8 * DAY).all()
 
-for u in d30_list:
-  send_expiry_email(u.email, 30)
+with app.app_context():
+  for u in d30_list:
+    send_expiry_email(u.email, 30, u.lang, _inner = True)
   
-for u in d7_list:
-  send_expiry_email(u.email, 7)
+  for u in d7_list:
+    send_expiry_email(u.email, 7, u.lang, _inner = True)
