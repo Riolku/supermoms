@@ -7,6 +7,7 @@ blog 博客
 forums 论坛
 products 产品
 workshops 作坊
+membership 会员资格
 tos 服务条款
 privacy 隐私政策
 signin 登入
@@ -75,3 +76,5 @@ saved_blog_post 存了博客文章！
 delete 删除
 cancel 取消
 confirm 确认
+admin 管理
+edit 编辑

@@ -7,6 +7,7 @@ blog Blog
 forums Forums
 products Products
 workshops Workshops
+membership Membership
 tos Terms of Service
 privacy Privacy Policy
 signin Sign In
@@ -75,3 +76,5 @@ saved_blog_post Saved blog post!
 delete Delete
 cancel Cancel
 confirm Confirm
+admin Admin
+edit Edit
