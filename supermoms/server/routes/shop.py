@@ -139,6 +139,7 @@ def serve_admin_products():
 def serve_admin_product(id):  
   product = Products.query.filter_by(id = id).first_or_404();
   
+<<<<<<< HEAD
   if request.method == "POST":    
     en_name = request.form['en_name']
     cn_name = request.form['cn_name']
@@ -158,9 +159,25 @@ def serve_admin_product(id):
       stock = int(stock)
     except ValueError:
       flash("Please enter a valid integer for the stock." if en() else "请输入一个整数。", "success")
+=======
+  product_orders = ProductOrders.query.filter_by(pid = id).all()
+        
+  uids = [po.uid for po in product_orders]
+
+  users = Users.query.filter(Users.id.in_(uids)).all()
+
+  umap = {u.id : u for u in users}
+
+  items = [(umap[po.uid], po) for po in product_orders]
+  
+  if request.method == "POST": 
+    if "delete" in request.form:
+      id = request.form['delete']
+>>>>>>> 524082f4f5ec570e8a6a15e967317bf716e7399d
       
-      bad = True
+      product_orders.query.filter_by(id = id).delete()
       
+<<<<<<< HEAD
     try: 
       price = float(price)
     except ValueError:
@@ -175,38 +192,107 @@ def serve_admin_product(id):
       
     if type(price) == float and price < 0.5 and price != 0:
       flash("Price must be either at least 50 cents or free!" if en() else "价钱必须至少5毛或者免费！", "error")
+=======
+      db_commit()
       
-      bad = True
+      if p.workshop:
+        flash(get_locale()['workshop_order_deleted'], "success")
+      else:
+        flash(get_locale()['product_order_deleted'], "success")
+      
+      product_orders = ProductOrders.query.filter_by(pid = id).all()
+      
+      uids = [po.uid for po in product_orders]
+>>>>>>> 524082f4f5ec570e8a6a15e967317bf716e7399d
+      
+      users = Users.query.filter(Users.id.in_(uids)).all()
+      
+      umap = {u.id : u for u in users}
+      
+      items = [(umap[po.uid], po) for po in product_orders]
 
+<<<<<<< HEAD
     if len(en_desc) > 65535 or len(cn_desc) > 65535:
       flash("Product description too long!" if en() else "货品描述太长了！", "error")
+=======
+    else:
+      en_name = request.form['en_name']
+      cn_name = request.form['cn_name']
+>>>>>>> 524082f4f5ec570e8a6a15e967317bf716e7399d
 
-      bad = True
+      en_desc = request.form['en_desc']
+      cn_desc = request.form['cn_desc']
 
+<<<<<<< HEAD
     if len(image) > 2 ** 22:
       flash("Image too large! Maximum size is 4 MB!" if en() else "图片不能超过4MB！", "error")
+=======
+>>>>>>> 524082f4f5ec570e8a6a15e967317bf716e7399d
 
-      bad = True
+      stock = request.form['stock']
+      image = request.files['image'].read()
+      price = request.form['price']
+      hidden = 'publish' not in request.form
 
-    if not bad:
-      product.stock = stock
-      product.hidden = hidden
-      
-      if len(image) > 16: product.image = image
-      
-      product.en_name = en_name
-      product.cn_name = cn_name
-      
-      product.en_desc = en_desc
-      product.cn_desc = cn_desc
-      
-      product.price = price
+      bad = False
 
-      db_commit()
+      try: 
+        stock = int(stock)
+      except ValueError:
+        flash("Please enter a valid integer for the stock.", "success")
 
+        bad = True
+
+      try: 
+        price = float(price)
+      except ValueError:
+        flash("Please enter a valid number for the price.", "success")
+
+        bad = True
+
+      if len(en_name) > 1023 or len(cn_name) > 1023:
+        flash("Product name too long!", "error")
+
+        bad = True
+
+      if type(price) == float and price < 0.5 and price != 0:
+        flash("Price must be either at least 50 cents or free!", "error")
+
+        bad = True
+
+      if len(en_desc) > 65535 or len(cn_desc) > 65535:
+        flash("Product description too long!", "error")
+
+        bad = True
+
+      if len(image) > 2 ** 22:
+        flash("Image too large! Maximum size is 4 MB!", "error")
+
+        bad = True
+
+      if not bad:
+        product.stock = stock
+        product.hidden = hidden
+
+        if len(image) > 16: product.image = image
+
+        product.en_name = en_name
+        product.cn_name = cn_name
+
+        product.en_desc = en_desc
+        product.cn_desc = cn_desc
+
+        product.price = price
+
+        db_commit()
+
+<<<<<<< HEAD
       flash("Product updated!" if en() else "货品已更新！", "success")
+=======
+        flash("Product updated!", "success")
+>>>>>>> 524082f4f5ec570e8a6a15e967317bf716e7399d
   
-  return render("admin/edit_product.html", p = product)
+  return render("admin/edit_product.html", p = product, orders = items)
 
 @app.route("/view-cart/", methods = ["GET", "POST"])
 @authorize

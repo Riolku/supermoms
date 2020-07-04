@@ -109,3 +109,5 @@ view_cart View Cart
 your_total_is Your total is
 pay_with_card Pay with credit/debit card
 pay_with_pp Pay with PayPal
+workshop_order_deleted Workshop registration deleted!
+product_order_deleted Product order deleted!

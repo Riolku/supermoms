@@ -190,7 +190,7 @@ def serve_edit_profile():
   else:
     name = request.form["name"]
     username = request.form["username"]
-    email = request.form["email"]
+#    email = request.form["email"]
     password = request.form["password"]
     rpassword = request.form["rpassword"]
     
@@ -204,12 +204,12 @@ def serve_edit_profile():
       fail = True
       flash(get_locale()["username_taken"], "error")
     
-    if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email):
-      fail = True
-      flash(get_locale()["invalid_email"], "error")
-    elif email != user.email and Users.query.filter_by(email = email).count() > 0:
-      fail = True
-      flash(get_locale()["email_taken"], "error")
+#     if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email):
+#       fail = True
+#       flash(get_locale()["invalid_email"], "error")
+#     elif email != user.email and Users.query.filter_by(email = email).count() > 0:
+#       fail = True
+#       flash(get_locale()["email_taken"], "error")
     
     if password and len(password) < 8:
       fail = True
@@ -221,8 +221,8 @@ def serve_edit_profile():
     if fail:
       return render("edit-profile.html", __field_name = name, __field_email = email)
     
-    if email != user.email:
-      pass # TODO: Send email-change email
+#    if email != user.email:
+#      pass # TODO: Send email-change email
     
     user.update(None, name, username, password if password else None)
     
