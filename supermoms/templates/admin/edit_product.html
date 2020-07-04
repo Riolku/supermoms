@@ -28,38 +28,43 @@ Super Moms Club - Admin - Edit {{ p.type }}
   
   <br>
   
+  <div class="row">
+    <div class="input-field s6 col">
+      <input id="name" name="name" type="text" class="validate" value="{{p.name}}">
+      <label for="name">Stock</label>
+    </div>
+
+    <div class="input-field col s6">
+      <input id="stock" type="number" name="stock" value="{{p.stock}}">  
+      <label for="stock">Price</label>
+    </div>
+  </div>
+  
   <form method="post" enctype="multipart/form-data">
     <div class="row">
       <div class="input-field s6 col">
-        <input id="name" name="name" type="text" class="validate" value="{{p.name}}">
-        <label for="name">English Name</label>
+        <input id="en_name" name="en_name" type="text" class="validate" value="{{p.en_name}}">
+        <label for="en_name">English Name</label>
       </div>
       
       <div class="input-field col s6">
-        <input id="stock" type="text" name="stock" value="{{p.stock}}" class="validate">  
-        <label for="stock">Chinese Name</label>
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="input-field s6 col">
-        <input id="name" name="name" type="text" class="validate" value="{{p.name}}">
-        <label for="name">Stock</label>
-      </div>
-      
-      <div class="input-field col s6">
-        <input id="stock" type="number" name="stock" value="{{p.stock}}">  
-        <label for="stock">Price</label>
+        <input id="cn_name" type="text" name="cn_name" value="{{p.cn_name}}" class="validate">  
+        <label for="cn_name">Chinese Name</label>
       </div>
     </div>
     
     <br>
     
     <div class="row">
-      <div class="input-field s12 col">
-        <textarea name="desc" id="desc" class="materialize-textarea">{{p.desc}}</textarea>
-        <label for="desc">Description</label>
+      <div class="input-field s6 col">
+        <textarea name="en_desc" id="en_desc" class="materialize-textarea">{{p.en_desc}}</textarea>
+        <label for="en_desc">English Description</label>
         <span class="helper-text">The description is formatted with markdown. For more information, please check the FAQ.</span>
+      </div>
+      
+      <div class="input-field s6 col">
+        <textarea name="cn_desc" id="cn_desc" class="materialize-textarea">{{p.cn_desc}}</textarea>
+        <label for="cn_desc">Chinese Description</label>
       </div>
     </div>
     
