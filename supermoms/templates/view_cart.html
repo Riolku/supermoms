@@ -4,10 +4,6 @@
 Super Moms Club - View Cart
 {%- endblock -%}
 
-{%- block header -%}
-<script src="/static/js/view-cart.js" defer></script>
-{%- endblock -%}
-
 {%- block content -%}
 
 <div class="parallax-container" style="height:40vh">
@@ -22,6 +18,47 @@ Super Moms Club - View Cart
   <h2 class="header grey-text text-darken-3">
     View Cart
   </h2>
+  
+  <h6>
+    Your total is ${{ "%.2f" % total }}
+  </h6>
+  
+  <div class="divider"></div>
+  
+  <br>
+  
+  <div class="row">
+    <div class="col s12">
+      <table class="striped centered">
+        <thead>
+          <tr>
+            <th>Product</td>
+            <th>Count</td>
+          </tr>
+        </thead>
+        
+        <tbody>
+          {% for p, ci in items %}
+            <tr>
+              {% if lang == "EN" %}
+                <td><a href="/product/{{ p.id }}">{{ p.en_name }}</a></td>
+              {% else %}
+                <td><a href="/product/{{ p.id }}">{{ p.cn_name }}</a></td>
+              {% endif %}
+              
+              <td>
+                {{ ci.count }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div class="divider"></div>
+
+  <br>
   
   <form id="form" method="post">
     <button class="btn pink lighten-2 waves-effect" name="pay_method" type="submit" value="card">
