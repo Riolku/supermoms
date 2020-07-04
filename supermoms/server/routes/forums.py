@@ -24,9 +24,9 @@ def serve_subforum(id):
         flash("You do not have permission to delete threads!", "error")
         
       else:
-        id = request.form['delete']
+        tid = request.form['delete']
       
-        thread = ForumThreads.query.filter_by(id = id).delete()
+        thread = ForumThreads.query.filter_by(id = tid).delete()
         
         db_commit()
         

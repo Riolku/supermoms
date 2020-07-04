@@ -139,74 +139,107 @@ def serve_admin_products():
 def serve_admin_product(id):  
   product = Products.query.filter_by(id = id).first_or_404();
   
-  if request.method == "POST":    
-    en_name = request.form['en_name']
-    cn_name = request.form['cn_name']
-    
-    en_desc = request.form['en_desc']
-    cn_desc = request.form['cn_desc']
-    
-    
-    stock = request.form['stock']
-    image = request.files['image'].read()
-    price = request.form['price']
-    hidden = 'publish' not in request.form
-    
-    bad = False
-    
-    try: 
-      stock = int(stock)
-    except ValueError:
-      flash("Please enter a valid integer for the stock.", "success")
-      
-      bad = True
-      
-    try: 
-      price = float(price)
-    except ValueError:
-      flash("Please enter a valid number for the price.", "success")
-      
-      bad = True
+  product_orders = ProductOrders.query.filter_by(pid = id).all()
+        
+  uids = [po.uid for po in product_orders]
 
-    if len(en_name) > 1023 or len(cn_name) > 1023:
-      flash("Product name too long!", "error")
+  users = Users.query.filter(Users.id.in_(uids)).all()
 
-      bad = True
-      
-    if type(price) == float and price < 0.5 and price != 0:
-      flash("Price must be either at least 50 cents or free!", "error")
-      
-      bad = True
+  umap = {u.id : u for u in users}
 
-    if len(en_desc) > 65535 or len(cn_desc) > 65535:
-      flash("Product description too long!", "error")
-
-      bad = True
-
-    if len(image) > 2 ** 22:
-      flash("Image too large! Maximum size is 4 MB!", "error")
-
-      bad = True
-
-    if not bad:
-      product.stock = stock
-      product.hidden = hidden
-      
-      if len(image) > 16: product.image = image
-      
-      product.en_name = en_name
-      product.cn_name = cn_name
-      
-      product.en_desc = en_desc
-      product.cn_desc = cn_desc
-      
-      product.price = price
-
-      db_commit()
-
-      flash("Product updated!", "success")
+  items = [(umap[po.uid], po) for po in product_orders]
   
-  return render("admin/edit_product.html", p = product)
+  if request.method == "POST": 
+    if "delete" in request.form:
+      id = request.form['delete']
+      
+      product_orders.query.filter_by(id = id).delete()
+      
+      db_commit()
+      
+      if p.workshop:
+        flash(get_locale()['workshop_order_deleted'], "success")
+      else:
+        flash(get_locale()['product_order_deleted'], "success")
+      
+      product_orders = ProductOrders.query.filter_by(pid = id).all()
+      
+      uids = [po.uid for po in product_orders]
+      
+      users = Users.query.filter(Users.id.in_(uids)).all()
+      
+      umap = {u.id : u for u in users}
+      
+      items = [(umap[po.uid], po) for po in product_orders]
+
+    else:
+      en_name = request.form['en_name']
+      cn_name = request.form['cn_name']
+
+      en_desc = request.form['en_desc']
+      cn_desc = request.form['cn_desc']
+
+
+      stock = request.form['stock']
+      image = request.files['image'].read()
+      price = request.form['price']
+      hidden = 'publish' not in request.form
+
+      bad = False
+
+      try: 
+        stock = int(stock)
+      except ValueError:
+        flash("Please enter a valid integer for the stock.", "success")
+
+        bad = True
+
+      try: 
+        price = float(price)
+      except ValueError:
+        flash("Please enter a valid number for the price.", "success")
+
+        bad = True
+
+      if len(en_name) > 1023 or len(cn_name) > 1023:
+        flash("Product name too long!", "error")
+
+        bad = True
+
+      if type(price) == float and price < 0.5 and price != 0:
+        flash("Price must be either at least 50 cents or free!", "error")
+
+        bad = True
+
+      if len(en_desc) > 65535 or len(cn_desc) > 65535:
+        flash("Product description too long!", "error")
+
+        bad = True
+
+      if len(image) > 2 ** 22:
+        flash("Image too large! Maximum size is 4 MB!", "error")
+
+        bad = True
+
+      if not bad:
+        product.stock = stock
+        product.hidden = hidden
+
+        if len(image) > 16: product.image = image
+
+        product.en_name = en_name
+        product.cn_name = cn_name
+
+        product.en_desc = en_desc
+        product.cn_desc = cn_desc
+
+        product.price = price
+
+        db_commit()
+
+        flash("Product updated!", "success")
+  
+  return render("admin/edit_product.html", p = product, orders = items)
 
 @app.route("/view-cart/", methods = ["GET", "POST"])
 @authorize

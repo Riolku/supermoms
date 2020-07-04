@@ -110,6 +110,48 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ locale[p.type]
       </div>
     </div>
     
+    <br>
+    <div class="divider"></div>
+    <br>
+    
+    <h4>
+      {% if p.workshop %}
+        Registered Users
+      {% else %}
+        Product Orders
+      {% endif %}
+    </h4>
+    
+    <table class="cenetered striped">
+      <thead>
+        <tr>
+          <th>User Email</th>
+          {% if not p.workshop %}
+            <th>Count</th>
+          {% endif %}
+          <th>Delete</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {% for o, u in orders %}
+          <tr>
+            <td>
+              {{ u.email }}
+            </td>
+            
+            {% if not p.workshop %}
+              <td>{{ o.count }}</td>
+            {% endif %}
+            
+            <td>
+              {{ delete_button("", o.id) }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
     <br><br>
     
   </form>

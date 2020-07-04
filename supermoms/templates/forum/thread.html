@@ -61,9 +61,19 @@ Super Moms Club - Sub-Forum
     </div>
   
     <div class="row">
-      <div class="col s12">
-        {{ p.content | markdown | safe }}
-      </div>    
+      <div class="col s9">
+        {% if p.deleted %}
+          <span class="grey-text text-ligten-2">{{ locale["deleted_comment"] }}</span>
+        {% else %}
+          {{ p.content | markdown | safe }}
+        {% endif %}
+      </div>
+      
+      {% if not p.deleted and (user.admin or user.id == p.uid) %}
+        <div class="col s3">
+          {{ delete_button("", p.id) }}        
+        </div>
+      {% endif %}
     </div>
   
     <div class="divider"></div>

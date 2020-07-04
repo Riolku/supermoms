@@ -34,13 +34,25 @@ Super Moms Club - Sub-Forum
   
   <div class="row">
     <div class="col s12">
-      <ul class="collection">
-        {%- for t in threads -%}
-          <a href="/forum/{{ sub_f.id }}/thread/{{ t.id }}" class="collection-item">{{t.title}}</a>
-        {% endfor %}  
-      </ul>
-    </div>    
-  </div>
+      {%- for t in threads -%}
+        <br>
+      
+        <div class="row">
+          <div class="col s9">            
+            <a href="/forum/{{ sub_f.id }}/thread/{{ t.id }}">{{t.title}}</a>
+          </div>
+
+          <div class="col s3">
+            {% if user.admin %}
+              {{ delete_button("", t.id) }}
+            {% endif %}
+          </div>
+        </div>
+        <div class="divider"></div>
+      {% endfor %}  
+
+    </div>
+  </div>    
     
   <div class="divider"></div>
   <br>
