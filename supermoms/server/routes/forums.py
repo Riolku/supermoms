@@ -21,7 +21,7 @@ def serve_subforum(id):
     
     if 'delete' in request.form:
       if not user.admin:
-        flash("You do not have permission to delete threads!", "error")
+        flash("You do not have permission to delete threads!" if en() else "您不许删主题！", "error")
         
       else:
         id = request.form['delete']
@@ -30,7 +30,7 @@ def serve_subforum(id):
         
         db_commit()
         
-        flash("Thread deleted!", "success")
+        flash("Thread deleted!" if en() else "主题已删除！", "success")
       
     else:
       title = request.form['title']
@@ -39,11 +39,11 @@ def serve_subforum(id):
       bad = False
 
       if len(title) > 255:
-        flash("The title you have entered is too long!", "error") # replace with locale['title_too_long']
+        flash("The title you have entered is too long!" if en() else "标题太长！", "error") # replace with locale['title_too_long']
         bad = True  
 
       if len(content) > 65535:
-        flash("The content you have entered is too long for a single post!", "error")
+        flash("The content you have entered is too long for a single post!" if en() else "内容太长！", "error")
         bad = True
 
       if not bad:
@@ -81,21 +81,21 @@ def serve_thread(sfid, tid, page = 1):
         
         db_commit()
         
-        flash("Post deleted!", "success")
+        flash("Post deleted!" if en() else "帖子已被删除！", "success")
         
       else:
-        flash("You do not have permission to delete this post!", "error");
+        flash("You do not have permission to delete this post!" if en() else "您不许删除这个帖子！", "error");
       
     else:
       content = request.form['content']
     
       if len(content) > 65535:
-        flash("The content you entered is too long for a single post!", "error")
+        flash("The content you entered is too long for a single post!" if en() else "内容太长！", "error")
       
       else:
         ForumPosts.add(content = content, tid = tid, uid = user.id)
         
-        flash("Your post was added!", "success")
+        flash("Your post was added!" if en() else "帖子发布！", "success")
   
   posts = ForumPosts.query.filter_by(tid = tid).order_by(ForumPosts.time).all()
   
@@ -123,17 +123,17 @@ def serve_admin_forums():
       
       db_commit()
             
-      flash("Sub forum deleted sucessfully.", "success")
+      flash("Sub forum deleted sucessfully." if en() else "子论坛已被删除！", "success")
       
     else:
       title = request.form['title']
       lang = "CN" if 'lang_cn' in request.form else "EN"
     
       if len(title) > 255:
-        flash("The title you have entered is too long!", "error")
+        flash("The title you have entered is too long!" if en() else "标题太长！", "error")
 
       else:
-        flash("Sub forum added!", "success")
+        flash("Sub forum added!" if en() else "子论坛已被创造！", "success")
       
         SubForums.add(title = title, lang = lang)
 

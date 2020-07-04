@@ -40,7 +40,7 @@ Super Moms Club - {{ locale[p.type] }}
     {% if registered %}
       <p>
         {%- if lang == "CN" -%}
-        您已经注册了该研讨会
+        您已经注册了该培训班
         {%- else -%}
         You have already registered for this workshop.
         {%- endif -%}
@@ -48,7 +48,7 @@ Super Moms Club - {{ locale[p.type] }}
     {% elif cart %}
       <p>
         {%- if lang == "CN" -%}
-        您把这个研讨会加到了购物车里；请继续到<a href="/view-cart">结算</a>去确认您的注册。
+        您把这个培训班加到了购物车里；请继续到<a href="/view-cart">结算</a>去确认您的注册。
         {%- else -%}
         You have added this workshop to your cart, and should proceed to <a href="/view-cart/">checkout</a> to confirm your registration.  
         {%- endif -%}

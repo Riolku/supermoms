@@ -53,7 +53,7 @@ def serve_pay_paypal():
 
 @app.route("/pay/paypal/cancel/")
 def serve_pay_paypal_cancel():
-  flash("Your order was cancelled.", "success")
+  flash("Your order was cancelled." if en() else "您的订单被取消了。", "success")
   
   return redirect(request.args.get("next", "/"))
   

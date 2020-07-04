@@ -27,7 +27,7 @@ def serve_membership():
     if not user: return redirect('/signin/?next=/membership')
     
     if user.premium_end - get_time() > 31 * DAY:
-      flash("Your membership is not yet due for renewal!", "error")
+      flash("Your membership is not yet due for renewal!" if en() else "您的会员资格不需要续订呢", "error")
       
     else:
       create_payment(99, "/membership/confirm")
@@ -51,6 +51,6 @@ def confirm_membership():
   
   user.extend_premium(366 * DAY)
   
-  flash("You successfully purchased a membership!", "success")
+  flash("You successfully purchased a membership!" if en() else "您成功购买了会员！", "success")
   
   return redirect("/")

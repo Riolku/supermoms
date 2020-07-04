@@ -6,7 +6,7 @@ shop 商店
 blog 博客
 forums 论坛
 products 产品
-workshops 研讨会
+workshops 培训班
 membership 会员资格
 tos 服务条款
 privacy 隐私政策
@@ -16,14 +16,10 @@ email_signin 使用电子邮件登录
 send_email 发电子邮件
 sent_email_if_exist 如果有用户使用此电子邮件地址，我们发了电子邮件！
 sensitive_info 您将要访问敏感信息
-signup_crosslink_label 如果您没有帐户，
-signup_crosslink 在这里创建一个！
 signup 注册
 signup_email_sent 发了注册电子邮件！
 agree 我同意
 and 和
-signin_crosslink_label 如果您有一个帐户，
-signin_crosslink 在这里登录！
 signout 登出
 signout_all 登出全部地方
 edit_profile 编辑个人资料
@@ -79,7 +75,7 @@ confirm 确认
 admin 管理
 edit 编辑
 Product 产品
-Workshop 研讨会
+Workshop 培训班
 stock 库存
 price 价钱（加元）
 price_helper 价钱必须至少5毛或者免费。

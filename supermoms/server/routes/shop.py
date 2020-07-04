@@ -46,7 +46,7 @@ def serve_product(id):
       try:
         qty = int(request.form['qty'])
       except ValueError:
-        flash("Please enter a valid integer for the quantity!", "error")
+        flash("Please enter a valid integer for the quantity!" if en() else "请输入一个整数！", "error")
         
         bad = True
      
@@ -56,12 +56,12 @@ def serve_product(id):
         if 'remove_cart' in request.form:
           CartItems.remove(ci)
 
-          flash("You have been unregistered.", "success")
+          flash("You have been unregistered." if en() else "您的注册被取消了。", "success")
         else:        
-          flash("You cannot register again! Proceed to checkout to confirm your registration.", "error")
+          flash("You cannot register again! Proceed to checkout to confirm your registration." if en() else "您不可以再注册一遍！去结算以确认您的注册。", "error")
 
       elif product.workshop and (ProductOrders.query.filter_by(uid = user.id, pid = product.id).count() > 0):
-        flash("You have already registered for this workshop!", "error")
+        flash("You have already registered for this workshop!" if en() else "您已经注册了这个培训班！", "error")
 
       else:
         if ci:
@@ -77,10 +77,10 @@ def serve_product(id):
           CartItems.add(uid = user.id, pid = id, count = qty)
 
         if product.workshop:
-          flash("You have been registered! You must checkout to confirm your registration.", "success")
+          flash("You have been registered! You must checkout to confirm your registration." if en() else "注册成功！去结算以确认注册。", "success")
 
         else:
-          flash("Items added to cart.", "success")
+          flash("Items added to cart." if en() else "已加入购物车。", "success")
       
     # Get the cart item again cause it mightve been updated
     ci = CartItems.query.filter_by(uid = user.id, pid = id).first()
@@ -120,7 +120,7 @@ def serve_admin_products():
       
       db_commit()
       
-      flash("Product deleted!", "success")
+      flash("Product deleted!" if en() else "已下架！", "success")
       
     else:
       workshop = 'workshop' in request.form
@@ -157,34 +157,34 @@ def serve_admin_product(id):
     try: 
       stock = int(stock)
     except ValueError:
-      flash("Please enter a valid integer for the stock.", "success")
+      flash("Please enter a valid integer for the stock." if en() else "请输入一个整数。", "success")
       
       bad = True
       
     try: 
       price = float(price)
     except ValueError:
-      flash("Please enter a valid number for the price.", "success")
+      flash("Please enter a valid number for the price." if en() else "请输入有效的价钱。", "success")
       
       bad = True
 
     if len(en_name) > 1023 or len(cn_name) > 1023:
-      flash("Product name too long!", "error")
+      flash("Product name too long!" if en() else "货品名字太长了！", "error")
 
       bad = True
       
     if type(price) == float and price < 0.5 and price != 0:
-      flash("Price must be either at least 50 cents or free!", "error")
+      flash("Price must be either at least 50 cents or free!" if en() else "价钱必须至少5毛或者免费！", "error")
       
       bad = True
 
     if len(en_desc) > 65535 or len(cn_desc) > 65535:
-      flash("Product description too long!", "error")
+      flash("Product description too long!" if en() else "货品描述太长了！", "error")
 
       bad = True
 
     if len(image) > 2 ** 22:
-      flash("Image too large! Maximum size is 4 MB!", "error")
+      flash("Image too large! Maximum size is 4 MB!" if en() else "图片不能超过4MB！", "error")
 
       bad = True
 
@@ -204,7 +204,7 @@ def serve_admin_product(id):
 
       db_commit()
 
-      flash("Product updated!", "success")
+      flash("Product updated!" if en() else "货品已更新！", "success")
   
   return render("admin/edit_product.html", p = product)
 
@@ -225,7 +225,7 @@ def serve_view_cart():
   
   if request.method == "POST":
     if not validate_cart():
-      flash("Some items in your cart have since run out of stock. Your cart has been updated. We are sorry for the inconvenience.")
+      flash("Some items in your cart have since run out of stock. Your cart has been updated. We are sorry for the inconvenience." if en() else "购物车里的某些货品已售完。您的购物车已更新。见谅。", "error")
     
       citems = CartItems.query.filter_by(uid = user.id).all()
   
@@ -270,19 +270,19 @@ def serve_checkout_confirm():
   if not check_cart_same():
     refund_payment(pay_obj)
     
-    flash("Your cart has been modified since the payment session was initiated. Your payment has been refunded.", "error")
+    flash("Your cart has been modified since the payment session was initiated. Your payment has been cancelled." if en() else "从开始付款到现在购物车被更新。交易终止。", "error")
     
     return redirect('/view-cart/')
   
   if not validate_cart():
     refund_payment(pay_obj)
 
-    flash("Some items in your cart have since run out of stock. Your cart has been updated. We are sorry for the inconvenience.", "error")
+    flash("Some items in your cart have since run out of stock. Your cart has been updated. We are sorry for the inconvenience." if en() else "购物车里的某些货品已售完。您的购物车已更新。见谅。", "error")
         
     return redirect("/view-cart/")
   
   process_cart()
   
-  flash("Your payment was processed and your items have been purchased. Thank you!", "success")
+  flash("Your payment was processed and your items have been purchased. Thank you!" if en() else "交易成功。感谢惠顾！", "success")
   
   return redirect("/")

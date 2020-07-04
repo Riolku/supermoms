@@ -141,6 +141,9 @@ def get_lang():
   
   return "CN" if l == "CN" else "EN"
 
+def en():
+  return get_lang() == "EN"
+
 @app.after_request
 def set_user_lang(resp):
   if request.endpoint == "static":

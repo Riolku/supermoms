@@ -42,10 +42,6 @@
           <button class="btn pink lighten-2 waves-effect" type="submit" name="action">
             {{ locale["signin"] }}
           </button>
-          {%- if query.get("redir") != "no" -%}
-          &nbsp;&nbsp;&nbsp;
-          <span class="grey-text">{{ locale["signup_crosslink_label"] }} <a href="/signup?next={{ query.get('next', '/') }}">{{ locale["signup_crosslink"] }}</a></span>
-          {%- endif -%}
         </div>
       </div>
     </form>
