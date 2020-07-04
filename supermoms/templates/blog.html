@@ -13,9 +13,11 @@
   
   <h2 class="header grey-text text-darken-3">
     {{ locale["blog"] }}
+    <a class="btn-floating btn-large pink lighten-2 waves-effect right" href="/create-blog-post"><i class="material-icons">add</i></a>
   </h2>
   
   {%- for post in posts -%}
+  {%- if not post.hidden or (user and user.admin) -%}
   <div class="row">
     <div class="col s12">
       <div class="card">
@@ -28,11 +30,18 @@
         </div>
         <div class="card-action">
           <a href="/post/{{ post.id }}" class="pink-text">{{ locale["open_action"] }}</a>
-          <span class="">{{ post.comments | length }} {{ locale["comments_singular"] if (post.comments | length) == 1 else locale["comments_plural"] }}</span>
+          {%- if user and user.admin -%}
+          <a href="/edit-blog-post/{{ post.id }}" class="pink-text">{{ locale["edit_action"] }}</a>
+          {%- endif -%}
+          <span>{{ post.comments | length }} {{ locale["comments_singular"] if (post.comments | length) == 1 else locale["comments_plural"] }}</span>
+          {%- if post.hidden -%}
+          <span class="red-text">&nbsp; {{ locale["hidden_post"] }}</span>
+          {%- endif -%}
         </div>
       </div>
     </div>
   </div>
+  {%- endif -%}
   {%- endfor -%}
 </div>
 

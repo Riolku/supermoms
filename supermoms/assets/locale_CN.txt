@@ -1,7 +1,12 @@
+EN 英语
+CN 中文
 home 主页
 about 信息
 shop 商店
 blog 博客
+forums 论坛
+products 产品
+workshops 作坊
 tos 服务条款
 privacy 隐私政策
 signin 登入
@@ -49,6 +54,7 @@ signin_link_exp 电子邮件登入链接过期了。请从新试一遍。
 signin_link_no_user 这个用户不存在。这个问题不应该出现。请联系我们。
 signin_link_email_changed 这个链接不可用因为用户的地址改了。请联系我们。
 open_action 打开
+edit_action 编辑
 comments_singular 个评论
 comments_plural 个评论
 comments 评论
@@ -56,3 +62,16 @@ comment 评论
 post_comment 发表评论
 post_action 发布
 comment_empty 请输入评论！
+comment_does_not_exist 这个评论不存在！
+comment_delete_no_permission 您没有许可删这个评论！
+comment_deleted 评论被删掉了！
+deleted_comment 【删除的评论】
+post_does_not_exist 这个博客文章不存在！
+post_deleted 博客文章被删掉了！
+hidden_post 这个博客文章隐藏的；只有管理员可以看到。
+title 标题
+content 内容
+saved_blog_post 存了博客文章！
+delete 删除
+cancel 取消
+confirm 确认

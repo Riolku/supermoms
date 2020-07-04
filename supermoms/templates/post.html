@@ -19,10 +19,16 @@
     {{ get_user(post.author).username }} &nbsp; <span class="grey-text text-lighten-1">{{ post.create_time | format_time }}</span>
   </h5>
   
+  {%- if user and user.admin -%}
+  {{ delete_button("/delete-blog-post/%d" % post.id, "post") }}
+  {%- endif -%}
+  
   <hr class="card-divider" />
   <br />
   
-  {{ post.content | markdown | safe }}
+  <div class="mdbox">
+    {{ post.content | markdown | safe }}
+  </div>
   
   <br /><br />
   <hr class="card-divider" />
@@ -38,9 +44,15 @@
     <h6>
       {{ get_user(comment.author).username }} &nbsp; <span class="grey-text text-lighten-1">{{ comment.create_time | format_time }}</span>
     </h6>
-    {{ comment.content | markdown | safe }}
+    {%- if comment.deleted -%}
+    <span class="grey-text text-ligten-2">{{ locale["deleted_comment"] }}</span>
+    {%- else -%}
+    <div class="mdbox">
+      {{ comment.content | markdown | safe }}
+    </div>
     {%- if user and (comment.author == user.id or user.admin) -%}
     {{ delete_button("/delete-comment/%d" % comment.id, comment.id) }}
+    {%- endif -%}
     {%- endif -%}
   </div>
   <hr class="card-divider" />
