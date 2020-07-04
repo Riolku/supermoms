@@ -7,7 +7,7 @@ from datetime import datetime
 from jwt.exceptions import ExpiredSignatureError
 
 from supermoms.auth import login_user, logout_user, user, make_jwt, verify_jwt
-from supermoms.database import BlogPosts, Products, Users, db_commit
+from supermoms.database import BlogComments, BlogPosts, Products, Users, db_commit
 from supermoms.mail import send_signin_email, send_signup_email
 from .utils import *
 from supermoms.utils.time import get_time
@@ -143,14 +143,19 @@ def serve_create_account():
     return render("create-account.html", __field_email = email)
   else:
     name = request.form["name"]
+    username = request.form["username"]
     password = request.form["password"]
     rpassword = request.form["rpassword"]
 
     fail = False
 
-    if name.strip() == "":
+    if name.strip() == "" or username.strip() == "":
       fail = True
       flash(get_locale()["enter_nonempty_name"], "error")
+    
+    if Users.query.filter_by(username = username).count() > 0:
+      fail = True
+      flash(get_locale()["username_taken"], "error")
 
     if len(password) < 8:
       fail = True
@@ -160,9 +165,9 @@ def serve_create_account():
       flash(get_locale()["password_mismatch"], "error")
 
     if fail:
-      return render("signup.html", __field_name = name, __field_email = email)
+      return render("signup.html", __field_name = name, __field_username = username, __field_email = email)
 
-    login_user(Users.create(name, email, password, get_lang()))
+    login_user(Users.create(name, username, email, password, get_lang()))
 
     flash(get_locale()["welcome"].replace("_", name), "success")
 
@@ -181,18 +186,23 @@ def serve_signout():
 @reauthorize
 def serve_edit_profile():
   if request.method == "GET":
-    return render("edit-profile.html", __field_name = user.name, __field_email = user.email)
+    return render("edit-profile.html", __field_name = user.name, __field_username = user.username, __field_email = user.email)
   else:
     name = request.form["name"]
+    username = request.form["username"]
     email = request.form["email"]
     password = request.form["password"]
     rpassword = request.form["rpassword"]
     
     fail = False
     
-    if name.strip() == "":
+    if name.strip() == "" or username.strip() == "":
       fail = True
       flash(get_locale()["enter_nonempty_name"], "error")
+      
+    if username != user.username and Users.query.filter_by(username = username).count() > 0:
+      fail = True
+      flash(get_locale()["username_taken"], "error")
     
     if not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", email):
       fail = True
@@ -214,7 +224,7 @@ def serve_edit_profile():
     if email != user.email:
       pass # TODO: Send email-change email
     
-    user.update(None, name, password if password else None)
+    user.update(None, name, username, password if password else None)
     
     flash(get_locale()["updated_profile"], "success")
     
@@ -234,6 +244,21 @@ def serve_signout_all():
 @app.route("/blog/<int:page>")
 def serve_blog(page = 1):
   return render("blog.html", posts = BlogPosts.query.all()[(page - 1) * 5:][:5])
+
+@app.route("/post/<int:id>", methods = ["GET", "POST"])
+def serve_post(id):
+  if request.method == "GET":
+    return render("post.html", post = BlogPosts.query.filter_by(id = id).first_or_404())
+  else:
+    comment = request.form["comment"]
+    
+    if comment.strip() == "":
+      flash(get_locale()["comment_empty"], "error")
+    else:
+      BlogComments.add(content = comment, author = user.id, bid = id)
+      db_commit()
+    
+    return redirect("/post/%d" % id, code = 303)
 
 @app.route("/tos/")
 def serve_tos():

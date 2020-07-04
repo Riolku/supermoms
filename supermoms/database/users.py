@@ -14,6 +14,7 @@ class Users(dbmodel, Helper):
   id = dbcol(dbint, primary_key = True)
   
   name = dbcol(dbstr(256), unique = False, nullable = False)
+  username = dbcol(dbstr(256), unique = True, nullable = False)
   email = dbcol(dbstr(256), unique = True, nullable = False)
   
   lang = dbcol(dbstr(16), unique = False, nullable = False)
@@ -63,12 +64,15 @@ class Users(dbmodel, Helper):
     return u
   
   # Update a user object
-  def update(self, email = None, name = None, password = None):
+  def update(self, email = None, name = None, username = None, password = None):
     if email is not None:
       self.email = email
       
     if name is not None:
       self.name = name
+      
+    if username is not None:
+      self.username = username
       
     if password is not None:
       self.pass_hash = self.hash(password)

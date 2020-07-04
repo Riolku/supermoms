@@ -9,5 +9,41 @@ main {
 }
 
 .card-divider {
-  border: 1px solid #eee;
+  border: 1px solid #ddd;
+}
+
+.mdbox h1 {
+  font-size: 150%;
+  margin-block-start: 1em;
+  margin-block-end: 0.5em;
+}
+
+.mdbox h2 {
+  font-size: 142%;
+  margin-block-start: 1em;
+  margin-block-end: 0.5em;
+}
+
+.mdbox h3 {
+  font-size: 134%;
+  margin-block-start: 1em;
+  margin-block-end: 0.5em;
+}
+
+.mdbox h4 {
+  font-size: 126%;
+  margin-block-start: 1em;
+  margin-block-end: 0.5em;
+}
+
+.mdbox h5 {
+  font-size: 118%;
+  margin-block-start: 1em;
+  margin-block-end: 0.5em;
+}
+
+.mdbox h6 {
+  font-size: 110%;
+  margin-block-start: 1em;
+  margin-block-end: 0.5em;
 }

@@ -1,0 +1,74 @@
+{%- extends 'layout.html' -%}
+
+{%- block content -%}
+
+<div class="parallax-container" style="height:40vh">
+  <div class="parallax">
+    <img src="/static/images/banner-2.jpg" width=100vw />
+  </div>
+</div>
+
+<div class="container">
+  {%- include 'flashes.html' -%}
+  
+  <h2 class="header grey-text text-darken-3">
+    {{ post.title }}
+  </h2>
+  
+  <h5 class="header grey-text text-darken-1">
+    {{ get_user(post.author).username }} &nbsp; <span class="grey-text text-lighten-1">{{ post.create_time | format_time }}</span>
+  </h5>
+  
+  <hr class="card-divider" />
+  <br />
+  
+  {{ post.content | markdown | safe }}
+  
+  <br /><br />
+  <hr class="card-divider" />
+  
+  <h5 class="header grey-text text-darken-3">
+    {{ locale["comments"] }}
+  </h5>
+  
+  <br />
+  
+  {%- for comment in post.comments -%}
+  <div>
+    <h6>
+      <div class="row">
+        <span float="left" width="0%">
+          {{ get_user(comment.author).username }} &nbsp; <span class="grey-text text-lighten-1">{{ comment.create_time | format_time }}</span>
+        </span>
+        <span float="right" width="0%">
+          {%- if user and comment.author == user.id -%}
+          {{ delete_button("/delete-comment/%d" % comment.id, comment.id) }}
+          {%- endif -%}
+        </span>
+      </div>
+    </h6>
+    {{ comment.content | markdown | safe }}
+  </div>
+  <hr class="card-divider" />
+  {%- endfor -%}
+  
+  <h5 class="header grey-text text-darken-3">
+    {{ locale["post_comment"] }}
+  </h5>
+  
+  <div class="row">
+    <form class="col s12" method="post">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="comment" name="comment" class="materialize-textarea" required></textarea>
+          <label for="comment">{{ locale["comment"] }}</label>
+        </div>
+        <button class="btn pink lighten-2 waves-effect" type="submit" name="action">
+          {{ locale["post_action"] }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{%- endblock -%}

@@ -25,6 +25,8 @@ welcome_back Welcome back, _!
 welcome Welcome, _!
 goodbye Signed out. See you later!
 name Full Name
+username Username
+username_taken This username is already in use!
 enter_nonempty_name Please enter your name!
 email Email
 password Password
@@ -46,3 +48,11 @@ signin_link_fail Email sign in link failed for unknown reasons; please try again
 signin_link_exp Email sign in link expired; please try again.
 signin_link_no_user Target user for this sign in link does not exist. This issue should not happen. Please contact the administrators.
 signin_link_email_changed This sign-in link is invalid because the user's email address changed.
+open_action Open
+comments_singular comment
+comments_plural comments
+comments Comments
+comment Comment
+post_comment Post Comment
+post_action Post
+comment_empty Please enter a comment!

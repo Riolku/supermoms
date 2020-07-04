@@ -21,6 +21,10 @@
           <label for="name">{{ locale["name"] }}</label>
         </div>
         <div class="input-field col s12">
+          <input id="username" name="username" type="text" class="validate" required value="{{ __field_username }}" />
+          <label for="username">{{ locale["username"] }}</label>
+        </div>
+        <div class="input-field col s12">
           <input id="email" name="email" type="email" class="validate" required disabled value="{{ __field_email }}" />
           <label for="email">{{ locale["email"] }}</label>
           <span class="helper-text" data-error="{{ locale['invalid_email'] }}"></span>

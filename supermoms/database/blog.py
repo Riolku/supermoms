@@ -13,8 +13,9 @@ class BlogPosts(dbmodel, Helper):
   content = dbcol(dbstr(65536), unique = False, nullable = False)
   author = dbcol(dbint, dbforkey(Users.id), nullable = False)
   
+  @property
   def comments(self):
-    return BlogComments.query.filter_by(pid = self.id).order_by(BlogComments.create_time.asc()).all()
+    return BlogComments.query.filter_by(bid = self.id).order_by(BlogComments.create_time.asc()).all()
   
   __tablename__ = "blog_posts"
   
@@ -22,7 +23,8 @@ class BlogComments(dbmodel, Helper):
   id = dbcol(dbint, primary_key = True)
   
   create_time = dbcol(dbint, default = get_time, nullable = False)
-  pid = dbcol(dbint, dbforkey(BlogPosts.id), nullable = False)
+  bid = dbcol(dbint, dbforkey(BlogPosts.id), nullable = False)
+  pid = dbcol(dbint, dbforkey("blog_comments.id"), nullable = True)
   content = dbcol(dbstr(1024), unique = False, nullable = False)
   author = dbcol(dbint, dbforkey(Users.id), nullable = False)
   

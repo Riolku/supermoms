@@ -18,6 +18,18 @@ function getlang() {
   }
 }
 
+function activate_delete(ident) {
+  $("#open" + ident).hide();
+  $("#confirm" + ident).show();
+  $("#close" + ident).show();
+}
+
+function deactivate_delete(ident) {
+  $("#open" + ident).show();
+  $("#confirm" + ident).hide();
+  $("#close" + ident).hide();
+}
+
 $(document).ready(function() {
   M.AutoInit();
   setlang(getlang() || "EN", true);

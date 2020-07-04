@@ -6,18 +6,21 @@ from supermoms import app
 from flask import render_template
 
 from supermoms.config import stripe_pkey
+from supermoms.database.users import Users
 from supermoms.database.utils import db_commit
 
 from supermoms.auth.manage_user import user, is_session_fresh, ensure_user
 from supermoms.utils.time import get_time
 
 from flask import request, redirect
+from datetime import datetime as dt
 
 # Globals in templates
 @app.context_processor
 def context_processor():
   return dict(
     user = user,
+    get_user = lambda id: Users.query.filter_by(id = id).first(),
     get_time = get_time,
     locale = get_locale(),
     lang = get_lang(),
@@ -36,7 +39,16 @@ def urlencode_filter(s):
   s = urllib.parse.quote_plus(s)
   return Markup(s)
 
-app.template_filter("markdown")(misaka.html)
+@app.template_filter("markdown")
+def parse_markdown(text):
+  return misaka.html(text.replace("\n", "<br />"))
+
+@app.template_filter("format_time")
+def format_time(ts):
+  if get_lang() == "EN":
+    return dt.strftime(dt.fromtimestamp(ts), "%B %d, %Y at %H:%M:%S")
+  else:
+    return dt.strftime(dt.fromtimestamp(ts), "%Y年%m月%d日 %H:%M:%S")
 
 def authorize(view):
   def _inner(*a, **k):
