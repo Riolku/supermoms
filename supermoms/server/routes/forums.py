@@ -1,9 +1,10 @@
-from flask import request, abort
+from flask import request, abort, flash
 
 from .utils import *
 from supermoms import app
 from supermoms.auth.manage_user import user
 from supermoms.database.forums import SubForums, ForumThreads, ForumPosts
+from supermoms.database.utils import db_commit
 
 @app.route('/forum/')
 def serve_forum():
@@ -26,6 +27,8 @@ def serve_subforum(id):
         id = request.form['delete']
       
         thread = ForumThreads.query.filter_by(id = id).delete()
+        
+        db_commit()
         
         flash("Thread deleted!", "success")
       
@@ -106,14 +109,17 @@ def serve_thread(sfid, tid, page = 1):
 def serve_admin_forums():  
   if request.method == "POST":
     if 'delete' in request.form:
-      id = request.form['delete']
+      id = int(request.form['delete'])
+            
+      SubForums.query.filter_by(id = id).delete()
       
-      sf = SubForums.query.filter_by(id = id).delete()
-      
+      db_commit()
+            
       flash("Sub forum deleted sucessfully.", "success")
       
     else:
       title = request.form['title']
+      lang = "CN" if 'lang_cn' in request.form else "EN"
     
       if len(title) > 255:
         flash("The title you have entered is too long!", "error")
@@ -121,8 +127,8 @@ def serve_admin_forums():
       else:
         flash("Sub forum added!", "success")
       
-        SubForums.add(title = title)
+        SubForums.add(title = title, lang = lang)
 
-  sub_fs = SubForums.query.filter_by(lang = get_lang()).all()
+  sub_fs = SubForums.query.all()
         
   return render("admin/forum.html", sub_fs = sub_fs)

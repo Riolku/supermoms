@@ -75,6 +75,8 @@ def serve_admin_products():
       
       Products.query.filter_by(id = id).delete()
       
+      db_commit()
+      
       flash("Product deleted!", "success")
       
     else:
