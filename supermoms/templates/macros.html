@@ -1,13 +1,13 @@
 {%- macro delete_button(endpoint, ident) -%}
-<form method="post" action="{{ endpoint }}">
+<form method="post" {%- if endpoint -%} action="{{ endpoint }}" {%- endif -%}>
   <button class="btn pink lighten-2 waves-effect" type="button" id="open{{ ident }}" onclick="activate_delete('{{ ident }}')">
     Delete
   </button>
-  <button class="btn pink lighten-2 waves-effect" type="submit" id="confirm{{ ident }}" name="{{ ident }}" hidden>
-    Confirm
-  </button>
-  <button class="btn pink lighten-2 waves-effect" type="button" id="close{{ ident }}" hidden onclick="deactivate_delete('{{ ident }}')">
+  <button class="btn pink lighten-2 waves-effect hide" type="button" id="close{{ ident }}" hidden onclick="deactivate_delete('{{ ident }}')">
     Cancel
+  </button>
+  <button class="btn pink lighten-2 waves-effect hide" type="submit" id="confirm{{ ident }}" name="{{ ident }}" hidden>
+    Confirm
   </button>
 </form>
 {%- endmacro -%}

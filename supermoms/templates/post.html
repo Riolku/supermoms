@@ -36,18 +36,12 @@
   {%- for comment in post.comments -%}
   <div>
     <h6>
-      <div class="row">
-        <span float="left" width="0%">
-          {{ get_user(comment.author).username }} &nbsp; <span class="grey-text text-lighten-1">{{ comment.create_time | format_time }}</span>
-        </span>
-        <span float="right" width="0%">
-          {%- if user and comment.author == user.id -%}
-          {{ delete_button("/delete-comment/%d" % comment.id, comment.id) }}
-          {%- endif -%}
-        </span>
-      </div>
+      {{ get_user(comment.author).username }} &nbsp; <span class="grey-text text-lighten-1">{{ comment.create_time | format_time }}</span>
     </h6>
     {{ comment.content | markdown | safe }}
+    {%- if user and (comment.author == user.id or user.admin) -%}
+    {{ delete_button("/delete-comment/%d" % comment.id, comment.id) }}
+    {%- endif -%}
   </div>
   <hr class="card-divider" />
   {%- endfor -%}

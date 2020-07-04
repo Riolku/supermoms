@@ -18,16 +18,30 @@ function getlang() {
   }
 }
 
+function getelem(id) {
+  return document.getElementById(id);
+}
+
+function hide(element) {
+  element.hidden = true;
+  element.classList.add("hide");
+}
+
+function show(element) {
+  element.hidden = false;
+  element.classList.remove("hide");
+}
+
 function activate_delete(ident) {
-  $("#open" + ident).hide();
-  $("#confirm" + ident).show();
-  $("#close" + ident).show();
+  hide(getelem("open" + ident));
+  show(getelem("confirm" + ident));
+  show(getelem("close" + ident));
 }
 
 function deactivate_delete(ident) {
-  $("#open" + ident).show();
-  $("#confirm" + ident).hide();
-  $("#close" + ident).hide();
+  show(getelem("open" + ident));
+  hide(getelem("confirm" + ident));
+  hide(getelem("close" + ident));
 }
 
 $(document).ready(function() {
