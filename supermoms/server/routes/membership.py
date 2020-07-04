@@ -30,7 +30,7 @@ def serve_membership():
       flash("Your membership is not yet due for renewal!" if en() else "您的会员资格不需要续订呢", "error")
       
     else:
-      create_payment(99, "/membership/confirm")
+      create_payment(99, "/membership/confirm/")
       
       val = request.form['pay_method']
     
