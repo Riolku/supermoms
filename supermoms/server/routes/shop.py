@@ -166,7 +166,7 @@ def serve_admin_product(id):
       
       db_commit()
             
-      if p.workshop:
+      if product.workshop:
         flash(get_locale()['workshop_order_deleted'], "success")
       else:
         flash(get_locale()['product_order_deleted'], "success")
