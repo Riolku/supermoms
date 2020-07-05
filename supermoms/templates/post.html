@@ -40,10 +40,31 @@
   <br />
   
   {%- for comment in post.comments -%}
-  <div>
-    <h6>
-      {{ get_user(comment.author).username }} &nbsp; <span class="grey-text text-lighten-1">{{ comment.create_time | format_time }}</span>
-    </h6>
+    <div>
+      {% set u = get_user(comment.author) %}
+      
+      <div class="row">
+        <div class="col s6">
+          {% if u.admin %}
+            <h5 class="grey-text text-darken-4">
+              <strong>{{u.username}}</strong>
+            </h5>
+          {% elif u.premium %}
+            <h5 class="amber-text text-accent-4">
+              <strong>{{ u.username }}</strong>
+            </h5>
+          {% else %}
+            <h5 class="grey-text text-lighten-1">
+              {{ u.username }}
+            </h5>
+          {% endif %}
+        </div>
+
+        <div class="col right">
+          <span class="grey-text">{{ comment.create_time | format_time}}</span>
+        </div>
+      </div>
+
     {%- if comment.deleted -%}
     <span class="grey-text text-ligten-2">{{ locale["deleted_comment"] }}</span>
     {%- else -%}
@@ -54,9 +75,9 @@
     {{ delete_button("/delete-comment/%d" % comment.id, comment.id) }}
     {%- endif -%}
     {%- endif -%}
-  </div>
-  <hr class="card-divider" />
-  {%- endfor -%}
+    </div>
+    <hr class="card-divider" />
+   {%- endfor -%}
   
   <h5 class="header grey-text text-darken-3">
     {{ locale["post_comment"] }}

@@ -41,7 +41,7 @@ def serve_membership():
     
   return render("membership.html")
   
-@app.route('/membership/confirm')
+@app.route('/membership/confirm/')
 @authorize
 def confirm_membership():
   p = pop_payment()

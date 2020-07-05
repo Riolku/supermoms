@@ -155,7 +155,7 @@ Super Moms Club - {{ locale["admin"] }} - {{ locale["edit"] }} {{ locale[p.type]
       </thead>
       
       <tbody>
-        {% for o, u in orders %}
+        {% for u, o in orders %}
           <tr>
             <td>
               {{ u.email }}

@@ -250,6 +250,8 @@ def serve_post(id):
   if request.method == "GET":
     return render("post.html", post = BlogPosts.query.filter_by(id = id).first_or_404())
   else:
+    if not user: return redirect('/signin/?next=' + request.path)
+    
     comment = request.form["comment"]
     
     if comment.strip() == "":

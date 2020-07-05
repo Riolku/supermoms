@@ -157,12 +157,12 @@ def serve_admin_product(id):
   umap = {u.id : u for u in users}
 
   items = [(umap[po.uid], po) for po in product_orders]
-  
+    
   if request.method == "POST": 
     if "delete" in request.form:
       id = request.form['delete']
       
-      product_orders.query.filter_by(id = id).delete()
+      ProductOrders.query.filter_by(id = id).delete()
       
       db_commit()
             
