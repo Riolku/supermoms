@@ -34,6 +34,8 @@ class Products(Helper, dbmodel):
 class ProductOrders(Helper, dbmodel):
   __tablename__ = "product_orders"
   
-  uid = dbcol(dbint, dbforkey(Users.id), primary_key = True)
-  pid = dbcol(dbint, dbforkey(Products.id, ondelete = "CASCADE"), primary_key = True)
+  id = dbcol(dbint, primary_key = True)
+  
+  uid = dbcol(dbint, dbforkey(Users.id), nullable = True)
+  pid = dbcol(dbint, dbforkey(Products.id, ondelete = "CASCADE"), nullable = True)
   count = dbcol(dbint, nullable = False)
