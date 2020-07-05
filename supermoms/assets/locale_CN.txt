@@ -109,6 +109,7 @@ view_cart 查看购物车
 your_total_is 你的总数是
 pay_with_card 用信用卡/借记卡付款
 pay_with_pp 用贝宝付款
+paypal 贝宝
 workshop_order_deleted 删除了培训班注册！
 product_order_deleted 删除了货品订单！
 members 会员
@@ -117,3 +118,4 @@ member_price 会员价
 member_required 您必须是会员！
 regular_price 普通价钱是：
 member_price 会员价钱是：
+buy_membership 采购会员资格

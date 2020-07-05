@@ -1,7 +1,7 @@
 {%- extends 'layout.html' -%}
 
 {%- block title -%}
-Super Moms Club - Membership
+Super Moms Club - {{ locale["membership"] }}
 {%- endblock -%}
 
 {%- block content -%}
@@ -16,33 +16,52 @@ Super Moms Club - Membership
   {%- include 'flashes.html' -%}
   
   <h2 class="header grey-text text-darken-3">
-    Buy Membership
+    {{ locale["buy_membership"] }}
   </h2>
   
   {% set payment = True %}
   
   {% if not user %}
     <p>
+      {%- if lang == "CN" -%}
+      <a href="/signin/">登入</a>以采购会员资格。
+      {%- else -%}
       <a href="/signin/">Log In</a> to purchase a membership.  
+      {%- endif -%}
     </p>
     {% set payment = False %}
   {% elif user.premium_end == 0 %}
     <p>
-      Buy Your Membership now  
+      {%- if lang == "CN" -%}
+      买会员资格
+      {%- else -%}
+      Buy Your Membership now
+      {%- endif -%}
     </p>
   {% elif 0 > user.premium_end - get_time() %}
     <p>
+      {%- if lang == "CN" -%}
+      更新会员资格。
+      {%- else -%}
       Renew your expired membership.  
+      {%- endif -%}
     </p>
   {% elif user.premium_end - get_time() > 31 * 24 * 60 * 60 %}
     <p>
+      {%- if lang == "CN" -%}
+      您的会员资格没有过期呢。还有效{{ (user.premium_end - get_time()) // (24 * 60 * 60) }}天。
+      {%- else -%}
       Your membership is not due for renewal. It has {{ (user.premium_end - get_time()) // (24 * 60 * 60) }} days left.
+      {%- endif -%}
     </p>
-  
     {% set payment = False %}
   {% else %}
     <p>
+      {%- if lang == "CN" -%}
+      更新您的会员资格。还有效{{ (user.premium_end - get_time()) // (24 * 60 * 60) }}天。
+      {%- else -%}
       Renew your membership. It has {{ (user.premium_end - get_time()) // (24 * 60 * 60) }} days left.
+      {%- endif -%}
     </p>
   {% endif %}
   
@@ -53,11 +72,15 @@ Super Moms Club - Membership
 
     <form id="form" method="post">
       <button class="btn pink lighten-2 waves-effect" name="pay_method" type="submit" value="card">
+        {%- if lang == "CN" -%}
+        信用卡/借记卡
+        {%- else -%}
         Credit/Debit Card
+        {%- endif -%}
       </button>
 
       <button class="btn pink lighten-2 waves-effect" name="pay_method" type="submit" value="paypal">
-        PayPal
+        {{ locale["paypal"] }}
       </button>
     </form>
   {% endif %}
