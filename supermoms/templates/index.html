@@ -17,17 +17,23 @@
   
   <p class="grey-text text-darken-2">
     {%- if lang == "CN" -%}
-      REE TRANSLATEN'T
+      Super Moms Club是一个GTA里的妈妈俱乐部。
+    
+      我们提供培训班和社交活动以帮妈妈和家里人发展更强的关系和生活的更好。
     {%- else -%}
       Super Moms Club is a Mom's club located in the GTA. 
     
-      It offers seminars and networking events to help moms foster stronger relationships with their families and live better lives.
+      We offer seminars and networking events to help moms foster stronger relationships with their families and live better lives.
     {%- endif -%} 
   </p>
   
   <p class="grey-text text-darken-2">
     {%- if lang == "CN" -%}
-      REE TRANSLATEN'T
+      {%- if user -%}
+        欢迎回来！
+      {%- else -%}
+        加入Super Moms Club，您可以<a href="/signup/">注册一个免费的账户</a>或者<a href="/signin/">登入您的帐户</a>。
+      {%- endif -%}
     {%- else -%}
       {% if user %}
         Welcome back!
@@ -38,13 +44,11 @@
   </p>
   
   <p class="grey-text text-darken-2">
-    
     {%- if lang == "CN" -%}
-      REE TRANSLATEN'T
+      您也可以<a href="/membership/">买一个会员资格</a>，这让您访问独家活动和某些货品和培训班的折扣。
     {%- else -%}
       You can also <a href="/membership/">purchase a membership</a>, which gives you access to members-only events and discounts on certain products and workshops.
     {%- endif -%}
-    
   </p>
   
   <br /><br />
