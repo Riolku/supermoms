@@ -1,6 +1,6 @@
 Hello,
 <br /><br />
-Your membership for Super Moms Club website will expire in {daycount} days
+Your membership for Super Moms Club website will expire in {daycount} days.
 <br /><br />
 To renew it, click <a href="https://{domain}/membership">this link</a> or copy-paste this link into your browser:
 <br /><br />

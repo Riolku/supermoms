@@ -1,0 +1,9 @@
+您好，
+<br /><br />
+您的会员资格过{daycount}天过期。
+<br /><br />
+更新会员资格，请点击<a href="https://{domain}/membership">这个链接</a>或者复制粘贴这个网站链接到您的浏览器：
+<br /><br />
+https://{domain}/membership
+<br /><br />
+祝你有美好的一天！

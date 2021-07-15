@@ -120,6 +120,9 @@ def serve_signup():
       fail = True
       flash(get_locale()["email_taken"], "error")
     
+    if fail:
+      return render("signup.html")
+    
     flash(get_locale()["signup_email_sent"], "success")
     
     send_signup_email(email, request.url_root + "create-account?token=%s" % make_jwt({
